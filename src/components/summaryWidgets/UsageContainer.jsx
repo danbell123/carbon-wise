@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UsageVisualization from './UsageVisualization';
+import { rtdb, databaseRef, onValue } from '../../firebase';
 
 const UsageContainer = () => {
+  const [value, setValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(0);
+  const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d"; // TODO: Replace with the MAC address of the device linked to user's account
 
-  const value = 10;
-  const maxValue = 20;
+  useEffect(() => {
+    const readingsRef = databaseRef(rtdb, `energy_data/${deviceMAC}`);
+  
+    const unsubscribeReadings = onValue(readingsRef, (snapshot) => {
+      const readings = snapshot.val();
+      let latestValue = 0;
+      let highestValue = 0;
+  
+      if (readings) {
+        const readingsArray = Object.values(readings);
+        // Sort readings by timestamp in descending order to have the most recent reading first
+        readingsArray.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+  
+        latestValue = readingsArray[0]?.kWh || 0; // Most recent reading's kWh
+        highestValue = Math.max(...readingsArray.map(reading => parseFloat(reading.kWh)))+2; // Ensure kWh is treated as a number
+      }
+  
+      setValue(parseFloat(latestValue)); // Parse to float to ensure numeric value
+      setMaxValue(parseFloat(highestValue));
+    });
+  
+    // Cleanup function
+    return () => unsubscribeReadings();
+  }, []);
 
   return (
-    <div className="bg-bg-main font-rubik text-text-colour-primary p-4 rounded-lg shadow-md max-w-sm">
+    <div className="bg-bg-main w-full font-rubik text-text-colour-primary p-4 rounded-lg shadow-md">
       <h1 className="text-lg font-semibold">Your Current Usage</h1>
       <p className="text-sm">Last Updated: Just Now</p>
       <UsageVisualization value={value} maxValue={maxValue} />
