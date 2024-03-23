@@ -7,6 +7,7 @@ import LoginRegister from './pages/LoginRegister';
 import { AuthProvider, useAuth } from './contexts/authContext';
 import { ToastProvider } from './contexts/ToastContext';
 import Toast from './components/toast/Toast';
+import 'material-symbols';
 
 // A component to protect routes
 function PrivateRoute({ children }) {

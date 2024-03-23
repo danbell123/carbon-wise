@@ -1,27 +1,27 @@
 // ToastContext.js
 import React, { createContext, useContext, useState } from 'react';
 
-const ToastContext = createContext(null);
+const ToastContext = createContext();
 
 export const useToast = () => useContext(ToastContext);
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = (content, type = 'error') => {
-    const id = new Date().getTime(); 
-    const newToast = { id, content, type };
-    setToasts([...toasts, newToast]);
-    console.log("Toast added");
+  const addToast = (content, type = 'success') => {
+    const id = Math.random().toString(36).substr(2, 9); // Generate a unique id for each toast
+    setToasts((currentToasts) => [...currentToasts, { id, content, type }]);
 
-    // Remove toast after 5 seconds
-    setTimeout(() => {
-      setToasts(currentToasts => currentToasts.filter(toast => toast.id !== id));
-    }, 5000);
+    // Optionally, automatically remove toast after 5 seconds
+    setTimeout(() => removeToast(id), 5000);
+  };
+
+  const removeToast = (id) => {
+    setToasts((currentToasts) => currentToasts.filter((toast) => toast.id !== id));
   };
 
   return (
-    <ToastContext.Provider value={{ toasts, addToast }}>
+    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
       {children}
     </ToastContext.Provider>
   );
