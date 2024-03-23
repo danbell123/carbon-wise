@@ -9,25 +9,25 @@ const MobileMenu = () => {
   return (
     <>
       <header className="fixed top-0 left-0 w-full bg-transparent z-20">
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between p-5">
           {/* Hamburger Icon */}
           <button
-            className="text-white focus:outline-none bg-transparent"
+            className="text-white focus:outline-none bg-transparent p-0"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <span className="material-symbols-outlined">menu</span>
+            <span className="material-symbols-outlined p-0">menu</span>
           </button>
 
           {/* TODO: Account and notifications. */}
-          <div>
+          <div className='flex gap-8'>
             <button
-              className="text-white focus:outline-none bg-transparent"
+              className="text-white focus:outline-none bg-transparent p-0"
               onClick={() => setIsOpen(!isOpen)}
             >
               <span className="material-symbols-outlined">notifications</span>
             </button>
             <button
-              className="text-white focus:outline-none bg-transparent"
+              className="text-white focus:outline-none bg-transparent p-0"
               onClick={() => setIsOpen(!isOpen)}
             >
               <span className="material-symbols-outlined">account_circle</span>
