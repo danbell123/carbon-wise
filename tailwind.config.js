@@ -13,6 +13,9 @@ module.exports = {
         "secondary-colour-hover": "rgb(24, 65, 103)",
         "text-colour-main": "rgba(55, 55, 55, 1)",
       },
+      backgroundImage: theme => ({
+        'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)', // Example gradient
+      }),
       // Extending fontFamily
       fontFamily: {
         // Existing custom font family
