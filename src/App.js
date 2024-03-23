@@ -8,6 +8,8 @@ import { AuthProvider, useAuth } from './contexts/authContext';
 import { ToastProvider } from './contexts/ToastContext';
 import Toast from './components/toast/Toast';
 import 'material-symbols';
+import PairDevice from './pages/Device/PairDevice';
+import YourDevice from './pages/Device/YourDevice';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -34,19 +36,37 @@ const App = () => {
   return (
     <AuthProvider>
       <ToastProvider>
-        <div className="App">
-          {isMobile ? <MobileMenu /> : <DesktopMenu />}
+        <div className="App font-rubik">
           <Router>
             <Routes>
               <Route path="/" element={<LoginRegister />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+              <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
+              <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
             </Routes>
           </Router>
           <Toast />
+          <ConditionalMenus />
         </div>
       </ToastProvider>
     </AuthProvider>
   );
+};
+
+// A new child component for handling conditional menu rendering
+const ConditionalMenus = () => {
+  const { currentUser } = useAuth();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+
+  return currentUser ? (isMobile ? <MobileMenu /> : <DesktopMenu />) : null;
 };
 
 export default App;
