@@ -1,22 +1,18 @@
-import { query, orderByChild, limitToLast, get } from 'firebase/database';
 import { rtdb, databaseRef } from '../firebase'; 
+import { query, orderByChild, limitToLast, get } from 'firebase/database';
 
-/**
- * Fetches the most recent reading timestamp for a given device MAC address.
- * @param {string} macAddress The MAC address of the device.
- * @return {Promise<string|null>} The timestamp of the most recent reading if found, null otherwise.
- */
 const fetchMostRecentReadingTimestamp = async (macAddress) => {
-  const readingsRef = databaseRef(rtdb, `energy_data/${macAddress}/readings`);
-
-  // Create a query to get the most recent reading based on timestamp
+  console.log('Attempting to fetch timestamp for MAC:', macAddress);
+  const readingsRef = databaseRef(rtdb, `energy_data/${macAddress}`);
   const recentReadingQuery = query(readingsRef, orderByChild('timestamp'), limitToLast(1));
 
   try {
     const snapshot = await get(recentReadingQuery);
     if (snapshot.exists() && snapshot.hasChildren()) {
-      const mostRecentReadingKey = Object.keys(snapshot.val())[0];
-      const mostRecentReading = snapshot.val()[mostRecentReadingKey];
+      const readings = snapshot.val();
+      const mostRecentReadingKey = Object.keys(readings).sort((a, b) => readings[b].timestamp - readings[a].timestamp)[0];
+      const mostRecentReading = readings[mostRecentReadingKey];
+      console.log('Most recent reading:', mostRecentReading);
       return mostRecentReading.timestamp;
     } else {
       console.log('No readings available for device:', macAddress);
@@ -29,4 +25,3 @@ const fetchMostRecentReadingTimestamp = async (macAddress) => {
 };
 
 export default fetchMostRecentReadingTimestamp;
-
