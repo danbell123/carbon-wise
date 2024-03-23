@@ -22,26 +22,19 @@ module.exports = {
       },
       // Extending fontSize
       fontSize: {
-        // Existing custom font sizes
-        sm: "14px",
-        xl: "20px",
-        base: "16px",
-        inherit: "inherit",
-        // Adding new font sizes from Figma
-        "body-lg-mob": "18px",
-        "body-md-mob": "14px",
-        "body-sm-mob": "11px",
-        "body-text-large": "20px",
-        "body-text-medium": "16px",
-        "body-text-small": "14px", // Note: This was already defined, consider if you need to adjust
-        "body-text-xsmall": "11px",
-        h1: "90px",
-        "h1-mob": "28px",
-        h2: "32px",
-        h3: "28px",
-        "h3-mob": "20px",
-        h4: "25px",
-        "h4-mob": "20px",
+        xs: ['0.75rem', { lineHeight: '1rem' }], // Extra small text
+        sm: ['0.875rem', { lineHeight: '1.25rem' }], // Small text
+        base: ['1rem', { lineHeight: '1.5rem' }], // Base text size for mobile
+        lg: ['1.125rem', { lineHeight: '1.75rem' }], // Large text
+        xl: ['1.25rem', { lineHeight: '1.75rem' }], // Extra large text
+        '2xl': ['1.5rem', { lineHeight: '2rem' }], // 2x large text
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }], // 3x large text
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }], // 4x large text
+        '5xl': ['3rem', { lineHeight: '1' }], // 5x large text
+        '6xl': ['3.75rem', { lineHeight: '1' }], // 6x large text
+        '7xl': ['4.5rem', { lineHeight: '1' }], // 7x large text
+        '8xl': ['6rem', { lineHeight: '1' }], // 8x large text
+        '9xl': ['8rem', { lineHeight: '1' }],  // 9x large text
       },
       // You can also extend lineHeight, fontWeight, letterSpacing as needed
       fontWeight: {

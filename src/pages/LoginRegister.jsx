@@ -31,12 +31,12 @@ const LoginRegister = () => {
       <div className="w-2/3 bg-white rounded-lg shadow-md overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/2 p-10">
-            <div className="text-center">
-              <p className="font-bold text-3xl">
-                {isLogin ? 'Login to your Account' : 'Create an Account'}
+            <div className="text-left">
+              <p className=" font-bold text-4xl mb-0">
+                {isLogin ? 'Log In' : 'Register'}
               </p>
-              <p className="text-xl">
-                {isLogin ? 'Welcome Back! Please Log In' : 'Welcome To CarbonWise.'}
+              <p className="text-base mb-12">
+                {isLogin ? 'Welcome back! Select method to log in:' : 'Welcome to CarbonWise! Select method to register your account:'}
               </p>
             </div>
             {isLogin ? (

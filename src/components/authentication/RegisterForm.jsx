@@ -1,49 +1,69 @@
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import zxcvbn from 'zxcvbn';
+import Button from '../buttons/btn';
+import { useToast } from '../../contexts/ToastContext';
 
 const RegisterForm = ({ onToggle }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const { addToast } = useToast(); 
 
   const auth = getAuth();
 
+  const evaluatePassword = (password) => {
+    const evaluation = zxcvbn(password);
+    setPasswordStrength(evaluation.score);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    evaluatePassword(e.target.value);
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    if(password !== confirmPassword){
-      console.error("Passwords do not match!");
+    if (passwordStrength < 3) {
+      addToast("Password is too weak!", "error");
+      return;
+    }
+    if (password !== confirmPassword) {
+      addToast("Passwords do not match!", "error");
       return;
     }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // Handle successful registration
+      addToast('Registration successful!', 'success');
+      // Redirect or update UI after successful registration
     } catch (error) {
-      // Handle errors
-      console.error("Error signing up:", error);
+      addToast(error.message, 'error'); // Display the error message from Firebase
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault(); // Prevent default form submission which could refresh the page
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Handle successful registration
+      addToast('Signed in with Google!', 'success');
+      // Redirect or update UI after successful sign-in
     } catch (error) {
-      // Handle errors
-      console.error("Error signing in with Google:", error);
+      addToast(error.message, 'error'); // Display the error message from Firebase
     }
-  };
+};
 
   return (
     <div className="w-full">
       <form onSubmit={handleRegister} className="space-y-6">
         <div className="flex justify-center gap-4">
-          <button type="button" onClick={handleGoogleSignIn} className="flex items-center justify-center w-1/2 px-4 py-2 border rounded shadow-sm text-sm font-medium text-gray-600 hover:bg-gray-50">
-            Register With Google
-          </button>
-          <button type="button" className="flex items-center justify-center w-1/2 px-4 py-2 border rounded shadow-sm text-sm font-medium text-gray-600 hover:bg-gray-50">
-            Register With Facebook
-          </button>
+            <Button onClick={handleGoogleSignIn} width='full' >
+                Register With Google
+            </Button>
+            <Button width='full'>
+                Register With Facebook
+            </Button>
         </div>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
@@ -56,21 +76,25 @@ const RegisterForm = ({ onToggle }) => {
                 placeholder="Email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-300 box-border"
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
             <input
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-300 box-border"
+                onChange={handlePasswordChange}
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
+            {/* Password strength bar */}
+            <div className="w-full bg-gray-300 rounded h-2">
+                <div className={`h-2 rounded transition-width duration-300 ease-in-out ${passwordStrength === 0 ? 'bg-red-500 w-2' : passwordStrength === 1 ? 'bg-orange-500 w-1/4' : passwordStrength === 2 ? 'bg-yellow-500 w-1/2' : passwordStrength === 3 ? 'bg-green-300 w-3/4' : 'bg-green-500 w-full'}`}></div>
+            </div>
             <input
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-300 box-border"
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
         </div>
         <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600">

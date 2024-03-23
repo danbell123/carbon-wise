@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import Button from '../buttons/btn';
 
 const LoginForm = ({ onToggle }) => {
   const [email, setEmail] = useState('');
@@ -30,15 +31,15 @@ const LoginForm = ({ onToggle }) => {
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <form onSubmit={handleLogin} className="space-y-6">
         <div className="flex justify-center gap-4">
-          <button type="button" onClick={handleGoogleSignIn} className="flex items-center justify-center w-1/2 px-4 py-2 border rounded shadow-sm text-sm font-medium text-gray-600 hover:bg-gray-50">
+          <Button onClick={handleGoogleSignIn} width='full' >
             Log In With Google
-          </button>
-          <button type="button" className="flex items-center justify-center w-1/2 px-4 py-2 border rounded shadow-sm text-sm font-medium text-gray-600 hover:bg-gray-50">
+          </Button>
+          <Button width='full'>
             Log In With Facebook
-          </button>
+          </Button>
         </div>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
@@ -51,14 +52,14 @@ const LoginForm = ({ onToggle }) => {
                 placeholder="Email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-300 box-border"
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
             <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-300 box-border"
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
         </div>
         <div className="flex items-center justify-between">
@@ -66,13 +67,9 @@ const LoginForm = ({ onToggle }) => {
             <input type="checkbox" className="form-checkbox" />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
-          <button type="button" className="text-sm text-blue-500 hover:underline">
-            Forgot Password?
-          </button>
+          <p>Forgot Password?</p>
         </div>
-        <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600">
-          LOG IN
-        </button>
+        <Button size="large" width="full" >LOG IN</Button>
       </form>
       <div className="mt-6 text-center">
         <p className="text-sm">Don't have account? <button onClick={onToggle} className="text-sm text-blue-500 hover:underline">Register</button></p>
