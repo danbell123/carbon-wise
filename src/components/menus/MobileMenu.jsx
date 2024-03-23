@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
+import ToggleThemeButton from '../ToggleThemeButton';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -116,6 +117,9 @@ const MobileMenu = () => {
               <p className='m-2'>Your Scores</p>
             </NavLink>
           </nav>
+          <div className='p-5 self-end'>
+            <ToggleThemeButton />
+          </div>
       </aside>
     </>
   );

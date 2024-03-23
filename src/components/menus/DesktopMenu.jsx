@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
+import ToggleThemeButton from '../ToggleThemeButton';
 
 const DesktopMenu = () => {
   return (
@@ -75,12 +76,8 @@ const DesktopMenu = () => {
           </nav>
         </div>
         <div>
-        <div className="p-5 mb-5 bg-bg-main flex flex-col rounded-lg w-min">
-          <NavLink to="/your-scores" className="text-sm text-text-colour-secondary bg-transparent hover:bg-bg-main rounded-lg flex items-center">
-            <span className="material-symbols-outlined">
-              dark_mode
-            </span>
-          </NavLink>
+        <div className="mb-5">
+          <ToggleThemeButton />
           </div>
           <div className="p-5 mb-10 bg-bg-main flex flex-col rounded-lg">
             <div className="flex items-center space-x-3 text-base">

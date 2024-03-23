@@ -11,6 +11,7 @@ import 'material-symbols';
 import PairDevice from './pages/Device/PairDevice';
 import YourDevice from './pages/Device/YourDevice';
 import './App.css';
+import { ThemeProvider } from './contexts/themeContext';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -35,27 +36,29 @@ const App = () => {
   const isMobile = windowWidth < 768; // Assume 768px is the breakpoint for mobile devices
 
   return (
-    <AuthProvider>
-  <ToastProvider>
-    <div className="App font-rubik flex min-h-screen">
-      <Router>
-        {/* Sidebar or Mob Menu*/}
-        <ConditionalMenus />
+  <AuthProvider>
+    <ToastProvider>
+      <ThemeProvider>
+        <div className="App font-rubik flex min-h-screen">
+          <Router>
+            {/* Sidebar or Mob Menu*/}
+            <ConditionalMenus />
 
-        {/* Main Content */}
-        <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0">
-          <Routes>
-            <Route path="/" element={<LoginRegister />} />
-            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-            <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
-            <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
-          </Routes>
-          <Toast />
+            {/* Main Content */}
+            <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0">
+              <Routes>
+                <Route path="/" element={<LoginRegister />} />
+                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
+                <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
+              </Routes>
+              <Toast />
+            </div>
+          </Router>
         </div>
-      </Router>
-    </div>
-  </ToastProvider>
-</AuthProvider>
+      </ThemeProvider>
+    </ToastProvider>
+  </AuthProvider>
 
   );
 };

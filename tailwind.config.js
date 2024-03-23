@@ -1,17 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        "bg-outer": "#262626",
-        "bg-main": "#2e2e2e",
-        "text-colour-secondary": "#cbcbcb",
-        "text-colour-primary": "#f5f5f5",
+        "bg-outer": "var(--bg-outer)",
+        "bg-main": "var(--bg-main)",
+        "text-colour-secondary": "var(--text-colour-secondary)",
+        "text-colour-primary": "var(--text-colour-primary)",
         "primary-colour": "rgba(13, 170, 226, 1)",
         "secondary-colour": "rgba(14, 38, 60, 1)",
         "secondary-colour-hover": "rgb(24, 65, 103)",
-        "text-colour-main": "rgba(55, 55, 55, 1)",
       },
       backgroundImage: theme => ({
         'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)', // Example gradient

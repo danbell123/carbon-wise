@@ -7,3 +7,35 @@ a {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+:root {
+  /* Dark theme */
+  --bg-outer: #262626;
+  --bg-main: #2e2e2e;
+  --text-colour-secondary: #cbcbcb;
+  --text-colour-primary: #f5f5f5;
+  --primary-colour: rgba(13, 170, 226, 1);
+  --secondary-colour: rgba(14, 38, 60, 1);
+  --secondary-colour-hover: rgb(24, 65, 103);
+  --green: #0EAF00;
+  --red: #FF3D31;
+}
+
+[data-theme='dark'] {
+  /* Light theme */
+  --bg-outer: #E8E8E8;
+  --bg-main: #FFFFFF;
+  --text-colour-secondary: #666666;
+  --text-colour-primary: #373737;
+  --primary-colour: rgba(13, 170, 226, 1);
+  --secondary-colour: rgba(14, 38, 60, 1);
+  --secondary-colour-hover: rgb(24, 65, 103);
+  --green: #0EAF00;
+  --red: #FF3D31;
+}
+
+/* For a smooth transition between light and dark mode */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
