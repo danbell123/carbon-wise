@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import Button from '../buttons/btn';
+import { useToast } from '../../contexts/ToastContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const LoginForm = ({ onToggle }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { addToast } = useToast(); // Assuming you have a toast system for notifications
+  const navigate = useNavigate(); // Get the navigate function
 
   const auth = getAuth();
 
@@ -12,10 +17,10 @@ const LoginForm = ({ onToggle }) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Handle successful login
+      addToast('Login successful!', 'success');
+      navigate('/dashboard');
     } catch (error) {
-      // Handle errors
-      console.error("Error signing in:", error);
+      addToast('Failed to login. Please check your credentials.', 'error');
     }
   };
 
@@ -23,10 +28,10 @@ const LoginForm = ({ onToggle }) => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Handle successful login
+        addToast('Login successful!', 'success');
+        navigate('/dashboard');
     } catch (error) {
-      // Handle errors
-      console.error("Error signing in with Google:", error);
+      addToast('Failed to login. Please check your credentials.', 'error');
     }
   };
 
