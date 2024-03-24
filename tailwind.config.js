@@ -41,6 +41,7 @@ module.exports = {
       },
       // You can also extend lineHeight, fontWeight, letterSpacing as needed
       fontWeight: {
+        light: 200,
         normal: 400,
         semibold: 600,
         // Define any custom weights from Figma if needed

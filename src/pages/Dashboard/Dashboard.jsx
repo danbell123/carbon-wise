@@ -11,7 +11,7 @@ const Dashboard = () => {
         alt="Background"
         src={DesktopBackgroundImage}
       />
-      <section className="p-5 pt-28 sm:p-20 flex flex-col items-start justify-start z-[1] text-text-colour-primary gap-3">
+      <section className="p-5 pt-28 sm:p-10 flex flex-col items-start justify-start z-[1] text-text-colour-primary gap-3">
         <h1 className="text-4xl w-full m-0">
           Good Morning Dan!
         </h1>
@@ -20,7 +20,13 @@ const Dashboard = () => {
         </h3>
       </section>
     </main>
-      <section className="self-stretch h-full">
+      <section className="p-5 sm:p-10 self-stretch h-min flex flex-row ithems-start justify-start gap-10">
+        <div className='w-full sm:w-1/3 flex '>
+          <UsageContainer />
+        </div>
+        <div className='w-full sm:w-2/3 flex '>
+          
+        </div>
       </section>
     </>
   );

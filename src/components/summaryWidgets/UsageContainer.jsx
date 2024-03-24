@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UsageVisualization from './UsageVisualization';
 import { rtdb, databaseRef, onValue } from '../../firebase';
+import formatDateToNow from '../../services/readableDateTime';
 
 const UsageContainer = () => {
   const [value, setValue] = useState(0);
@@ -8,6 +9,7 @@ const UsageContainer = () => {
   const [lastUpdated, setLastUpdated] = useState('');
   const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d"; // Replace with your device's MAC address
 
+  //"Fetching realtimedata from firebase"
   useEffect(() => {
     const readingsRef = databaseRef(rtdb, `energy_data/${deviceMAC}`);
 
@@ -37,13 +39,15 @@ const UsageContainer = () => {
     return () => unsubscribeReadings();
   }, [deviceMAC]);
 
+  console.log(lastUpdated)
+
   // Format timestamp for display
-  const formattedLastUpdated = lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Loading...';
+  const fomattedLastUpdated =  lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';
 
   return (
-    <div className="bg-bg-main w-full font-rubik text-text-colour-primary p-4 rounded-lg shadow-md">
-      <h1 className="text-lg font-semibold">Your Current Usage</h1>
-      <p className="text-sm">Last Updated: {formattedLastUpdated}</p>
+    <div className="bg-bg-main w-full p-5 rounded-xl shadow-md">
+      <h1 className="text-2xl font-semibold m-0 text-text-colour-primary">Your Current Usage</h1>
+      <p className="text-sm font-light text-text-colour-secondary">Last Updated: {fomattedLastUpdated}</p>
       <UsageVisualization value={value} maxValue={maxValue} />
       <button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
         More Details
