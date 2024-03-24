@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         "bg-outer": "var(--bg-outer)",
         "bg-main": "var(--bg-main)",
+        "bg-main-transparent": "var(--bg-main-transparent)",
         "text-colour-secondary": "var(--text-colour-secondary)",
         "text-colour-primary": "var(--text-colour-primary)",
         "primary-colour": "rgba(13, 170, 226, 1)",
