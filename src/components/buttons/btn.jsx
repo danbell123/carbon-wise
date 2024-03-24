@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ children, onClick, size = 'medium', width = 'auto' }) => {
+const Button = ({ children, onClick, size = 'medium', width = 'auto', colour='primary-colour'}) => {
   // Define size classes for the button
   const sizeClasses = {
     small: 'text-xs py-1 px-2',
@@ -17,7 +17,7 @@ const Button = ({ children, onClick, size = 'medium', width = 'auto' }) => {
   return (
     <button
       onClick={onClick}
-      className={`bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg flex items-center justify-center ${sizeClass} ${widthClass}`}
+      className={`bg-${colour} hover:bg-secondary-colour text-white font-bold rounded-full shadow-lg flex items-center justify-center ${sizeClass} ${widthClass}`}
       style={{ transition: 'background-color 0.3s' }}
     >
       {children}

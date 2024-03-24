@@ -12,6 +12,7 @@ import PairDevice from './pages/Device/PairDevice';
 import YourDevice from './pages/Device/YourDevice';
 import './App.css';
 import { ThemeProvider } from './contexts/themeContext';
+import AccountPage from './pages/Settings/Settings';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -39,7 +40,7 @@ const App = () => {
   <AuthProvider>
     <ToastProvider>
       <ThemeProvider>
-        <div className="App font-rubik flex min-h-screen">
+        <div className="App font-rubik flex min-h-screen bg-bg-main">
           <Router>
             {/* Sidebar or Mob Menu*/}
             <ConditionalMenus />
@@ -51,6 +52,7 @@ const App = () => {
                 <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
                 <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
                 <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
+                <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
               </Routes>
               <Toast />
             </div>

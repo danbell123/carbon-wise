@@ -80,13 +80,13 @@ const DesktopMenu = () => {
           <ToggleThemeButton />
           </div>
           <div className="p-5 mb-10 bg-bg-main flex flex-col rounded-lg">
-            <div className="flex items-center space-x-3 text-base">
+            <NavLink to="/account" className="flex items-center space-x-3 text-base">
               <span className="material-symbols-outlined">
                 account_circle
               </span>
               <span>Dan Bell</span>
-            </div>
-            <NavLink to="/your-scores" className="text-sm text-text-colour-secondary bg-transparent hover:bg-bg-main rounded-lg flex items-center">
+            </NavLink>
+            <NavLink to="/account" className="text-sm text-text-colour-secondary bg-transparent hover:bg-bg-main rounded-lg flex items-center">
               <p className='mb-0'>Settings</p>
             </NavLink>
           </div>

@@ -14,6 +14,7 @@ module.exports = {
         "forecast-colour": "var(--forecast-colour)",
         "secondary-colour": "rgba(14, 38, 60, 1)",
         "secondary-colour-hover": "rgb(24, 65, 103)",
+        "red": "var(--red)",
       },
       backgroundImage: theme => ({
         'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)', // Example gradient
