@@ -45,7 +45,7 @@ const UsageContainer = () => {
   const fomattedLastUpdated =  lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';
 
   return (
-    <div className="bg-bg-main w-full p-5 rounded-xl shadow-md">
+    <div className="bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
       <h1 className="text-2xl font-semibold m-0 text-text-colour-primary">Your Current Usage</h1>
       <p className="text-sm font-light text-text-colour-secondary">Last Updated: {fomattedLastUpdated}</p>
       <UsageVisualization value={value} maxValue={maxValue} />
