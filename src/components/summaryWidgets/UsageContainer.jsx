@@ -39,8 +39,6 @@ const UsageContainer = () => {
     return () => unsubscribeReadings();
   }, [deviceMAC]);
 
-  console.log(lastUpdated)
-
   // Format timestamp for display
   const fomattedLastUpdated =  lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';
 

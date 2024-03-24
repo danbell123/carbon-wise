@@ -1,8 +1,6 @@
 import { formatDistanceToNow, parseISO, isValid } from 'date-fns';
 
 const formatDateToNow = (dateString) => {
-  console.log("qw",dateString)
-
   // Check for "Loading..." or falsy values like "", null, or undefined
   if (!dateString || dateString === "Loading...") return '';
 
