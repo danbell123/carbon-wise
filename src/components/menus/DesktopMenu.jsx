@@ -46,7 +46,7 @@ const DesktopMenu = () => {
               } 
             >
               <span className="material-symbols-outlined mr-1">electric_bolt</span>
-              <p className='m-2'>Your Usage</p>
+              <p className='m-2'>Usage</p>
             </NavLink>
 
             <NavLink 
@@ -58,7 +58,7 @@ const DesktopMenu = () => {
               } 
             >
               <span className="material-symbols-outlined mr-1">speed</span>
-              <p className='m-2'>Your Scores</p>
+              <p className='m-2'>Scores</p>
             </NavLink>
 
             <NavLink 
@@ -70,7 +70,19 @@ const DesktopMenu = () => {
               } 
             >
               <span className="material-symbols-outlined mr-1">browse_activity</span>
-              <p className='m-2'>Your Device</p>
+              <p className='m-2'>Device</p>
+            </NavLink>
+
+            <NavLink 
+              to="/account"
+              className={({ isActive }) =>
+                isActive
+                ? "text-lg text-bg-outer bg-primaryGradient1 hover:bg-bg-main pl-2 rounded-lg flex items-center"
+                : "text-lg text-text-colour-secondary hover:text-text-colour-primary bg-transparent hover:bg-bg-main pl-2 rounded-lg flex items-center"
+              } 
+            >
+              <span className="material-symbols-outlined mr-1">settings</span>
+              <p className='m-2'>Account</p>
             </NavLink>
 
           </nav>
@@ -85,9 +97,6 @@ const DesktopMenu = () => {
                 account_circle
               </span>
               <span>Dan Bell</span>
-            </NavLink>
-            <NavLink to="/account" className="text-sm text-text-colour-secondary bg-transparent hover:bg-bg-main rounded-lg flex items-center">
-              <p className='mb-0'>Settings</p>
             </NavLink>
           </div>
         </div>

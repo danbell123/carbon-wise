@@ -15,7 +15,7 @@ const AccountPage = () => {
 
   return (
     <div className="p-5 pt-28 sm:pt-10 ">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 ">
         <h1 className="text-3xl font-bold m-0 text-text-colour-primary">Your Account</h1>
         <Button
           onClick={handleLogout}
@@ -42,7 +42,7 @@ const AccountPage = () => {
             ))}
           </nav>
         </div>
-        <div className='bg-bg-outer p-5 border-t-8 border-solid border-primary-colour'>
+        <div className='bg-bg-outer rounded-b-lg p-5 border-t-8 border-solid border-primary-colour'>
           {activeTab === 'General' && 
             <div>
                 <GeneralSettings />
