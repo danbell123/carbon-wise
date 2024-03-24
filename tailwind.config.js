@@ -11,6 +11,7 @@ module.exports = {
         "text-colour-secondary": "var(--text-colour-secondary)",
         "text-colour-primary": "var(--text-colour-primary)",
         "primary-colour": "rgba(13, 170, 226, 1)",
+        "forecast-colour": "var(--forecast-colour)",
         "secondary-colour": "rgba(14, 38, 60, 1)",
         "secondary-colour-hover": "rgb(24, 65, 103)",
       },

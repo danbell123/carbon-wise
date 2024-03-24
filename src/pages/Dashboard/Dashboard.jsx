@@ -1,6 +1,7 @@
 import React from 'react';
 import DesktopBackgroundImage from '../../assets/DesktopBackground.png';
 import UsageContainer from '../../components/summaryWidgets/UsageContainer';
+import CarbonIntensityWidget from '../../components/summaryWidgets/carbonIntensityWidget';
 
 const Dashboard = () => {
   return (
@@ -20,14 +21,15 @@ const Dashboard = () => {
         </h3>
       </section>
     </main>
-      <section className="p-5 sm:p-10 self-stretch h-min flex flex-row ithems-start justify-start gap-10">
-        <div className='w-full sm:w-1/3 flex '>
-          <UsageContainer />
-        </div>
-        <div className='w-full sm:w-2/3 flex '>
-          
-        </div>
-      </section>
+    <section className="-mt-0 sm:-mt-32 p-5 sm:p-10 self-stretch h-min flex flex-col md:flex-row items-start justify-start gap-10">
+      <div className='w-full md:w-1/3 flex z-20'>
+        <UsageContainer />
+      </div>
+      <div className='w-full md:w-2/3 flex z-20'>
+        <CarbonIntensityWidget />
+      </div>
+    </section>
+
     </>
   );
 };

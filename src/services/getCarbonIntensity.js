@@ -10,14 +10,14 @@ const BASE_URL = 'https://api.carbonintensity.org.uk/regional/intensity';
  * @returns {Promise} A promise that resolves with the carbon intensity data.
  */
 export const fetchPastCIData = async (from, to, regionID) => {
-    console.log(from, to, regionID)
+    console.log("DEBUG:", from, to , regionID)
   try {
     const { data } = await axios.get(`${BASE_URL}/${from}/${to}/regionid/${regionID}`, {
       params: { from, to, regionID },
     });
     return data;
   } catch (error) {
-    console.error('Error fetching carbon intensity data:', error);
+    console.error('Error fetching past carbon intensity data:', error);
     throw error;
   }
 };
@@ -47,7 +47,7 @@ export const fetchFutureCIData = async (length, regionID) => {
         }));
 
     } catch (error) {
-        console.error('Error fetching carbon intensity data:', error);
+        console.error('Error fetching carbon intensity forecast data:', error);
         throw error;
     }
   };
