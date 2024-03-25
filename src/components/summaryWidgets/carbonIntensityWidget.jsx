@@ -3,6 +3,7 @@ import { fetchFutureCIData, fetchPastCIData } from '../../services/getCarbonInte
 import cleanCIData from '../../utils/cleanCIData';
 import CarbonIntensityChart from '../dataVis/carbonIntensityChart';
 import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
+import BarLoader from '../../components/loader/barLoader';
 
 const CarbonIntensityWidget = ({ regionID }) => {
   const [cleanedData, setCleanedData] = useState([]);
@@ -53,20 +54,22 @@ const CarbonIntensityWidget = ({ regionID }) => {
 
 
   return (
-    <div className="bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
-        <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">{intensityInfo.level} Carbon Intensity</h1>
-        <p className="text-sm font-light text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
-        <p className="text-sm font-light text-text-colour-secondary text-right">{intensityInfo.description}</p>
-        <p className="text-sm font-light text-text-colour-secondary text-right">
-            {isLoading ? "Loading..." : 'Last Updated: 12:00 PM'}
-            </p>
-        {isLoading ? (
-            <div className="flex justify-center items-center h-full">
-            <div className="loader"></div> {/* Placeholder for loader element */}
-            </div>
-        ) : (
-            <CarbonIntensityChart data={cleanedData} />
-        )}
+    <div className="bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md h-full">
+      {isLoading 
+      ? 
+        <div className='flex flex-col h-full justify-center justify-items-center p-5'>
+          <BarLoader />
+          <p className="text-center first-letter:text-text-colour-secondary">Loading Your Regional Carbon Intensity</p>
+        </div>
+      :
+        <>
+          <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">{intensityInfo.level} Carbon Intensity</h1>
+          <p className="text-sm font-light text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
+          <p className="text-sm font-light text-text-colour-secondary text-right">{intensityInfo.description}</p>
+          <p className="text-sm font-light text-text-colour-secondary text-right">'Last Updated: 12:00 PM'</p>
+          <CarbonIntensityChart data={cleanedData} />
+        </>
+        }
     </div>
   );
 };

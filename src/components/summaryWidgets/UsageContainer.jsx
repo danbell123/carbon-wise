@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react';
 import UsageVisualization from './UsageVisualization';
 import { rtdb, databaseRef, onValue } from '../../firebase';
 import formatDateToNow from '../../services/readableDateTime';
+import Button from '../buttons/btn'
+import BarLoader from '../loader/barLoader'
 
 const UsageContainer = () => {
   const [value, setValue] = useState(0);
   const [maxValue, setMaxValue] = useState(0);
   const [lastUpdated, setLastUpdated] = useState('');
+  const [isLoading, setIsLoading] = useState(true); // Added loading state
   const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d"; // Replace with your device's MAC address
 
-  //"Fetching realtimedata from firebase"
   useEffect(() => {
     const readingsRef = databaseRef(rtdb, `energy_data/${deviceMAC}`);
+    setIsLoading(true); // Set loading to true when starting to fetch data
 
     const unsubscribeReadings = onValue(readingsRef, (snapshot) => {
       const readings = snapshot.val();
@@ -33,23 +36,35 @@ const UsageContainer = () => {
       setValue(parseFloat(latestValue));
       setMaxValue(parseFloat(highestValue));
       setLastUpdated(latestTimestamp);
+      setIsLoading(false); // Set loading to false after fetching data
     });
 
     // Cleanup function
     return () => unsubscribeReadings();
   }, [deviceMAC]);
 
-  // Format timestamp for display
-  const fomattedLastUpdated =  lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';
+  // Format timestamp for display or show loading message
+  const formattedLastUpdated = lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';
 
+  if (isLoading) {
+    // Render loading state if data is still being fetched
+    return (
+      <div className="h-full p-5 bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md flex flex-col items-center justify-center">
+        <BarLoader />
+        <p className='text-text-colour-secondary text-center'>Loading your usage data...</p>
+      </div>
+    );
+  }
+
+  // Render component once data is loaded
   return (
-    <div className="bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
+    <div className="h-full bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
       <h1 className="text-2xl font-semibold m-0 text-text-colour-primary">Your Current Usage</h1>
-      <p className="text-sm font-light text-text-colour-secondary">Last Updated: {fomattedLastUpdated}</p>
+      <p className="text-sm font-light text-text-colour-secondary">Last Updated: {formattedLastUpdated}</p>
       <UsageVisualization value={value} maxValue={maxValue} />
-      <button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
+      <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
         More Details
-      </button>
+      </Button>
     </div>
   );
 };
