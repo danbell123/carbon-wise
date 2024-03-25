@@ -17,7 +17,9 @@ module.exports = {
         "red": "var(--red)",
       },
       backgroundImage: theme => ({
-        'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)', // Example gradient
+        'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)',
+        'greenGradient': 'linear-gradient(to right, rgba(6, 73, 0, 0.1), rgba(14, 175, 0, 0.3))',
+        'redGradient': 'linear-gradient(to right, rgba(255, 61, 49, 0.05), rgba(255, 61, 49, 0.25))',
       }),
       // Extending fontFamily
       fontFamily: {

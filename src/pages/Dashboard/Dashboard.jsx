@@ -2,6 +2,7 @@ import React from 'react';
 import DesktopBackgroundImage from '../../assets/DesktopBackground.png';
 import UsageContainer from '../../components/summaryWidgets/UsageContainer';
 import CarbonIntensityWidget from '../../components/summaryWidgets/carbonIntensityWidget';
+import CarbonIntensityPeakTimes from '../../components/summaryWidgets/carbonIntensityPeakTimes';
 
 const Dashboard = () => {
   return (
@@ -21,12 +22,20 @@ const Dashboard = () => {
         </h3>
       </section>
     </main>
-    <section className="-mt-0 sm:-mt-32 p-5 sm:p-10 self-stretch h-min flex flex-col md:flex-row items-start justify-start gap-10">
+    <section className="items-stretch -mt-0 sm:-mt-32 p-5 sm:p-10 self-stretch h-min flex flex-col md:flex-row items-start justify-start gap-10">
       <div className='w-full md:w-1/3 flex z-20'>
         <UsageContainer />
       </div>
       <div className='w-full md:w-2/3 flex z-20'>
         <CarbonIntensityWidget />
+      </div>
+    </section>
+    <section className="p-0 sm:px-10 self-stretch h-min flex flex-col md:flex-row items-start justify-start gap-10">
+      <div className='w-1/3 flex z-20'>
+        <CarbonIntensityPeakTimes />
+      </div>
+      <div className='w-full md:w-2/3 flex z-20'>
+        
       </div>
     </section>
 
