@@ -1,16 +1,43 @@
 import React, { useState } from 'react';
 import Button from '../../components/buttons/btn';
+import updateUserNotifications from '../../services/updateUserNotifications'; 
+import { useAuth } from '../../contexts/authContext'; 
 
 const NotificationSettings = () => {
+  const { currentUser } = useAuth();
+
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [carbonLow, setCarbonLow] = useState(false);
   const [carbonHigh, setCarbonHigh] = useState(false);
   const [usageHigh, setUsageHigh] = useState(false);
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    // Implement the save logic here
-    console.log('Notification Settings Saved:', { carbonLow, carbonHigh, usageHigh });
+
+    // Ensure currentUser and currentUser.uid are available
+    if (!currentUser || !currentUser.uid) {
+      console.error("No user id available for updating notification settings.");
+      return;
+    }
+
+    // Prepare notification settings based on whether notifications are enabled
+    const notificationSettings = {
+      ciHighNotif: notificationsEnabled && carbonHigh,
+      ciLowNotif: notificationsEnabled && carbonLow,
+      usageHighNotif: notificationsEnabled && usageHigh,
+    };
+
+    // Use the uid from the currentUser object
+    const uid = currentUser.uid;
+
+    // Call the service function with the user's uid and notification settings
+    const response = await updateUserNotifications(uid, notificationSettings);
+    if (response.success) {
+      console.log("Notification settings updated successfully");
+    } else {
+      console.error("Error updating notification settings:", response.error);
+      console.error("user id:", uid); 
+    }
   };
 
   return (

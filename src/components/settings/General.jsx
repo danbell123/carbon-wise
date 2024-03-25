@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
-
-// Mock user data and regions array
-const currentUser = {
-  firstName: 'John',
-  lastName: 'Doe',
-  region: 'North America',
-};
-
-const regions = ['North America', 'Europe', 'Asia', 'Australia', 'South America', 'Africa'];
+import updateUser from '../../services/updateUser';
+import { useAuth } from '../../contexts/authContext';
+import regions from '../../data/regions'; 
 
 const GeneralSettings = () => {
-  const [firstName, setFirstName] = useState(currentUser.firstName);
-  const [lastName, setLastName] = useState(currentUser.lastName);
-  const [region, setRegion] = useState(currentUser.region);
+  const { currentUser } = useAuth();
+  
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [regionID, setRegionID] = useState('');
 
-  const handleSave = (e) => {
+  useEffect(() => {
+    if (currentUser) {
+      setFirstName(currentUser.firstName || '');
+      setLastName(currentUser.lastName || '');
+      setRegionID(currentUser.region || '');
+    }
+  }, [currentUser]);
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    // Handle the save logic here
-    // This might involve sending the updated user details to a backend server
-    console.log('Saved:', { firstName, lastName, region });
+
+    const uid = currentUser.uid;
+    const updatedUserObj = {
+      ...(firstName && { firstName }),
+      ...(lastName && { lastName }),
+      ...(regionID && { regionID }),
+    };
+
+    const response = await updateUser(uid, updatedUserObj);
+    if (response.success) {
+      console.log("User update successful");
+    } else {
+      console.error("User update failed:", response.error);
+    }
   };
 
   return (
@@ -49,17 +64,18 @@ const GeneralSettings = () => {
                 />
             </div>
             <div>
-                <label htmlFor="region" className="block pb-1 text-sm font-medium text-text-colour-secondary">Region</label>
-                <select
+              <label htmlFor="region" className="block pb-1 text-sm font-medium text-text-colour-secondary">Region</label>
+              <select
                 id="region"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
+                value={regionID}
+                onChange={(e) => setRegionID(e.target.value)}
                 className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
-                >
-                {regions.map((r) => (
-                    <option key={r} value={r}>{r}</option>
+              >
+                <option value="">Select a region...</option>
+                {regions.map((region) => (
+                  <option key={region.id} value={region.id}>{region.name}</option>
                 ))}
-                </select>
+              </select>
             </div>
             <div className='pt-4'>
                 <Button size="medium" width="1/2" >Save Changes</Button>

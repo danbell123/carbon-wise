@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import zxcvbn from 'zxcvbn';
 import Button from '../buttons/btn';
 import { useToast } from '../../contexts/ToastContext';
+import { registerUser } from '../../services/registerUser';
+import { useNavigate } from 'react-router-dom';
+
 
 const RegisterForm = ({ onToggle }) => {
   const [email, setEmail] = useState('');
@@ -10,6 +13,7 @@ const RegisterForm = ({ onToggle }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
   const { addToast } = useToast(); 
+  const navigate = useNavigate();
 
   const auth = getAuth();
 
@@ -34,9 +38,10 @@ const RegisterForm = ({ onToggle }) => {
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      let additionalData = {}; // TODO: Add additional user data here
+      await registerUser(email, password, additionalData);
       addToast('Registration successful!', 'success');
-      // Redirect or update UI after successful registration
+      navigate('/dashboard'); // Redirect to the dashboard
     } catch (error) {
       addToast(error.message, 'error'); // Display the error message from Firebase
     }
