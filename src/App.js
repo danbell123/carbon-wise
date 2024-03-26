@@ -13,6 +13,7 @@ import YourDevice from './pages/Device/YourDevice';
 import './App.css';
 import { ThemeProvider } from './contexts/themeContext';
 import AccountPage from './pages/Settings/Settings';
+import CarbonIntensityPage from './pages/CarbonIntenisty';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -53,6 +54,7 @@ const App = () => {
                 <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
                 <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
                 <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
+                <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
               </Routes>
               <Toast />
             </div>
