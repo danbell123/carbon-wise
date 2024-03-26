@@ -1,67 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
 import { format } from 'date-fns';
 import PasswordInput from '../authentication/PasswordInput';
 import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword, deleteUser } from "firebase/auth";
+import { useToast } from '../../contexts/ToastContext';
+import fetchUserData from '../../services/getUserDetails';
+import { redirect } from 'react-router-dom';
 
 const AccountSettings = () => {
+  const auth = getAuth();
+  const user = auth.currentUser; 
+
   const [userDetails, setUserDetails] = useState({
-    email: 'user@example.com',
-    registrationDate: '2023-01-01',
+    email: "email",
   });
   const [newPassword, setNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
+  const [oldPasswordDelete, setOldPasswordDelete] = useState('');
 
-  const auth = getAuth(); // Initialize Firebase Auth
-  const user = auth.currentUser; // Get the currently signed-in user, corrected this line
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    const fetchAndSetUserData = async () => {
+      if (user) {
+        try {
+          const userData = await fetchUserData(user.uid);
+          if (userData) {
+            setUserDetails({
+              ...userDetails,
+              email: userData.email || 'No email available',
+            });
+          } else {
+            addToast(`Could not find your data`, 'error');
+          }
+        } catch (error) {
+          addToast(`Failed to fetch your data: ${error}`, 'error');
+        }
+      }
+    };
+
+    fetchAndSetUserData();
+  }, [user]);
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
   
     if (!user || oldPassword.length === 0 || newPassword.length === 0) {
-      console.log('No user signed in or password not provided');
+      addToast(`Please provide old and new password`, 'error');
       return;
     }
   
     try {
       // Re-authenticate the user with the old password
       const credential = EmailAuthProvider.credential(user.email, oldPassword);
-      await reauthenticateWithCredential(user, credential);
-      console.log('Re-authentication successful');
+      try {
+        await reauthenticateWithCredential(user, credential);
+      } catch (error) {
+        addToast(`Incorrect original password`, 'error');
+        return;
+      }
   
       // Proceed to update the password after successful re-authentication
       await updatePassword(user, newPassword);
-      console.log('Password changed successfully');
       setNewPassword('');
-      setOldPassword(''); // Clear old password field
+      setOldPassword('');
+      addToast(`Password change success`, 'success');
     } catch (error) {
-      console.error('Error changing password:', error);
+      addToast(`Error changing password: ${error}`, 'error');
       // Handle or display the error appropriately
     }
   };
 
   const handleAccountDeletion = async () => {
     if (!user) {
-      console.log('No user signed in');
+      return;
+    }
+
+    // Re-authenticate the user with the old password
+    const credential = EmailAuthProvider.credential(user.email, oldPasswordDelete);
+    try {
+      await reauthenticateWithCredential(user, credential);
+    } catch (error) {
+      addToast(`Incorrect original password`, 'error');
       return;
     }
 
     try {
       await deleteUser(user);
-      console.log('Account deleted successfully');
-      // Redirect user or perform other clean-up actions here
+      addToast(`Account deleted successfully`, 'success');
+      redirect('/');
     } catch (error) {
-      console.error('Error deleting account:', error);
+      addToast(`Error deleting account: ${error}`, 'error');
     }
   };
 
 
   return (
     <div className='flex flex-col gap-6 w-full xl:w-3/4'>
-      <h2 className='text-xl text-text-colour-primary'>Account Settings</h2>
+      <h2 className='text-xl text-text-colour-primary mb-0'>Account Settings</h2>
       <div>
-        <p className="text-sm font-medium text-text-colour-secondary mt-0">Email: {userDetails.email}</p>
-        <p className="text-sm font-medium text-text-colour-secondary">Registered: {format(new Date(userDetails.registrationDate), 'PPP')}</p>
+        <p className="text-sm font-medium text-text-colour-secondary my-0">Email: {userDetails.email}</p>
       </div>
       <form onSubmit={handlePasswordChange} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-secondary">
         <h2 className='text-lg text-text-colour-primary m-0'>Change Password</h2>
@@ -83,9 +121,21 @@ const AccountSettings = () => {
         </div>
         <Button type="submit" size="medium" width="1/3">Change Password</Button>
       </form>
-      <div className='pt-4 flex justify-start'>
-        <Button onClick={handleAccountDeletion} size="medium" width="1/2" colour="red" >Delete Account</Button>
-      </div>
+
+      <form onSubmit={handleAccountDeletion} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-secondary">
+        <h2 className='text-lg text-text-colour-primary m-0'>Delete Your Account</h2>
+        <div className="flex items-center gap-2">
+          <label htmlFor="oldPasswordDelete" className="text-sm font-medium text-text-colour-secondary">
+            Old Password:
+          </label>
+          <PasswordInput
+            id="oldPasswordDelete"
+            value={oldPasswordDelete}
+            onChange={(e) => setOldPasswordDelete(e.target.value)}
+          />
+        </div>
+        <Button type="submit" size="medium" width="1/3" colour='red'>Delete Account</Button>
+      </form>
     </div>
   );
 };

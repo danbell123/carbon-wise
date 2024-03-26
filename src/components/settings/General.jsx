@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
 import updateUser from '../../services/updateUser';
 import { useAuth } from '../../contexts/authContext';
-import regions from '../../data/regions'; 
+import regions from '../../data/regions';
+import { useToast } from '../../contexts/ToastContext';
+import fetchUserData from '../../services/getUserDetails'; // Make sure this is the correct path
 
 const GeneralSettings = () => {
   const { currentUser } = useAuth();
@@ -11,29 +13,50 @@ const GeneralSettings = () => {
   const [lastName, setLastName] = useState('');
   const [regionID, setRegionID] = useState('');
 
+  const { addToast } = useToast();
+
   useEffect(() => {
-    if (currentUser) {
-      setFirstName(currentUser.firstName || '');
-      setLastName(currentUser.lastName || '');
-      setRegionID(currentUser.region || '');
-    }
-  }, [currentUser]);
+    const fetchAndSetUserDetails = async () => {
+      if (currentUser && currentUser.uid) {
+        try {
+          const userDetails = await fetchUserData(currentUser.uid);
+          if (userDetails) {
+            setFirstName(userDetails.firstName || '');
+            setLastName(userDetails.lastName || '');
+            setRegionID(userDetails.regionID || ''); // Ensure the field name matches what's stored in Firestore
+          }
+        } catch (error) {
+          console.error("Failed to fetch user details:", error);
+          addToast(`Failed to fetch user details: ${error.message}`, 'error');
+        }
+      }
+    };
+
+    fetchAndSetUserDetails();
+  }, [currentUser, addToast]);
 
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const uid = currentUser.uid;
-    const updatedUserObj = {
-      ...(firstName && { firstName }),
-      ...(lastName && { lastName }),
-      ...(regionID && { regionID }),
-    };
+    if (currentUser && currentUser.uid) {
+      const uid = currentUser.uid;
+      const updatedUserObj = {
+        ...(firstName && { firstName }),
+        ...(lastName && { lastName }),
+        ...(regionID && { regionID }),
+      };
 
-    const response = await updateUser(uid, updatedUserObj);
-    if (response.success) {
-      console.log("User update successful");
-    } else {
-      console.error("User update failed:", response.error);
+      try {
+        const response = await updateUser(uid, updatedUserObj);
+        if (response.success) {
+          addToast("User update successful", 'success');
+        } else {
+          addToast(`User update failed: ${response.error}`, 'error');
+        }
+      } catch (error) {
+        console.error("User update failed:", error);
+        addToast(`User update failed: ${error.message}`, 'error');
+      }
     }
   };
 

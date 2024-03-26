@@ -8,12 +8,13 @@ import Button from '../../components/buttons/btn';
 import unpair from '../../services/updatePairing';
 import { getAuth } from "firebase/auth";  
 import { useDevicePairing } from '../../contexts/DevicePairingContext';
-
+import { useToast } from '../../contexts/ToastContext';
 
 const YourDevice = () => {
   const [chartData, setChartData] = useState([]);
   const [connected, setConnected] = useState(true);
   const { recheckPairingStatus } = useDevicePairing();
+  const { addToast } = useToast();
 
   const auth = getAuth(); 
   const user = auth.currentUser; 
@@ -23,14 +24,10 @@ const YourDevice = () => {
     try {
       await unpair(user.uid, deviceMAC);
       recheckPairingStatus();
-      // Handle successful unpairing
-      console.log("Device successfully unpaired.");
-      // For example, update state or redirect user
-      // setConnected(false); // If you have a connected state
-      // navigate('/devices'); // If using something like react-router for navigation
+      addToast('Device unpaired', 'success');
     } catch (error) {
       // Handle error (already logged in updatePairing)
-      alert("Failed to unpair the device.");
+      addToast('Failed to unpair device', 'error');
     }
   };
   

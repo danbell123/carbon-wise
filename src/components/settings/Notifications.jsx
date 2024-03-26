@@ -1,42 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
-import updateUserNotifications from '../../services/updateUserNotifications'; 
-import { useAuth } from '../../contexts/authContext'; 
+import updateUserNotifications from '../../services/updateUserNotifications';
+import { useAuth } from '../../contexts/authContext';
+import { useToast } from '../../contexts/ToastContext';
+import fetchUserData from '../../services/getUserDetails'; // Make sure this path is correct
 
 const NotificationSettings = () => {
   const { currentUser } = useAuth();
-
+  const { addToast } = useToast();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [carbonLow, setCarbonLow] = useState(false);
   const [carbonHigh, setCarbonHigh] = useState(false);
   const [usageHigh, setUsageHigh] = useState(false);
 
+  useEffect(() => {
+    // Fetch and set user's notification settings
+    const fetchAndSetNotificationSettings = async () => {
+      if (currentUser && currentUser.uid) {
+        try {
+          const userData = await fetchUserData(currentUser.uid);
+          if (userData) {
+            // Assuming these are the correct field names in your Firestore document
+            // Adjust them according to your actual Firestore document structure
+            setNotificationsEnabled(userData.notificationsEnabled || false);
+            setCarbonLow(userData.ciLowNotif || false);
+            setCarbonHigh(userData.ciHighNotif || false);
+            setUsageHigh(userData.usageHighNotif || false);
+          }
+        } catch (error) {
+          console.error("Failed to fetch notification settings:", error);
+        }
+      }
+    };
+
+    fetchAndSetNotificationSettings();
+  }, [currentUser]);
+
   const handleSave = async (e) => {
     e.preventDefault();
 
-    // Ensure currentUser and currentUser.uid are available
     if (!currentUser || !currentUser.uid) {
       console.error("No user id available for updating notification settings.");
       return;
     }
 
-    // Prepare notification settings based on whether notifications are enabled
     const notificationSettings = {
-      ciHighNotif: notificationsEnabled && carbonHigh,
-      ciLowNotif: notificationsEnabled && carbonLow,
-      usageHighNotif: notificationsEnabled && usageHigh,
+      notificationsEnabled, // This is assumed to be part of your user document now
+      ciHighNotif: carbonHigh,
+      ciLowNotif: carbonLow,
+      usageHighNotif: usageHigh,
     };
 
-    // Use the uid from the currentUser object
-    const uid = currentUser.uid;
-
-    // Call the service function with the user's uid and notification settings
-    const response = await updateUserNotifications(uid, notificationSettings);
-    if (response.success) {
-      console.log("Notification settings updated successfully");
-    } else {
-      console.error("Error updating notification settings:", response.error);
-      console.error("user id:", uid); 
+    try {
+      const response = await updateUserNotifications(currentUser.uid, notificationSettings);
+      if (response.success) {
+        addToast("Notification settings updated successfully", 'success');
+      } else {
+        addToast(`Error updating notification settings: ${response.error}`, 'error');
+      }
+    } catch (error) {
+      console.error("Error updating notification settings:", error);
+      addToast(`Error updating notification settings: ${error.message}`, 'error');
     }
   };
 
