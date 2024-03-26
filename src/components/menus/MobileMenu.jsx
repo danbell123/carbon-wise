@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
-import ToggleThemeButton from '../ToggleThemeButton';
+import ToggleThemeButton from '../buttons/ToggleThemeButton';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);

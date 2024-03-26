@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
-import ToggleThemeButton from '../ToggleThemeButton';
+import ToggleThemeButton from '../buttons/ToggleThemeButton';
 
 const DesktopMenu = () => {
   return (

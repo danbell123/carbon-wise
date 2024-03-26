@@ -1,6 +1,6 @@
 // ToggleThemeButton.js
 import React from 'react';
-import { useTheme } from '../contexts/themeContext';
+import { useTheme } from '../../contexts/themeContext';
 
 const ToggleThemeButton = () => {
   const { theme, setTheme } = useTheme();
