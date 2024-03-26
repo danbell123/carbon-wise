@@ -13,16 +13,16 @@ import { useToast } from '../../contexts/ToastContext';
 const YourDevice = () => {
   const [chartData, setChartData] = useState([]);
   const [connected, setConnected] = useState(true);
-  const { recheckPairingStatus } = useDevicePairing();
+  const { recheckPairingStatus, pairedDeviceMAC } = useDevicePairing();
   const { addToast } = useToast();
 
   const auth = getAuth(); 
   const user = auth.currentUser; 
 
   const handleUnpair = async () => {
-    const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d"; // Use the actual MAC address or retrieve it from state/props
+    const deviceMAC = {pairedDeviceMAC}; // Use the actual MAC address or retrieve it from state/props
     try {
-      await unpair(user.uid, deviceMAC);
+      await unpair(user.uid, deviceMAC.pairedDeviceMAC);
       recheckPairingStatus();
       addToast('Device unpaired', 'success');
     } catch (error) {
@@ -30,11 +30,10 @@ const YourDevice = () => {
       addToast('Failed to unpair device', 'error');
     }
   };
-  
 
   useEffect(() => {
     let debounceTimer;
-    const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d";
+    const deviceMAC = pairedDeviceMAC;
     const readingsRef = databaseRef(rtdb, `energy_data/${deviceMAC}`);
     const last20ReadingsQuery = query(readingsRef, limitToLast(20));
   
@@ -112,7 +111,7 @@ const YourDevice = () => {
         </div>
         <div className='w-full h-min pt-5'>
           <h1 className="text-lg w-full m-0">
-            Paired to: CARBON-WATCHER-v1.0-H86:59P:N67
+            Paired to: CARBON-WATCHER-v1.0{pairedDeviceMAC}
           </h1>
           <h3 className="mt-2 text-base font-normal text-text-colour-secondary">
             Last Sync: 12:00 12/12/2021

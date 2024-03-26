@@ -4,44 +4,48 @@ import { rtdb, databaseRef, onValue } from '../../firebase';
 import formatDateToNow from '../../services/readableDateTime';
 import Button from '../buttons/btn'
 import BarLoader from '../loader/barLoader'
+import { useDevicePairing } from '../../contexts/DevicePairingContext';
+
 
 const UsageContainer = () => {
   const [value, setValue] = useState(0);
   const [maxValue, setMaxValue] = useState(0);
   const [lastUpdated, setLastUpdated] = useState('');
   const [isLoading, setIsLoading] = useState(true); // Added loading state
-  const deviceMAC = "14d5f1ef-03b0-4546-90fd-7190128bdf1d"; // Replace with your device's MAC address
+  const { isPaired, pairedDeviceMAC, recheckPairingStatus } = useDevicePairing();
 
   useEffect(() => {
-    const readingsRef = databaseRef(rtdb, `energy_data/${deviceMAC}`);
+    const readingsRef = databaseRef(rtdb, `energy_data/${pairedDeviceMAC}`);
     setIsLoading(true); // Set loading to true when starting to fetch data
-
+  
     const unsubscribeReadings = onValue(readingsRef, (snapshot) => {
       const readings = snapshot.val();
       let latestValue = 0;
       let highestValue = 0;
       let latestTimestamp = '';
-
+  
       if (readings) {
-        const readingsArray = Object.values(readings);
+        const readingsArray = Object.values(readings).filter(reading => reading.timestamp); // Ensure only items with timestamps are processed
         
-        // Sort readings by timestamp in descending order to have the most recent reading first
-        readingsArray.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
-
-        latestValue = readingsArray[0]?.kWh || 0; // Most recent reading's kWh
-        highestValue = Math.max(...readingsArray.map(reading => parseFloat(reading.kWh))); // Highest kWh value
-        latestTimestamp = readingsArray[0]?.timestamp || ''; // Timestamp of the most recent reading
+        if (readingsArray.length > 0) {
+          readingsArray.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+  
+          latestValue = readingsArray[0].kWh || 0; // Most recent reading's kWh
+          highestValue = Math.max(...readingsArray.map(reading => parseFloat(reading.kWh))); // Highest kWh value
+          latestTimestamp = readingsArray[0].timestamp; // Timestamp of the most recent reading
+        }
       }
-
+  
       setValue(parseFloat(latestValue));
       setMaxValue(parseFloat(highestValue));
       setLastUpdated(latestTimestamp);
       setIsLoading(false); // Set loading to false after fetching data
     });
-
+  
     // Cleanup function
     return () => unsubscribeReadings();
-  }, [deviceMAC]);
+  }, [pairedDeviceMAC]);
+
 
   // Format timestamp for display or show loading message
   const formattedLastUpdated = lastUpdated ? formatDateToNow(lastUpdated) : 'Loading...';

@@ -8,9 +8,9 @@ export const useDevicePairing = () => useContext(DevicePairingContext);
 
 export const DevicePairingProvider = ({ children }) => {
   const [isPaired, setIsPaired] = useState(false);
+  const [pairedDeviceMAC, setPairedDeviceMAC] = useState(''); // State to store the paired device's MAC address
   const [isLoading, setIsLoading] = useState(true);
 
-  // Moved inside DevicePairingProvider to access relevant states and functions
   const checkUserDevicePairing = async (uid) => {
     const firestore = getFirestore();
     const devicesCollectionRef = collection(firestore, 'user-device-pairings');
@@ -24,38 +24,39 @@ export const DevicePairingProvider = ({ children }) => {
       const userIsPaired = usersPairedSnapshot.docs.some(userDoc => userDoc.id === uid);
       if (userIsPaired) {
         console.log(`User ${uid} is paired with device ${deviceDoc.id}`);
-        return true; // User is paired with at least one device
+        return { isPaired: true, macAddress: deviceDoc.id }; // Return both pairing status and MAC address
       }
     }
     console.log(`User ${uid} is not paired with any device`);
-    return false; // User is not paired with any device
+    return { isPaired: false, macAddress: '' }; // Return false and empty string if not paired
   };
 
-  // Also moved inside DevicePairingProvider
   const recheckPairingStatus = async () => {
     console.log('Rechecking pairing status...');
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
       setIsLoading(true);
-      const isPairedResult = await checkUserDevicePairing(user.uid);
-      console.log('Pairing status rechecked:', isPairedResult);
+      const { isPaired: isPairedResult, macAddress } = await checkUserDevicePairing(user.uid);
+      console.log('Pairing status rechecked:', isPairedResult, 'MAC:', macAddress);
       setIsPaired(isPairedResult);
+      setPairedDeviceMAC(macAddress); // Update the MAC address state
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         setIsLoading(true);
-        checkUserDevicePairing(user.uid).then(isPairedResult => {
-          setIsPaired(isPairedResult);
-          setIsLoading(false);
-        });
+        const { isPaired: isPairedResult, macAddress } = await checkUserDevicePairing(user.uid);
+        setIsPaired(isPairedResult);
+        setPairedDeviceMAC(macAddress); // Update state with MAC address
+        setIsLoading(false);
       } else {
         setIsPaired(false);
+        setPairedDeviceMAC(''); // Reset MAC address state
         setIsLoading(false);
       }
     });
@@ -64,7 +65,7 @@ export const DevicePairingProvider = ({ children }) => {
   }, []);
 
   return (
-    <DevicePairingContext.Provider value={{ isPaired, isLoading, recheckPairingStatus }}>
+    <DevicePairingContext.Provider value={{ isPaired, pairedDeviceMAC, isLoading, recheckPairingStatus }}>
       {children}
     </DevicePairingContext.Provider>
   );
