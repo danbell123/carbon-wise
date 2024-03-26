@@ -4,12 +4,14 @@ import { useAuth } from '../../contexts/authContext';
 import { useToast } from '../../contexts/ToastContext';
 import { db } from '../../firebase'; // Adjust this path to your Firebase config initialization
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { useDevicePairing } from '../../contexts/DevicePairingContext';
 
 const PairDevice = () => {
   const [macAddress, setMacAddress] = useState('');
   const { currentUser } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
+  const { recheckPairingStatus } = useDevicePairing();
 
   // Handle manual MAC address entry
   const handleManualEntry = async (e) => {
@@ -36,7 +38,8 @@ const PairDevice = () => {
         pairedOn: new Date(), // Or any other user information you need to store
         userID: currentUser.uid
       });
-
+      
+      recheckPairingStatus(); // Call the function to update the pairing status
       addToast('Device paired successfully!', 'success');
       navigate('/your-device');
     } catch (error) {

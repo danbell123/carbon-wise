@@ -13,12 +13,35 @@ import YourDevice from './pages/Device/YourDevice';
 import './App.css';
 import { ThemeProvider } from './contexts/themeContext';
 import AccountPage from './pages/Settings/Settings';
-import CarbonIntensityPage from './pages/CarbonIntenisty';
+import CarbonIntensityPage from './pages/CarbonIntensity';
+import { DevicePairingProvider, useDevicePairing } from './contexts/DevicePairingContext';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
   const { currentUser } = useAuth();
   return currentUser ? children : <Navigate to="/" />;
+}
+
+
+// Define a component inside App.js for conditional routing
+function ConditionalRoutes() {
+  const { isPaired, isLoading } = useDevicePairing();
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or any other loading indicator
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<LoginRegister />} />
+      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+      <Route path="/pair-device" element={isPaired ? <Navigate to="/your-device" /> : <PrivateRoute><PairDevice /></PrivateRoute>} />
+      <Route path="/your-device" element={!isPaired ? <Navigate to="/pair-device" /> : <PrivateRoute><YourDevice /></PrivateRoute>} />
+      <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
+      <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
+    </Routes>
+    
+  );
 }
 
 const App = () => {
@@ -30,40 +53,36 @@ const App = () => {
   
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    
-    // Clean up the event listener when the component unmounts
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const isMobile = windowWidth < 768; // Assume 768px is the breakpoint for mobile devices
+  const isMobile = windowWidth < 768;
 
   return (
-  <AuthProvider>
-    <ToastProvider>
-      <ThemeProvider>
-        <div className="App font-rubik flex min-h-screen bg-bg-main">
-          <Router>
-            {/* Sidebar or Mob Menu*/}
-            <ConditionalMenus />
-
-            {/* Main Content */}
-            <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0">
-              <Routes>
-                <Route path="/" element={<LoginRegister />} />
-                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-                <Route path="/pair-device" element={<PrivateRoute><PairDevice /></PrivateRoute>} />
-                <Route path="/your-device" element={<PrivateRoute><YourDevice /></PrivateRoute>} />
-                <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
-                <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
-              </Routes>
-              <Toast />
-            </div>
-          </Router>
-        </div>
-      </ThemeProvider>
-    </ToastProvider>
-  </AuthProvider>
-
+      <AuthProvider>
+        <DevicePairingProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <Router>
+              <div className="App font-rubik flex min-h-screen bg-bg-outer">
+                {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
+                {isMobile ? (
+                  <MobileMenu />
+                ) : (
+                  <DesktopMenu />
+                )}
+                <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
+                  {/* Render routes conditionally based on pairing status */}
+                  <ConditionalRoutes />
+                  <Toast />
+                </div>
+              </div>
+            </Router>
+          </ThemeProvider>
+        </ToastProvider>
+        </DevicePairingProvider>
+      </AuthProvider>
+    
   );
 };
 

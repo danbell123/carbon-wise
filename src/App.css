@@ -41,3 +41,11 @@ a {
   transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
 }
 
+/* For pulsating background */
+.bg-svg {
+  background-image: url('./assets/bgBlur.svg');
+  background-size: cover; /* or contain depending on your needs */
+  background-position: center;
+}
+
+
