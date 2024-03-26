@@ -1,5 +1,4 @@
 function carbonIntensityDescription(intensity) {
-    console.log("Intensity: ", intensity);
     if (intensity < 100) {
       return { level: 'Very Low', description: 'Perfect time to use energy' };
     } else if (intensity >= 100 && intensity < 200) {

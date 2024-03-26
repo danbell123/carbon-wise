@@ -15,6 +15,7 @@ module.exports = {
         "secondary-colour": "rgba(14, 38, 60, 1)",
         "secondary-colour-hover": "rgb(24, 65, 103)",
         "red": "var(--red)",
+        "green": "var(--green)",
       },
       backgroundImage: theme => ({
         'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)',

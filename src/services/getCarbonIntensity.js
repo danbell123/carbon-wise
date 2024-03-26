@@ -10,7 +10,6 @@ const BASE_URL = 'https://api.carbonintensity.org.uk/regional/intensity';
  * @returns {Promise} A promise that resolves with the carbon intensity data.
  */
 export const fetchPastCIData = async (from, to, regionID) => {
-    console.log("DEBUG:", from, to , regionID)
   try {
     const { data } = await axios.get(`${BASE_URL}/${from}/${to}/regionid/${regionID}`, {
       params: { from, to, regionID },

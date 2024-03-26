@@ -16,8 +16,6 @@ const cleanCIData = (pastData, forecastData) => {
     forecast: forecast || (intensity ? intensity.forecast : null) // Use forecast directly if present, else try to get intensity.forecast
   }));
 
-  console.log('CLEANED DATA:', extractedData);
-
   return extractedData;
 };
 

@@ -10,7 +10,6 @@ const PeakTimeCard = ({ period, forecast, level, date }) => {
         setIntensityInfo(info);
 
         // Ensure 'Low' matches the case returned by carbonIntensityDescription for low levels
-        console.log("info.level",info.level);
         if (info.level === 'Low') {
             setIsLowCarbon(true);
         }

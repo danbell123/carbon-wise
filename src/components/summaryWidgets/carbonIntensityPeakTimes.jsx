@@ -15,11 +15,8 @@ const CarbonIntensityPeakTimes = () => {
     setError('');
     try {
       const rawData = await fetchFutureCIData(48, regionID);
-      console.log("Raw Data:",rawData);
       const groupedData = groupPeriodsByIntensity(rawData);
-      console.log("Grouped Data:",groupedData);
       const topPeriods = rankPeriodsBySignificance(groupedData);
-      console.log("Top Periods:",topPeriods);
       setData(topPeriods);
     } catch (error) {
       setError('Failed to fetch data');
@@ -65,7 +62,6 @@ const CarbonIntensityPeakTimes = () => {
 export default CarbonIntensityPeakTimes;
 
 function rankPeriodsBySignificance(groupedData) {
-    console.log("Grouped Data:",groupedData);
 
     const significanceMap = {
       'Very Low': 3,
