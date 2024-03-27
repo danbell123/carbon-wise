@@ -4,6 +4,8 @@ import cleanCIData from '../../utils/cleanCIData';
 import CarbonIntensityChart from '../dataVis/carbonIntensityChart';
 import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 import BarLoader from '../../components/loader/barLoader';
+import { getAuth } from 'firebase/auth';
+import fetchUserData from '../../services/getUserDetails';
 
 const CarbonIntensityWidget = ({ regionID }) => {
   const [cleanedData, setCleanedData] = useState([]);
@@ -15,10 +17,17 @@ const CarbonIntensityWidget = ({ regionID }) => {
     const fetchIntensityData = async () => {
       setIsLoading(true);
       try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) throw new Error('No authenticated user found.');
+
+        // Fetch user data to get the region ID
+        const userData = await fetchUserData(user.uid);
+        const regionID = userData.regionID;
+
         const end = new Date();
         const start = new Date();
         start.setHours(end.getHours() - 12);
-        const regionID = 8
         
         // Fetch past carbon intensity data
         const pastIntensityData = await fetchPastCIData(start.toISOString(), end.toISOString(), regionID);
@@ -63,10 +72,10 @@ const CarbonIntensityWidget = ({ regionID }) => {
         </div>
       :
         <>
-          <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">{intensityInfo.level} Carbon Intensity</h1>
+          <h1 className="text-lg m-0 text-text-colour-secondary text-right">Regional Data for North East England </h1>
+          <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">NOW: <span className='text-green text-3xl'>{intensityInfo.level}</span> Carbon Intensity</h1>
           <p className="text-sm font-light text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
           <p className="text-sm font-light text-text-colour-secondary text-right">{intensityInfo.description}</p>
-          <p className="text-sm font-light text-text-colour-secondary text-right">'Last Updated: 12:00 PM'</p>
           <CarbonIntensityChart data={cleanedData} />
         </>
         }
