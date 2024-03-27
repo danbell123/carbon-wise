@@ -3,8 +3,11 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import ToggleThemeButton from '../buttons/ToggleThemeButton';
 import { motion } from 'framer-motion'; 
+import { useDeviceLive } from '../../contexts/DeviceLiveContext';
 
 const DesktopMenu = () => {
+  const { isDeviceLive } = useDeviceLive();
+
   const buttonVariants = {
     initial: {
       scale: 1,
@@ -134,11 +137,14 @@ const DesktopMenu = () => {
                 </span>
                 <p className='m-2'>Device</p>
 
-                {/* Badge container adjusted for top-right positioning */}
-                <span className="absolute top-0 right-0 flex h-3 w-3 -mt-1 -mr-1"> 
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-65"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green opacity-90"></span>
-                </span>
+                {/* Badge container displayed if device context is live */}
+                {isDeviceLive ?
+                  <span className="absolute top-0 right-0 flex h-3 w-3 -mt-1 -mr-1"> 
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-65"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green opacity-90"></span>
+                  </span>
+                  : 
+                  null}
               </NavLink>
             </motion.div>
 

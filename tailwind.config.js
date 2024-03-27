@@ -16,6 +16,7 @@ module.exports = {
         "secondary-colour-hover": "rgb(24, 65, 103)",
         "red": "var(--red)",
         "green": "var(--green)",
+        "error-bg": "rgba(255, 85, 74, 0.2)",
       },
       boxShadow: {
         'inner-menu': 'var(--shadow-inner-menu)',

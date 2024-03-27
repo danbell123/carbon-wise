@@ -15,6 +15,7 @@ import { ThemeProvider } from './contexts/themeContext';
 import AccountPage from './pages/Settings/Settings';
 import CarbonIntensityPage from './pages/CarbonIntensity';
 import { DevicePairingProvider, useDevicePairing } from './contexts/DevicePairingContext';
+import { DeviceLiveProvider } from './contexts/DeviceLiveContext';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -61,25 +62,27 @@ const App = () => {
   return (
       <AuthProvider>
         <DevicePairingProvider>
-        <ToastProvider>
-          <ThemeProvider>
-            <Router>
-              <div className="App font-rubik flex min-h-screen bg-bg-outer">
-                {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
-                {isMobile ? (
-                  <MobileMenu />
-                ) : (
-                  <DesktopMenu />
-                )}
-                <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
-                  {/* Render routes conditionally based on pairing status */}
-                  <ConditionalRoutes />
-                  <Toast />
-                </div>
-              </div>
-            </Router>
-          </ThemeProvider>
-        </ToastProvider>
+          <DeviceLiveProvider>
+            <ToastProvider>
+              <ThemeProvider>
+                <Router>
+                  <div className="App font-rubik flex min-h-screen bg-bg-outer">
+                    {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
+                    {isMobile ? (
+                      <MobileMenu />
+                    ) : (
+                      <DesktopMenu />
+                    )}
+                    <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
+                      {/* Render routes conditionally based on pairing status */}
+                      <ConditionalRoutes />
+                      <Toast />
+                    </div>
+                  </div>
+                </Router>
+              </ThemeProvider>
+            </ToastProvider>
+          </DeviceLiveProvider>
         </DevicePairingProvider>
       </AuthProvider>
     
