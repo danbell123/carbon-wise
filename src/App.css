@@ -21,9 +21,10 @@ a {
   --secondary-colour-hover: rgb(24, 65, 103);
   --green: #0EAF00;
   --red: #FF3D31;
+  --shadow-inner-menu: 0 0px 6px 1px rgba(63, 63, 63, 1)
 }
 
-[data-theme='dark'] {
+[data-theme='light'] {
   --bg-outer: #E8E8E8;
   --bg-main: #FFFFFF;
   --bg-main-transparent: #ffffff8f;
@@ -34,6 +35,7 @@ a {
   --secondary-colour-hover: rgb(24, 65, 103);
   --green: #0EAF00;
   --red: #FF3D31;
+  --shadow-inner-menu: 0 0px 6px 0px rgba(156, 163, 175, 0.5)
 }
 
 /* For a smooth transition between light and dark mode */
@@ -46,6 +48,13 @@ a {
   background-image: url('./assets/bgBlur.svg');
   background-size: cover; /* or contain depending on your needs */
   background-position: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  position: relative; /* This makes it a reference for absolutely positioned children */
+  padding-left: 2rem; /* Adjust padding to accommodate the badge */
 }
 
 

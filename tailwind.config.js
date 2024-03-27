@@ -17,6 +17,9 @@ module.exports = {
         "red": "var(--red)",
         "green": "var(--green)",
       },
+      boxShadow: {
+        'inner-menu': 'var(--shadow-inner-menu)',
+      },
       backgroundImage: theme => ({
         'primaryGradient1': 'linear-gradient(to right, #6ED1F4, #0DAAE2)',
         'greenGradient': 'linear-gradient(to right, rgba(6, 73, 0, 0.1), rgba(14, 175, 0, 0.3))',
