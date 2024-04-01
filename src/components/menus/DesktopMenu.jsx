@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import ToggleThemeButton from '../buttons/ToggleThemeButton';
 import { motion } from 'framer-motion'; 
-import { useDeviceLive } from '../../contexts/DeviceLiveContext';
+import {useDevice} from '../../contexts/DeviceContext';
 
 const DesktopMenu = () => {
-  const { isDeviceLive } = useDeviceLive();
+  const {isDisconnected} = useDevice();
 
   const buttonVariants = {
     initial: {
@@ -125,8 +125,8 @@ const DesktopMenu = () => {
             > 
               <NavLink 
                 to="/your-device"
-                className={({ isActive }) =>
-                  (isActive
+                className={({ isDisconnected }) =>
+                  (!isDisconnected
                     ? "text-lg bg-primaryGradient1 hover:bg-bg-main text-bg-outer rounded-lg flex items-center"
                     : "text-lg text-text-colour-secondary hover:text-text-colour-primary shadow-inner-menu bg-transparent hover:bg-bg-main rounded-lg flex items-center")
                   + " relative px-3"
@@ -138,7 +138,7 @@ const DesktopMenu = () => {
                 <p className='m-2'>Device</p>
 
                 {/* Badge container displayed if device context is live */}
-                {isDeviceLive ?
+                {!isDisconnected ?
                   <span className="absolute top-0 right-0 flex h-3 w-3 -mt-1 -mr-1"> 
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-65"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green opacity-90"></span>

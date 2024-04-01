@@ -14,8 +14,9 @@ import './App.css';
 import { ThemeProvider } from './contexts/themeContext';
 import AccountPage from './pages/Settings/Settings';
 import CarbonIntensityPage from './pages/CarbonIntensity';
-import { DevicePairingProvider, useDevicePairing } from './contexts/DevicePairingContext';
-import { DeviceLiveProvider } from './contexts/DeviceLiveContext';
+import DeviceStatus from './components/DeviceStatus';
+import { useDevice, DeviceProvider } from './contexts/DeviceContext';
+
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -26,20 +27,17 @@ function PrivateRoute({ children }) {
 
 // Define a component inside App.js for conditional routing
 function ConditionalRoutes() {
-  const { isPaired, isLoading } = useDevicePairing();
-
-  if (isLoading) {
-    return <div>Loading...</div>; // Or any other loading indicator
-  }
+  const { pairedTo } = useDevice();
 
   return (
     <Routes>
       <Route path="/" element={<LoginRegister />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-      <Route path="/pair-device" element={isPaired ? <Navigate to="/your-device" /> : <PrivateRoute><PairDevice /></PrivateRoute>} />
-      <Route path="/your-device" element={!isPaired ? <Navigate to="/pair-device" /> : <PrivateRoute><YourDevice /></PrivateRoute>} />
+      <Route path="/pair-device" element={pairedTo !=null ? <Navigate to="/your-device" /> : <PrivateRoute><PairDevice /></PrivateRoute>} />
+      <Route path="/your-device" element={pairedTo == null ? <Navigate to="/pair-device" /> : <PrivateRoute><YourDevice /></PrivateRoute>} />
       <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
       <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
+      <Route path="/testData" element={<PrivateRoute><DeviceStatus /></PrivateRoute>} />
     </Routes>
     
   );
@@ -61,29 +59,27 @@ const App = () => {
 
   return (
       <AuthProvider>
-        <DevicePairingProvider>
-          <DeviceLiveProvider>
-            <ToastProvider>
-              <ThemeProvider>
-                <Router>
-                  <div className="App font-rubik flex min-h-screen bg-bg-outer">
-                    {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
-                    {isMobile ? (
-                      <MobileMenu />
-                    ) : (
-                      <DesktopMenu />
-                    )}
-                    <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
-                      {/* Render routes conditionally based on pairing status */}
-                      <ConditionalRoutes />
-                      <Toast />
-                    </div>
+        <DeviceProvider>
+          <ToastProvider>
+            <ThemeProvider>
+              <Router>
+                <div className="App font-rubik flex min-h-screen bg-bg-outer">
+                  {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
+                  {isMobile ? (
+                    <MobileMenu />
+                  ) : (
+                    <DesktopMenu />
+                  )}
+                  <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
+                    {/* Render routes conditionally based on pairing status */}
+                    <ConditionalRoutes />
+                    <Toast />
                   </div>
-                </Router>
-              </ThemeProvider>
-            </ToastProvider>
-          </DeviceLiveProvider>
-        </DevicePairingProvider>
+                </div>
+              </Router>
+            </ThemeProvider>
+          </ToastProvider>
+        </DeviceProvider>
       </AuthProvider>
     
   );

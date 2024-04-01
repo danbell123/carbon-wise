@@ -1,53 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/authContext';
 import { useToast } from '../../contexts/ToastContext';
-import { db } from '../../firebase'; // Adjust this path to your Firebase config initialization
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { useDevicePairing } from '../../contexts/DevicePairingContext';
 import Button from '../../components/buttons/btn';
+import { useDevice } from '../../contexts/DeviceContext';
+
 
 const PairDevice = () => {
   const [macAddress, setMacAddress] = useState('');
-  const { currentUser } = useAuth();
+  const { pairDevice } = useDevice();
   const { addToast } = useToast();
   const navigate = useNavigate();
-  const { recheckPairingStatus } = useDevicePairing();
 
-  // Handle manual MAC address entry
   const handleManualEntry = async (e) => {
     e.preventDefault();
-
-    // Implement your MAC address validation logic here
-
-    // Check if the MAC address is already in the database
     try {
-      const deviceRef = doc(db, 'user-device-pairings', macAddress);
-      const usersPairedRef = collection(deviceRef, 'usersPaired');
-      const usersPairedSnap = await getDocs(usersPairedRef);
-
-      // Check if current user is already paired
-      const isPaired = usersPairedSnap.docs.some(doc => doc.id === currentUser.uid);
-      if (isPaired) {
-        addToast('You are already paired with this device.', 'error');
-        return;
-      }
-
-      // Add user to the device's 'usersPaired' subcollection
-      const userDocRef = doc(usersPairedRef, currentUser.uid);
-      await setDoc(userDocRef, {
-        pairedOn: new Date(), // Or any other user information you need to store
-        userID: currentUser.uid
-      });
-      
-      recheckPairingStatus(); // Call the function to update the pairing status
-      addToast('Device paired successfully!', 'success');
-      navigate('/your-device');
+        await pairDevice(macAddress);
+        addToast('Device paired successfully', 'success');
+        navigate('/your-device');
     } catch (error) {
-      addToast(`Error pairing device: ${error.message}`, 'error');
+        addToast(`Failed to pair device: ${error.message}`, 'error');
     }
   };
-
 
   return (
     <main className="flex-1 w-full h-min rounded-3xs bg-bg-main flex flex-col items-start justify-start relative">
@@ -71,8 +44,6 @@ const PairDevice = () => {
                 Pair Device
               </Button>
             </form>
-
-            {/* QR Code scanning functionality */}
           </div>
         </section>
     </main>
