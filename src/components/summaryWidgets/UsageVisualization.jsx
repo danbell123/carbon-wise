@@ -3,10 +3,6 @@ import React, { memo } from 'react';
 // Foreground arc and text are likely to change, so we memoize them together for efficiency
 const DynamicParts = memo(({ value, arcLength, emptyLength }) => {
   const radius = 90; // Assuming radius is constant and used here for calculations
-  console.log('DynamicParts rendered');
-  console.log('value:', value);
-  console.log('arcLength:', arcLength);
-  console.log('emptyLength:', emptyLength);
   return (
     <>
       {/* Foreground arc */}
