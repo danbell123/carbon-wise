@@ -10,6 +10,7 @@ module.exports = {
         "bg-main-transparent": "var(--bg-main-transparent)",
         "text-colour-secondary": "var(--text-colour-secondary)",
         "text-colour-primary": "var(--text-colour-primary)",
+        "text-colour-tertiary": "var(--text-colour-tertiary)",
         "primary-colour": "rgba(13, 170, 226, 1)",
         "forecast-colour": "var(--forecast-colour)",
         "secondary-colour": "rgba(14, 38, 60, 1)",

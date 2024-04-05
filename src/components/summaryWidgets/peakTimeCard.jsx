@@ -10,26 +10,29 @@ const PeakTimeCard = ({ period, forecast, level, date }) => {
         setIntensityInfo(info);
 
         // Ensure 'Low' matches the case returned by carbonIntensityDescription for low levels
-        if (info.level === 'Low') {
+        if (info.level === 'Low' || info.level === 'Very Low') {
             setIsLowCarbon(true);
         }
     }, [forecast]); // If `level` prop directly impacts rendering, consider adding it as a dependency here
 
     // Correctly apply conditional classes
     const cardClasses = isLowCarbon
-        ? "flex flex-row bg-greenGradient p-5 mb-4 rounded-xl items-center justify-center gap-4"
-        : "flex flex-row bg-redGradient p-5 mb-4 rounded-xl items-center justify-center gap-4";
+        ? "flex flex-row bg-greenGradient p-5 mb-4 rounded-xl items-left justify-between gap-6"
+        : "flex flex-row bg-redGradient p-5 mb-4 rounded-xl items-left justify-between gap-6";
 
     return (
         <div className={cardClasses}>
-            <div>
-                <span className="material-symbols-outlined text-text-colour-primary">schedule</span>
-            </div>
-            <div>
+            <div className='flex flex-row gap-3'>
+                <span className="material-symbols-outlined text-text-colour-primary mt-1 text-3xl" style={{ fontSize: '30px' }}>arrow_cool_down</span>
                 <h2 className='text-text-colour-primary m-0 text-xl pb-4'>{intensityInfo.level} Carbon</h2>
-                <p className='text-text-colour-primary text-base m-0'>{period}</p>
-                <p className='text-text-colour-primary text-base m-0'>{date}</p>
-                <p className='text-text-colour-primary text-base m-0'>{intensityInfo.description}</p>
+            </div>
+            <div className='w-full'>
+                <p className='text-text-colour-primary text-sm m-0'>{date}</p>
+                <p className='text-text-colour-secondary text-lg m-0'>{period}</p>
+                <div className='flex flex-row gap-1 mt-2'>
+                    <span className="material-symbols-outlined text-text-colour-tertiary mt-1 " style={{ fontSize: '14px' }}>schedule</span>
+                    <p className='text-text-colour-tertiary text-sm m-0 mt-0.5'>{intensityInfo.description}</p>
+                </div>
             </div>
         </div>
     );

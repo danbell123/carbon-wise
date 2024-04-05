@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { fetchFutureCIData } from '../../services/getCarbonIntensity';
 import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 import PeakTimeCard from './peakTimeCard';
+import Button from '../../components/buttons/btn';
 
 const CarbonIntensityPeakTimes = () => {
-  const [forecastLength, setForecastLength] = useState(24);
+  const initialVisibleItems = 3; // Define the initial number of visible items
   const [data, setData] = useState([]);
+  const [visibleItems, setVisibleItems] = useState(initialVisibleItems);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const regionID = 8;
@@ -28,25 +30,26 @@ const CarbonIntensityPeakTimes = () => {
 
   useEffect(() => {
     fetchData();
-  }, [forecastLength, regionID]);
+  }, [regionID]);
 
-  const handleChange = (event) => {
-    setForecastLength(event.target.value);
+  const loadMore = () => {
+    setVisibleItems(prevVisibleItems => prevVisibleItems + 3);
+  };
+
+  const showLess = () => {
+    setVisibleItems(initialVisibleItems); // Reset to initial number of visible items
   };
 
   return (
     <div className='w-full'>
-        <div className='flex justify-center gap-4 pb-4'>
+        <div className='flex flex-col w-full justify-start gap-0 pb-4'>
             <h2 className='text-2xl font-semibold m-0 text-text-colour-primary'>Carbon Intensity Forecast</h2>
-            <select className="h-min" value={forecastLength} onChange={handleChange}>
-                <option value={24}>Next 24 hours</option>
-                <option value={48}>Next 48 hours</option>
-            </select>
+            <p className='text-base font-normal  m-0 text-text-colour-tertiary'>North East England</p>
         </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p className='mt-0 text-base text-text-colour-secondary animate-pulse'>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && !error && data.map((item, index) => (
+      {!loading && !error && data.slice(0, visibleItems).map((item, index) => (
         <PeakTimeCard
           key={index}
           period={item.period}
@@ -55,11 +58,22 @@ const CarbonIntensityPeakTimes = () => {
           level={item.level}
         />
       ))}
+      {!loading && data.length > visibleItems && (
+        <Button onClick={loadMore} className="mt-4">
+          Show More
+        </Button>
+      )}
+      {!loading && visibleItems >= data.length && visibleItems > initialVisibleItems && ( // Show "Show Less" button when all items are displayed and more than initial are shown
+        <Button onClick={showLess} className="mt-4">
+          Show Less
+        </Button>
+      )}
     </div>
   );
 };
 
 export default CarbonIntensityPeakTimes;
+
 
 function rankPeriodsBySignificance(groupedData) {
 

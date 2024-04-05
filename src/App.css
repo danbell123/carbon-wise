@@ -13,6 +13,7 @@ a {
   --bg-outer: #131D20;
   --bg-main: #1D2B30;
   --bg-main-transparent: #2e2e2ebf;
+  --text-colour-tertiary: #b9dae5;
   --text-colour-secondary: #CFDEE2;
   --text-colour-primary: #FAFCFC;
   --primary-colour: #046E8F;
@@ -29,7 +30,8 @@ a {
   --bg-main: #FAFCFC;
   --bg-main-transparent: #ffffff8f;
   --text-colour-secondary: #666666;
-  --text-colour-primary: #1D2B30;
+  --text-colour-primary: #2a3a40;
+  --text-colour-tertiary: #828282;
   --primary-colour: #046E8F;
   --secondary-colour: #03485D;
   --secondary-colour-hover: #053746;
