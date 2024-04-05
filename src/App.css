@@ -10,31 +10,31 @@ a {
 }
 
 :root {
-  --bg-outer: #262626;
-  --bg-main: #2e2e2e;
+  --bg-outer: #131D20;
+  --bg-main: #1D2B30;
   --bg-main-transparent: #2e2e2ebf;
-  --text-colour-secondary: #cbcbcb;
-  --text-colour-primary: #f5f5f5;
-  --primary-colour: rgba(13, 170, 226, 1);
+  --text-colour-secondary: #CFDEE2;
+  --text-colour-primary: #FAFCFC;
+  --primary-colour: #046E8F;
   --forecast-colour: #B8BB13;
-  --secondary-colour: rgba(14, 38, 60, 1);
-  --secondary-colour-hover: rgb(24, 65, 103);
-  --green: #0EAF00;
-  --red: #FF3D31;
+  --secondary-colour: #03485D;
+  --secondary-colour-hover: #053746;
+  --green: #49AA49;
+  --red: #D55959;
   --shadow-inner-menu: 0 0px 6px 1px rgba(63, 63, 63, 1)
 }
 
 [data-theme='light'] {
-  --bg-outer: #E8E8E8;
-  --bg-main: #FFFFFF;
+  --bg-outer: #ECF2F4;
+  --bg-main: #FAFCFC;
   --bg-main-transparent: #ffffff8f;
   --text-colour-secondary: #666666;
-  --text-colour-primary: #373737;
-  --primary-colour: rgba(13, 170, 226, 1);
-  --secondary-colour: rgba(14, 38, 60, 1);
-  --secondary-colour-hover: rgb(24, 65, 103);
-  --green: #0EAF00;
-  --red: #FF3D31;
+  --text-colour-primary: #1D2B30;
+  --primary-colour: #046E8F;
+  --secondary-colour: #03485D;
+  --secondary-colour-hover: #053746;
+  --green: #21D321;
+  --red: #E54A4A;
   --shadow-inner-menu: 0 0px 6px 0px rgba(156, 163, 175, 0.5)
 }
 
