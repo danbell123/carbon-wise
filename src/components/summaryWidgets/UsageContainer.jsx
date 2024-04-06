@@ -11,7 +11,7 @@ const UsageContainer = () => {
 
   if (pairedTo == null) {
     return (
-      <div className="h-full p-8 px-14 bg-error-bg box-border borde backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
+      <div className="h-full p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center'>You are not paired to a device. Pair with a device to monitor your usage.</p>
         <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
@@ -23,7 +23,7 @@ const UsageContainer = () => {
 
   if (isDisconnected) {
     return (
-      <div className="h-full p-8 px-14 bg-error-bg box-border borde backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
+      <div className="h-full p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center'>Your device is disconnected. Please check your device.</p>
         <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">

@@ -3,8 +3,32 @@ a {
   color: var(--text-colour-primary);
 }
 
-.gradient-text {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+.veryhigh-score-text {
+  background: linear-gradient(to right, #3cec48, #19882f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.high-score-text {
+  background: linear-gradient(to right, #6ecd74, #3e904e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mid-score-text {
+  background: linear-gradient(to right, #abdd64, #c5b930);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.low-score-text {
+  background: linear-gradient(to right, #f5983a, #e0470f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.verylow-score-text {
+  background: linear-gradient(to right, #f33e3e, #ee1313);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -59,4 +83,25 @@ a {
   padding-left: 2rem; /* Adjust padding to accommodate the badge */
 }
 
+.flex-row::-webkit-scrollbar {
+  height: 12px; 
+  border-radius: 6px; 
+}
 
+/* Style the background of the scrollbar track with rounded edges */
+.flex-row::-webkit-scrollbar-track {
+  background: #64707459; /* Light grey background */
+  border-radius: 6px; /* Rounded edges for the track */
+  box-shadow: inset 0 0 2px var(--bg-outer); /* Optional: Adds inset shadow for some depth, can simulate a sort of "padding" effect */
+}
+
+/* Style the scrollbar thumb (the moving part) with rounded edges */
+.flex-row::-webkit-scrollbar-thumb {
+  background: var(--bg-outer); /* Darker grey thumb */
+  border-radius: 6px; /* Rounded edges for the thumb */
+}
+
+/* Optional: Style the scrollbar thumb on hover */
+.flex-row::-webkit-scrollbar-thumb:hover {
+  background: #11181a; /* Even darker grey on hover */
+}

@@ -4,6 +4,7 @@ import DesktopBackgroundImageLight from '../../assets/DesktopBackgroundLight.jpg
 import UsageContainer from '../../components/summaryWidgets/UsageContainer';
 import CarbonIntensityWidget from '../../components/summaryWidgets/carbonIntensityWidget';
 import CarbonIntensityPeakTimes from '../../components/summaryWidgets/carbonIntensityPeakTimes';
+import ScoresSummary from '../../components/summaryWidgets/ScoresSummary';
 import { useTheme } from '../../contexts/themeContext';
 
 const Dashboard = () => {
@@ -46,7 +47,7 @@ const Dashboard = () => {
         <CarbonIntensityPeakTimes />
       </div>
       <div className='w-full lg:w-1/2 xl:w-2/3 flex z-20'>
-        
+        <ScoresSummary />
       </div>
     </section>
 
