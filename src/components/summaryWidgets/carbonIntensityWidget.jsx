@@ -7,14 +7,18 @@ import BarLoader from '../../components/loader/barLoader';
 import { getAuth } from 'firebase/auth';
 import fetchUserData from '../../services/getUserDetails';
 import Button from '../../components/buttons/btn';
+import regions from '../../data/regions.json';
 
-const CarbonIntensityWidget = ({ regionID }) => {
+
+const CarbonIntensityWidget = () => {
   const [cleanedData, setCleanedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [intensityInfo, setIntensityInfo] = useState({ level: '', description: '' });
   const [latestIntensityValue, setLatestIntensityValue] = useState();
+  const [regionName, setRegionName] = useState(''); 
 
   useEffect(() => {
+
     const fetchIntensityData = async () => {
       setIsLoading(true);
       try {
@@ -25,6 +29,11 @@ const CarbonIntensityWidget = ({ regionID }) => {
         // Fetch user data to get the region ID
         const userData = await fetchUserData(user.uid);
         const regionID = userData.regionID;
+
+        const userRegion = regions.find(region => region.id === Number(regionID));
+        if (userRegion) {
+          setRegionName(userRegion.name); // Step 3: Dynamically set the region name
+        }
 
         const end = new Date();
         const start = new Date();
@@ -60,7 +69,7 @@ const CarbonIntensityWidget = ({ regionID }) => {
     };
   
     fetchIntensityData();
-  }, [regionID]);
+  }, []);
 
 
   return (
@@ -73,17 +82,20 @@ const CarbonIntensityWidget = ({ regionID }) => {
         </div>
       :
         <>
-          <h1 className="text-lg m-0 text-text-colour-secondary text-right">Regional Data for North East England </h1>
+          <div className='flex flex-row gap-1 justify-end mb-4'>
+            <span className="material-symbols-outlined text-text-colour-secondary mt-0.5">location_on</span>
+            <h1 className="text-lg m-0 text-text-colour-secondary font-normal text-right">Regional Data for {regionName}</h1>
+          </div>
           <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">NOW: <span className='text-green text-3xl'>{intensityInfo.level}</span> Carbon Intensity</h1>
-          <p className="text-sm font-light text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
-          <p className="text-sm font-light text-text-colour-secondary text-right">{intensityInfo.description}</p>
+          <p className="text-base mt-2 mb-0 text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
+          <p className="text-sm font-light m-0 text-text-colour-tertiary text-right">{intensityInfo.description}</p>
           <div className='h-1/2 w-full'>
             <CarbonIntensityChart data={cleanedData} />
           </div>
           <div className='flex flex-row justify-end h-auto w-full'>
-            <Button>
-              View Full Forecast
-            </Button>       
+          <Button>
+            View Full Forecast
+          </Button>       
           </div> 
         </>
         }

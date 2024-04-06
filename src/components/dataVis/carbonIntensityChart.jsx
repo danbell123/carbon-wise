@@ -4,8 +4,6 @@ import { isBefore, parseISO, format } from 'date-fns';
 import { useViewportWidth } from '../../hooks/useViewportWidth';
 
 const CarbonIntensityChart = ({ data }) => {
-    console.log("Loading Carbon Intensity Chart")
-    console.log(data)
     const now = new Date();
 
     // Assuming your data uses UTC for 'from', format 'now' in a similar style
