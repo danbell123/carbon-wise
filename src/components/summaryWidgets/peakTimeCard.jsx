@@ -5,10 +5,6 @@ const PeakTimeCard = ({ period, forecast, date }) => {
     const [intensityInfo, setIntensityInfo] = useState({ level: '', description: '' });
     const [isLowCarbon, setIsLowCarbon] = useState(false);
 
-    console.log('PeakTimeCard forecast:', forecast);
-    console.log('PeakTimeCard date:', date);
-    console.log('PeakTimeCard period:', period);
-
     useEffect(() => {
         const info = carbonIntensityDescription(forecast);
         setIntensityInfo(info);

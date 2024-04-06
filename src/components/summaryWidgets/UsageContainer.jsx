@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from 'react';
-import UsageVisualization from './UsageVisualization';
+import UsageVisualization from '../dataVis/UsageVisualization';
 import formatDateToNow from '../../services/readableDateTime';
 import Button from '../buttons/btn';
 import BarLoader from '../loader/barLoader';
