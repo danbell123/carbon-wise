@@ -6,6 +6,7 @@ import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 import BarLoader from '../../components/loader/barLoader';
 import { getAuth } from 'firebase/auth';
 import fetchUserData from '../../services/getUserDetails';
+import Button from '../../components/buttons/btn';
 
 const CarbonIntensityWidget = ({ regionID }) => {
   const [cleanedData, setCleanedData] = useState([]);
@@ -76,7 +77,14 @@ const CarbonIntensityWidget = ({ regionID }) => {
           <h1 className="text-2xl font-semibold m-0 text-text-colour-primary text-right">NOW: <span className='text-green text-3xl'>{intensityInfo.level}</span> Carbon Intensity</h1>
           <p className="text-sm font-light text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
           <p className="text-sm font-light text-text-colour-secondary text-right">{intensityInfo.description}</p>
-          <CarbonIntensityChart data={cleanedData} />
+          <div className='h-1/2 w-full'>
+            <CarbonIntensityChart data={cleanedData} />
+          </div>
+          <div className='flex flex-row justify-end h-auto w-full'>
+            <Button>
+              View Full Forecast
+            </Button>       
+          </div> 
         </>
         }
     </div>

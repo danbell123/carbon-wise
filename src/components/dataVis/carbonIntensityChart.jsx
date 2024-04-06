@@ -51,8 +51,8 @@ const CarbonIntensityChart = ({ data }) => {
     const axisTickStyle = { fontSize: fontSize, fill: 'var(--text-colour-primary)' };
 
     return (
-        <div className="w-full h-full">
-            <ResponsiveContainer width="100%" height="60%">
+        <div className="w-full h-64">
+            <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                 data={data}
                 margin={{
