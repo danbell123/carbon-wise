@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   return (
     <>
-    <main className="flex-1 w-full h-64 rounded-3xs bg-bg-main flex flex-col items-start justify-start relative">
+    <main className="flex-1 w-full h-96 rounded-3xs bg-bg-main flex flex-col items-start justify-start relative">
       {theme === 'dark' 
         ? 
         <img
@@ -34,20 +34,20 @@ const Dashboard = () => {
         </h3>
       </section>
     </main>
-    <section className="-mt-0 sm:-mt-32 p-5 sm:p-10 self-stretch h-min flex flex-col lg:flex-row items-start justify-start gap-10">
-      <div className='w-full lg:w-1/3 flex z-20'>
+    <section className="-mt-0 sm:-mt-64 p-5 sm:p-10 self-stretch h-min flex flex-col lg:flex-row items-start justify-start gap-10">
+      <div className='w-full lg:w-1/3 xl:w-1/3 flex z-20'>
         <UsageContainer />
       </div>
-      <div className='w-full lg:w-2/3 flex z-20'>
+      <div className='w-full lg:w-2/3 xl:w-2/3 flex z-20'>
         <CarbonIntensityWidget />
       </div>
     </section>
     <section className=" p-5 sm:p-10 self-stretch h-min flex flex-col lg:flex-row items-start justify-start gap-10">
-      <div className='w-full lg:w-1/2 xl:w-1/3 flex z-20'>
+      <div className='w-full lg:w-1/3 xl:w-1/3 flex z-20'>
         <CarbonIntensityPeakTimes />
       </div>
-      <div className='w-full lg:w-1/2 xl:w-2/3 flex z-20'>
-        <ScoresSummary />
+      <div className='w-full lg:w-2/3 xl:w-2/3 flex z-20'>
+      <ScoresSummary />
       </div>
     </section>
 

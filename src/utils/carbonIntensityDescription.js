@@ -1,11 +1,11 @@
 function carbonIntensityDescription(intensity) {
-    if (intensity < 100) {
+    if (intensity < 80) {
       return { level: 'Very Low', description: 'Perfect time to use energy' };
-    } else if (intensity >= 100 && intensity < 200) {
+    } else if (intensity >= 80 && intensity < 160) {
       return { level: 'Low', description: 'Good time to use energy' };
-    } else if (intensity >= 200 && intensity < 300) {
+    } else if (intensity >= 240 && intensity < 280) {
       return { level: 'Moderate', description: 'Fair time to use energy' };
-    } else if (intensity >= 300 && intensity < 400) {
+    } else if (intensity >= 320 && intensity < 380) {
       return { level: 'High', description: 'Consider reducing energy use' };
     } else {
       return { level: 'Very High', description: 'Use energy sparingly' };

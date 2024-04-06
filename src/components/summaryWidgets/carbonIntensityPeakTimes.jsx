@@ -3,16 +3,50 @@ import { fetchFutureCIData } from '../../services/getCarbonIntensity';
 import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 import PeakTimeCard from './peakTimeCard';
 import Button from '../../components/buttons/btn';
+import fetchUserData from '../../services/getUserDetails';
+import regions from '../../data/regions.json';
+import { getAuth } from 'firebase/auth';
 
 const CarbonIntensityPeakTimes = () => {
   const initialVisibleItems = 3; // Define the initial number of visible items
   const [data, setData] = useState([]);
   const [visibleItems, setVisibleItems] = useState(initialVisibleItems);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Set to true initially since we're loading data on start
   const [error, setError] = useState('');
-  const regionID = 8;
+  const [regionName, setRegionName] = useState('');
 
-  const fetchData = async () => {
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) throw new Error('No authenticated user found.');
+
+        // Fetch user data to get the region ID
+        const userData = await fetchUserData(user.uid);
+        if (!userData || userData.regionID === undefined) {
+          throw new Error('Region ID for the user is not available');
+        }
+        const userRegionID = userData.regionID;
+
+        const userRegion = regions.find(region => region.id === Number(userRegionID));
+        if (!userRegion) {
+          throw new Error('Region not found');
+        }
+        setRegionName(userRegion.name); // Dynamically set the region name
+
+        // Now fetch the carbon intensity data using the region ID
+        await fetchData(userRegionID);
+      } catch (error) {
+        console.error(error);
+        setError(error.message || 'An error occurred');
+      }
+    };
+
+    initializeData();
+  }, []);
+
+  const fetchData = async (regionID) => {
     setLoading(true);
     setError('');
     try {
@@ -21,16 +55,47 @@ const CarbonIntensityPeakTimes = () => {
       const topPeriods = rankPeriodsBySignificance(groupedData);
       setData(topPeriods);
     } catch (error) {
+      console.error('Failed to fetch data:', error);
       setError('Failed to fetch data');
-      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, [regionID]);
+    const initializeData = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) throw new Error('No authenticated user found.');
+
+        // Fetch user data to get the region ID
+        const userData = await fetchUserData(user.uid);
+        if (!userData || userData.regionID === undefined) {
+          throw new Error('Region ID for the user is not available');
+        }
+        const userRegionID = userData.regionID; // This variable holds the region ID
+
+        console.log('User region ID:', userRegionID);
+
+        const userRegion = regions.find(region => region.id === Number(userRegionID));
+        if (!userRegion) {
+          throw new Error('Region not found');
+        }
+        setRegionName(userRegion.name); // Set the dynamically determined region name
+        console.log('User region name:', userRegion.name);
+
+        // Now fetch the carbon intensity data using the region ID
+        await fetchData(userRegionID); // Correctly passing userRegionID to fetchData
+      } catch (error) {
+        console.error(error);
+        setError(error.message || 'An error occurred');
+      }
+    };
+
+    initializeData();
+  }, []);
+
 
   const loadMore = () => {
     setVisibleItems(prevVisibleItems => prevVisibleItems + 3);
@@ -44,7 +109,7 @@ const CarbonIntensityPeakTimes = () => {
     <div className='w-full'>
         <div className='flex flex-col w-full justify-start gap-0 pb-4'>
             <h2 className='text-2xl font-semibold m-0 text-text-colour-primary'>Carbon Intensity Forecast</h2>
-            <p className='text-base font-normal  m-0 text-text-colour-tertiary'>North East England</p>
+            <p className='text-base font-normal  m-0 text-text-colour-tertiary'>{regionName}</p>
         </div>
 
       {loading && <p className='mt-0 text-base text-text-colour-secondary animate-pulse'>Loading...</p>}

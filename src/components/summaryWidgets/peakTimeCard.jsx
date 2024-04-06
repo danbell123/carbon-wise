@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 
-const PeakTimeCard = ({ period, forecast, level, date }) => {
+const PeakTimeCard = ({ period, forecast, date }) => {
     const [intensityInfo, setIntensityInfo] = useState({ level: '', description: '' });
     const [isLowCarbon, setIsLowCarbon] = useState(false);
+
+    console.log('PeakTimeCard forecast:', forecast);
+    console.log('PeakTimeCard date:', date);
+    console.log('PeakTimeCard period:', period);
 
     useEffect(() => {
         const info = carbonIntensityDescription(forecast);
@@ -24,7 +28,10 @@ const PeakTimeCard = ({ period, forecast, level, date }) => {
         <div className={cardClasses}>
             <div className='flex flex-row gap-3'>
                 <span className="material-symbols-outlined text-text-colour-primary mt-1 text-3xl" style={{ fontSize: '30px' }}>arrow_cool_down</span>
-                <h2 className='text-text-colour-primary m-0 text-xl pb-4'>{intensityInfo.level} Carbon</h2>
+                <div className='flex flex-col'>
+                    <h2 className='text-text-colour-primary m-0 text-xl pb-4'>{intensityInfo.level} Carbon</h2>
+                    <p className='text-text-colour-primary text-base m-0'>{forecast} gCO2/kWh</p>
+                </div>
             </div>
             <div className='w-full'>
                 <p className='text-text-colour-primary text-sm m-0'>{date}</p>
