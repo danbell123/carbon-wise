@@ -38,7 +38,7 @@ const LoginForm = ({ onToggle }) => {
   return (
     <div className="w-full">
       <form onSubmit={handleLogin} className="space-y-6">
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col xl:flex-row justify-center gap-4">
           <Button onClick={handleGoogleSignIn} width='full' >
             Log In With Google
           </Button>
@@ -46,10 +46,10 @@ const LoginForm = ({ onToggle }) => {
             Log In With Facebook
           </Button>
         </div>
-        <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="flex-shrink mx-4 text-gray-400">or continue with email</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+        <div className="flex items-center my-2">
+          <div className="flex-grow border-t "></div>
+          <span className="flex-shrink mx-4 text-text-colour-tertiary">or continue with email</span>
+          <div className="flex-grow border-t"></div>
         </div>
         <div className="flex flex-col items-center my-4 gap-4">
             <input

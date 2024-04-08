@@ -16,6 +16,8 @@ import AccountPage from './pages/Settings/Settings';
 import CarbonIntensityPage from './pages/CarbonIntensity';
 import DeviceStatus from './components/DeviceStatus';
 import { useDevice, DeviceProvider } from './contexts/DeviceContext';
+import { set } from 'date-fns';
+import { getAuth } from 'firebase/auth'
 
 
 // A component to protect routes
@@ -23,7 +25,6 @@ function PrivateRoute({ children }) {
   const { currentUser } = useAuth();
   return currentUser ? children : <Navigate to="/" />;
 }
-
 
 // Define a component inside App.js for conditional routing
 function ConditionalRoutes() {
@@ -45,15 +46,25 @@ function ConditionalRoutes() {
 
 const App = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showMenu, setShowMenu] = useState(true);
   
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
   
   useEffect(() => {
+    const checkLogin = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) setShowMenu(true); else setShowMenu(false);
+    }
+
+    checkLogin();
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+
+  }, [showMenu]);
 
   const isMobile = windowWidth < 768;
 
@@ -65,15 +76,14 @@ const App = () => {
               <Router>
                 <div className="App font-rubik flex min-h-screen bg-bg-outer">
                   {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
-                  {isMobile ? (
+                  {isMobile && showMenu ? (
                     <MobileMenu />
-                  ) : (
+                  ) : showMenu ? (
                     <DesktopMenu />
-                  )}
-                  <div className="flex-grow lg:ml-64 md:ml-64 sm:ml-0 m-3 bg-bg-main rounded-3xl overflow-hidden">
+                  ) : null}
+                  <div className={`flex-grow ${showMenu ? 'lg:ml-64 md:ml-64 sm:rounded-3xl' : 'sm:m-0 '} sm:m-3 bg-bg-main overflow-hidden`}>
                     {/* Render routes conditionally based on pairing status */}
                     <ConditionalRoutes />
-                    <Toast />
                   </div>
                 </div>
               </Router>
