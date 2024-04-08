@@ -46,56 +46,42 @@ function ConditionalRoutes() {
 
 const App = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [showMenu, setShowMenu] = useState(true);
   
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
   
   useEffect(() => {
-    const checkLogin = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (user) setShowMenu(true); else setShowMenu(false);
-    }
-
-    checkLogin();
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
 
-  }, [showMenu]);
+  }, []);
 
   const isMobile = windowWidth < 768;
 
   return (
-      <AuthProvider>
-        <DeviceProvider>
-          <ToastProvider>
-            <ThemeProvider>
-              <Router>
-                <div className="App font-rubik flex min-h-screen bg-bg-outer">
-                  {/* Conditionally render Mobile or Desktop Menu based on the screen width */}
-                  {isMobile && showMenu ? (
-                    <MobileMenu />
-                  ) : showMenu ? (
-                    <DesktopMenu />
-                  ) : null}
-                  <div className={`flex-grow ${showMenu ? 'lg:ml-64 md:ml-64 sm:rounded-3xl' : 'sm:m-0 '} sm:m-3 bg-bg-main overflow-hidden`}>
-                    {/* Render routes conditionally based on pairing status */}
-                    <ConditionalRoutes />
-                  </div>
+    <AuthProvider>
+      <DeviceProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <Router>
+              <div className="App font-rubik flex min-h-screen bg-bg-outer">
+                {/* Use ConditionalMenus here to control the visibility of menus */}
+                <ConditionalMenus />
+                <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl first-letter:sm:m-0 sm:m-3 bg-bg-main overflow-hidden'>
+                  {/* Render routes conditionally based on pairing status */}
+                  <ConditionalRoutes />
                 </div>
-              </Router>
-            </ThemeProvider>
-          </ToastProvider>
-        </DeviceProvider>
-      </AuthProvider>
-    
-  );
+              </div>
+            </Router>
+          </ThemeProvider>
+        </ToastProvider>
+      </DeviceProvider>
+    </AuthProvider>
+);
 };
 
-// A child component for handling conditional menu rendering
+// A child component for handling conditional menu rendering based on user authentication and screen size
 const ConditionalMenus = () => {
   const { currentUser } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -103,24 +89,29 @@ const ConditionalMenus = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      const newWidth = window.innerWidth;
+      setWindowWidth(newWidth);
+
       // Close the mobile menu when resizing to desktop size
-      if (window.innerWidth >= 768) {
+      if (newWidth >= 768 && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isMenuOpen]);
 
+  // Determine if we're on a mobile device
   const isMobile = windowWidth < 768;
+
+  // Determine if the menu should be shown (user is logged in)
+  const showMenu = !!currentUser;
 
   return (
     <>
-      {isMobile ? (
-        <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
-      ) : (
-        currentUser && <DesktopMenu />
+      {showMenu && (
+        isMobile ? <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} /> : <DesktopMenu />
       )}
     </>
   );
