@@ -10,6 +10,7 @@ import Toast from './components/toast/Toast';
 import 'material-symbols';
 import PairDevice from './pages/Device/PairDevice';
 import YourDevice from './pages/Device/YourDevice';
+import ScoresPage from './pages/Scores';
 import './App.css';
 import { ThemeProvider } from './contexts/themeContext';
 import AccountPage from './pages/Settings/Settings';
@@ -39,6 +40,7 @@ function ConditionalRoutes() {
       <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
       <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
       <Route path="/testData" element={<PrivateRoute><DeviceStatus /></PrivateRoute>} />
+      <Route path="/your-scores" element={<PrivateRoute><ScoresPage /></PrivateRoute>} />
     </Routes>
     
   );
