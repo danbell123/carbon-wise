@@ -1,14 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
 import ScoreCard from '../../components/summaryWidgets/ScoreCard';
+import getUserScore from '../../services/getUserScores';
+import { useAuth } from '../../contexts/authContext'; // Assuming you have an auth context
+import { startOfWeek, subDays, format } from 'date-fns';
 
 const ScoresSummary = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [w1ScoresDates, setW1ScoresDates] = useState([]); // For "this week" scores with dates
+  const [w2ScoresDates, setW2ScoresDates] = useState([]); // For "last week" scores with dates
+  const { currentUser } = useAuth(); // Assuming your auth context provides this
 
-  // Define an array of scores
-  const w1scores = [50, 65, 80, 75, 90];
-  const w2scores = [10, 65, 80, 9, 90, 55, 60];
+  const generateWeekDates = (startDate) => {
+    return Array.from({ length: 7 }).map((_, index) =>
+      format(subDays(startDate, -index), 'yyyy-MM-dd')
+    );
+  };
+
+  useEffect(() => {
+    const fetchScores = async () => {
+      if (!currentUser) {
+        setError('User not authenticated');
+        return;
+      }
+
+      setLoading(true);
+      setError('');
+
+      try {
+        const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+        const startOfLastWeek = subDays(startOfThisWeek, 7);
+
+        const datesThisWeek = generateWeekDates(startOfThisWeek);
+        const datesLastWeek = generateWeekDates(startOfLastWeek);
+
+        const scoresThisWeek = await Promise.all(datesThisWeek.map(async date => ({
+          date,
+          score: await getUserScore(currentUser.uid, date) || '-'
+        })));
+        const scoresLastWeek = await Promise.all(datesLastWeek.map(async date => ({
+          date,
+          score: await getUserScore(currentUser.uid, date) || '-'
+        })));
+
+        setW1ScoresDates(scoresThisWeek);
+        setW2ScoresDates(scoresLastWeek);
+      } catch (err) {
+        setError('Failed to fetch scores');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScores();
+  }, [currentUser]);
 
   return (
     <div className='w-full'>
@@ -19,12 +66,11 @@ const ScoresSummary = () => {
 
       {loading && <p className='mt-0 text-base text-text-colour-secondary animate-pulse'>Loading...</p>}
 
-        <div className='flex flex-col my-2 gap-4 overflow-hidden'>
+      <div className='flex flex-col my-2 gap-4 overflow-hidden'>
             <p className='text-lg font-semibold  m-0 text-text-colour-secondary'>This week: </p>
             <div className='flex flex-row gap-3 overflow-x-auto pb-2'>
-                {/* Map over the scores array to render ScoreCards */}
-                {w1scores.map((score, index) => (
-                    <ScoreCard key={index} score={score} />
+                {w1ScoresDates.map((item, index) => (
+                    <ScoreCard key={index} date={item.date} score={item.score} />
                 ))}
             </div>
         </div>
@@ -32,9 +78,8 @@ const ScoresSummary = () => {
         <div className='flex flex-col my-2 gap-4 overflow-hidden'>
             <p className='text-lg font-semibold  m-0 text-text-colour-secondary'>Last week: </p>
             <div className='flex flex-row gap-3 overflow-x-auto pb-2'>
-                {/* Map over the scores array to render ScoreCards */}
-                {w2scores.map((score, index) => (
-                    <ScoreCard key={index} score={score} />
+                {w2ScoresDates.map((item, index) => (
+                    <ScoreCard key={index} date={item.date} score={item.score} />
                 ))}
             </div>
         </div>
