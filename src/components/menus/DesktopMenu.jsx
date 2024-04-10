@@ -187,6 +187,25 @@ const DesktopMenu = () => {
               </NavLink>
             </motion.div>
 
+            <motion.div
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <NavLink 
+                to="/faqs"
+                className={({ isActive }) =>
+                  isActive
+                  ? "text-lg text-bg-outer bg-primaryGradient1 hover:bg-bg-main pl-2 rounded-lg flex items-center"
+                  : "text-lg shadow-inner-menu text-text-colour-secondary hover:text-text-colour-primary bg-transparent hover:bg-bg-main pl-2 rounded-lg flex items-center"
+                } 
+              >
+                <span className="material-symbols-outlined mr-1">help</span>
+                <p className='m-2'>FAQ's</p>
+              </NavLink>
+            </motion.div>
+
           </nav>
         </div>
         <div>
