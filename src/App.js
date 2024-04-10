@@ -19,7 +19,7 @@ import DeviceStatus from './components/DeviceStatus';
 import { useDevice, DeviceProvider } from './contexts/DeviceContext';
 import { set } from 'date-fns';
 import { getAuth } from 'firebase/auth'
-
+import UsagePage from './pages/Usage';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -41,6 +41,7 @@ function ConditionalRoutes() {
       <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
       <Route path="/testData" element={<PrivateRoute><DeviceStatus /></PrivateRoute>} />
       <Route path="/your-scores" element={<PrivateRoute><ScoresPage /></PrivateRoute>} />
+      <Route path="/your-usage" element={<PrivateRoute><UsagePage /></PrivateRoute>} />
     </Routes>
     
   );
