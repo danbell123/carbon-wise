@@ -5,6 +5,7 @@ import Button from '../buttons/btn';
 import { useToast } from '../../contexts/ToastContext';
 import { registerUser } from '../../services/registerUser';
 import { useNavigate } from 'react-router-dom';
+import regions from '../../data/regions';
 
 
 const RegisterForm = ({ onToggle }) => {
@@ -12,6 +13,7 @@ const RegisterForm = ({ onToggle }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [regionID, setRegionID] = useState('');
   const { addToast } = useToast(); 
   const navigate = useNavigate();
 
@@ -29,23 +31,36 @@ const RegisterForm = ({ onToggle }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (passwordStrength < 3) {
-      addToast("Password is too weak!", "error");
-      return;
+        addToast("Password is too weak!", "error");
+        return;
     }
+
     if (password !== confirmPassword) {
-      addToast("Passwords do not match!", "error");
-      return;
+        addToast("Passwords do not match!", "error");
+        return;
     }
+
+    if (!regionID) { // Check if the regionID is selected
+        addToast("Please select your region", "error");
+        return;
+    }
+
     try {
-      let additionalData = {}; // TODO: Add additional user data here
-      await registerUser(email, password, additionalData);
-      addToast('Registration successful!', 'success');
-      navigate('/dashboard'); // Redirect to the dashboard
+        // Now include the regionID in the additionalData object
+        let additionalData = {
+            regionID // Assuming registerUser can handle this additional piece of information
+        };
+
+        await registerUser(email, password, additionalData);
+        addToast('Registration successful!', 'success');
+        navigate('/dashboard'); // Redirect to the dashboard
     } catch (error) {
-      addToast(error.message, 'error'); // Display the error message from Firebase
+        addToast(error.message, 'error'); // Display the error message from Firebase
     }
-  };
+};
+
 
   const handleGoogleSignIn = async (e) => {
     e.preventDefault(); // Prevent default form submission which could refresh the page
@@ -101,6 +116,19 @@ const RegisterForm = ({ onToggle }) => {
                 onChange={e => setConfirmPassword(e.target.value)}
                 className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
+            <div className="w-full bg-gray-300 rounded">
+              <select
+                id="region"
+                value={regionID}
+                onChange={(e) => setRegionID(e.target.value)}
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
+              >
+                <option value="">Select your region...</option>
+                {regions.map((region) => (
+                  <option key={region.id} value={region.id}>{region.name}</option>
+                ))}
+              </select>
+            </div>
         </div>
         <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600">
           REGISTER
