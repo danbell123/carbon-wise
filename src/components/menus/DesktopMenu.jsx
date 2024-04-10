@@ -147,8 +147,8 @@ const DesktopMenu = () => {
                 to="/your-device"
                 className={({ isActive }) =>
                   isActive
-                  ? "text-lg text-bg-outer bg-primaryGradient1 hover:bg-bg-main pl-2 rounded-lg flex items-center"
-                  : "text-lg shadow-inner-menu text-text-colour-secondary hover:text-text-colour-primary bg-transparent hover:bg-bg-main pl-2 rounded-lg flex items-center"
+                  ? "text-lg relative text-bg-outer bg-primaryGradient1 hover:bg-bg-main pl-2 rounded-lg flex items-center"
+                  : "text-lg relative shadow-inner-menu text-text-colour-secondary hover:text-text-colour-primary bg-transparent hover:bg-bg-main pl-2 rounded-lg flex items-center"
                 } 
               >
                 <span className="material-symbols-outlined mr-1">
