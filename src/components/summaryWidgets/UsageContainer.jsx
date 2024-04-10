@@ -13,8 +13,9 @@ const UsageContainer = () => {
     return (
       <div className="h-full p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
-        <p className='text-text-colour-primary text-center'>You are not paired to a device. Pair with a device to monitor your usage.</p>
-        <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
+        <p className='text-text-colour-primary text-center text-xl'>No Device Paired</p>
+        <p className='text-text-colour-primary text-center text-sm'>Pair with a device to monitor your usage.</p>
+        <Button className="bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
           Pair Device
         </Button>
       </div>
@@ -45,14 +46,24 @@ const UsageContainer = () => {
   }
 
   return (
-    <div className="h-full bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
-      <h1 className="text-2xl font-semibold m-0 text-text-colour-primary">Your Current Usage</h1>
+    <div className="h-full bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md flex flex-col justify-between items-center gap-4">
+      <h1 className="text-2xl font-semibold text-text-colour-primary self-start w-full">Your Current Usage</h1>
+      
+      {/* Spacer div */}
+      <div className="flex-grow"></div>
+  
       <DeviceLatestData kWh={latestData.kWh} timestamp={latestData.timestamp} />
-      <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
+      
+      {/* Another spacer div to ensure visualization stays centered */}
+      <div className="flex-grow"></div>
+  
+      <Button className="bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded self-start w-full">
         More Details
       </Button>
     </div>
   );
+  
+  
 };
 
 const DeviceLatestData = memo(({ kWh, timestamp }) => {

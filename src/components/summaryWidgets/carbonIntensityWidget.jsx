@@ -102,11 +102,6 @@ const CarbonIntensityWidget = () => {
           <div className='h-1/2 w-full'>
             <CarbonIntensityChart data={cleanedData} />
           </div>
-          <div className='flex flex-row justify-end h-auto w-full'>
-          <Button>
-            View Full Forecast
-          </Button>       
-          </div> 
         </>
         }
     </div>
