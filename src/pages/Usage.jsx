@@ -79,13 +79,13 @@ function UsagePage() {
         <h1 className="text-4xl w-full m-0 text-text-colour-primary">Your Usage</h1>
         <p className="text-base pt-2 text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
 
-        <div className="pt-6">
+        <div className="pt-6 pb-2">
             <nav className="flex space-x-4" aria-label="Tabs">
                 {['Live Data', 'Past Data', 'Future Data'].map((tab) => (
                 <a
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-2 font-medium text-lg rounded-t-lg cursor-pointer
+                    className={`px-3 py-2 font-medium text-base rounded-t-lg cursor-pointer bg-bg-main-transparent glassEffect
                     ${activeTab === tab ? 'bg-primary-colour text-white' : 'text-text-colour-secondary hover:text-text-colour-primary'}`}
                 >
                     {tab}
@@ -93,7 +93,7 @@ function UsagePage() {
                 ))}
             </nav>
             </div>
-            <div className='bg-bg-outer rounded-b-lg p-5 border-t-8 border-solid border-primary-colour'>
+            <div className='bg-bg-main-transparent glassEffect rounded-b-lg p-5 border-t-8 border-solid border-primary-colour'>
             {activeTab === 'Live Data' && 
                 <CarbonIntensityLive />
             }

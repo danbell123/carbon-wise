@@ -39,7 +39,7 @@ a:hover {
 :root {
   --bg-outer: #131D20;
   --bg-main: #1D2B30;
-  --bg-main-transparent: #2e2e2ebf;
+  --bg-main-transparent: rgba(57, 57, 57, 0.38);
   --text-colour-tertiary: #b9dae5;
   --text-colour-secondary: #CFDEE2;
   --text-colour-primary: #FAFCFC;
@@ -50,7 +50,7 @@ a:hover {
   --green: #49AA49;
   --red: #D55959;
   --shadow-inner-menu: 0 0px 6px 1px rgba(63, 63, 63, 1);
-
+  --mainImg: url('/public/BG.svg');
   --veryLowColour: #0dc700;
   --lowColour: #4fb600;
   --midColour: #bbc800 ;
@@ -62,7 +62,7 @@ a:hover {
 [data-theme='light'] {
   --bg-outer: #ECF2F4;
   --bg-main: #FAFCFC;
-  --bg-main-transparent: #ffffff8f;
+  --bg-main-transparent: #ffffff6e;
   --text-colour-secondary: #666666;
   --text-colour-primary: #2a3a40;
   --text-colour-tertiary: #828282;
@@ -71,7 +71,8 @@ a:hover {
   --secondary-colour-hover: #053746;
   --green: #21D321;
   --red: #E54A4A;
-  --shadow-inner-menu: 0 0px 6px 0px rgba(156, 163, 175, 0.5)
+  --shadow-inner-menu: 0 0px 6px 0px rgba(156, 163, 175, 0.5);
+  --mainImg: url('/public/BGLight.svg');
 }
 
 /* For a smooth transition between light and dark mode */
@@ -114,4 +115,12 @@ a:hover {
 /* Optional: Style the scrollbar thumb on hover */
 .flex-row::-webkit-scrollbar-thumb:hover {
   background: #11181a; /* Even darker grey on hover */
+}
+
+.glassEffect {
+  box-shadow: 0 8px 32px 0 #046f8f4f;
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
 }

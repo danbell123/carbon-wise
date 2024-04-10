@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 const ScoreCard = ({ score, date }) => {
 
     return (
-        <div className='flex flex-col gap-0'>
-            <div className='flex flex-col gap-5 bg-bg-outer w-min h-min p-6 justify-center items-center rounded-t-2xl'>
+        <div className='flex flex-col gap-0 bg-bg-main-transparent glassEffect'>
+            <div className='flex flex-col gap-5 w-min h-min p-6 justify-center items-center rounded-t-2xl'>
                 <div className='flex flex-col gap-0 justify-center items-center'>
                     <h2 className='text-text-colour-primary m-0 font-normal text-sm text-center'>{date}</h2>
                 </div>

@@ -11,7 +11,7 @@ const UsageContainer = () => {
 
   if (pairedTo == null) {
     return (
-      <div className="h-full p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
+      <div className="h-full glassEffect p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center text-xl'>No Device Paired</p>
         <p className='text-text-colour-primary text-center text-sm'>Pair with a device to monitor your usage.</p>
@@ -24,7 +24,7 @@ const UsageContainer = () => {
 
   if (isDisconnected) {
     return (
-      <div className="h-full p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
+      <div className="h-full glassEffect p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center'>Your device is disconnected. Please check your device.</p>
         <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
@@ -38,7 +38,7 @@ const UsageContainer = () => {
 
   if (isLoading) {
     return (
-      <div className="h-full p-5 bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center">
+      <div className="h-full glassEffect p-5  w-full rounded-xl flex flex-col items-center justify-center">
         <BarLoader />
         <p className='text-text-colour-secondary text-center'>Loading your usage data...</p>
       </div>
@@ -46,7 +46,7 @@ const UsageContainer = () => {
   }
 
   return (
-    <div className="h-full bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md flex flex-col justify-between items-center gap-4">
+    <div className="h-full glassEffect bg-bg-main-transparent p-5 rounded-xl flex flex-col justify-between items-center gap-4">
       <h1 className="text-2xl font-semibold text-text-colour-primary self-start w-full">Your Current Usage</h1>
       
       {/* Spacer div */}

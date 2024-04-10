@@ -17,12 +17,12 @@ const PeakTimeCard = ({ period, forecast, date }) => {
 
     // Correctly apply conditional classes
     const cardClasses = isLowCarbon
-        ? "flex flex-row bg-greenGradient p-5 mb-4 rounded-xl items-left justify-between gap-6"
-        : "flex flex-row bg-redGradient p-5 mb-4 rounded-xl items-left justify-between gap-6";
+        ? "flex flex-row glassEffect bg-greenGradient p-5 mb-4 rounded-xl items-left justify-between gap-6"
+        : "flex flex-row glassEffect bg-redGradient p-5 mb-4 rounded-xl items-left justify-between gap-6";
 
     return (
         <div className={cardClasses}>
-            <div className='flex flex-row gap-3'>
+            <div className='flex flex-row gap-3 '>
                 <span className="material-symbols-outlined text-text-colour-primary mt-1 text-3xl" style={{ fontSize: '30px' }}>arrow_cool_down</span>
                 <div className='flex flex-col'>
                     <h2 className='text-text-colour-primary m-0 text-xl pb-4'>{intensityInfo.level} Carbon</h2>

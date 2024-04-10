@@ -36,13 +36,13 @@ const AccountPage = () => {
 
       {/* Section 2: Tabbed Section */}
       <div className=''>
-        <div className="">
+        <div className="pb-2">
           <nav className="flex space-x-4" aria-label="Tabs">
             {['General', 'Notifications', 'Account'].map((tab) => (
               <a
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-3 py-2 font-medium text-lg rounded-t-lg cursor-pointer
+                className={`px-3 py-2 font-medium text-base rounded-t-lg cursor-pointer bg-bg-main-transparent glassEffect
                   ${activeTab === tab ? 'bg-primary-colour text-white' : 'text-text-colour-secondary hover:text-text-colour-primary'}`}
               >
                 {tab}
@@ -50,7 +50,7 @@ const AccountPage = () => {
             ))}
           </nav>
         </div>
-        <div className='bg-bg-outer rounded-b-lg p-5 border-t-8 border-solid border-primary-colour'>
+        <div className='bg-bg-main-transparent glassEffect rounded-b-lg p-5'>
           {activeTab === 'General' && 
             <div>
                 <GeneralSettings />

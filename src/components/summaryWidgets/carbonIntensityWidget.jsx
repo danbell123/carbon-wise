@@ -6,7 +6,6 @@ import carbonIntensityDescription from '../../utils/carbonIntensityDescription';
 import BarLoader from '../../components/loader/barLoader';
 import { getAuth } from 'firebase/auth';
 import fetchUserData from '../../services/getUserDetails';
-import Button from '../../components/buttons/btn';
 import regions from '../../data/regions.json';
 
 
@@ -83,7 +82,7 @@ const CarbonIntensityWidget = () => {
     : "verylow-score-text text-4xl"
 
   return (
-    <div className="bg-bg-main-transparent box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md h-full">
+    <div className="bg-bg-main-transparent glassEffect box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md h-full">
       {isLoading 
       ? 
         <div className='flex flex-col h-full justify-center justify-items-center p-5'>

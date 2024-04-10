@@ -21,7 +21,7 @@ const YourDevice = () => {
    
   return (
   <>
-    <main className="flex-1 w-full h-min rounded-3xs bg-bg-main flex flex-col items-start justify-start relative">
+    <main className="flex-1 w-full h-min rounded-3xs flex flex-col items-start justify-start relative">
         <section className="p-5 pt-16 sm:p-10 flex flex-col items-start justify-start z-[1] text-text-colour-primary gap-3">
           <h1 className="text-4xl w-full m-0">
             Your Device
