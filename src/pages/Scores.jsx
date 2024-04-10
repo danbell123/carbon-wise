@@ -22,7 +22,7 @@ function ScoresPage() {
     }, []); 
 
   return (
-    <div className="p-5 pt-28 sm:pt-10 ">
+    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-10">
         <div className='mb-10'>
             <h1 className="text-4xl w-full m-0 text-text-colour-primary">Your Daily Carbon Scores</h1>
             <p className="text-base pt-2 text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>

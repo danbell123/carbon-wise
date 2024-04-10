@@ -22,9 +22,9 @@ const AccountPage = () => {
   
 
   return (
-    <div className="p-5 pt-28 sm:pt-10 ">
-      <div className="flex justify-between items-center mb-8 ">
-        <h1 className="text-3xl font-bold m-0 text-text-colour-primary">Your Account</h1>
+    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-10">
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold m-0 text-text-colour-primary">Your Account</h1>
         <Button
           onClick={handleLogout}
           className="bg-red-500 text-white text-base px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
