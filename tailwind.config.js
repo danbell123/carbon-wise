@@ -18,6 +18,11 @@ module.exports = {
         "red": "var(--red)",
         "green": "var(--green)",
         "error-bg": "rgba(255, 85, 74, 0.2)",
+        "veryHighColour": "var(--veryHighColour)",  
+        "highColour": "var(--highColour)",
+        "mediumColour": "var(--mediumColour)",
+        "lowColour": "var(--lowColour)",
+        "veryLowColour": "var(--veryLowColour)",
       },
       boxShadow: {
         'inner-menu': 'var(--shadow-inner-menu)',
