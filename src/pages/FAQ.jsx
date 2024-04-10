@@ -27,7 +27,7 @@ const AccordionItem = ({ question, answer }) => {
   };
 
   return (
-    <div className="bg-bg-main-transparent glassEffect box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
+    <div className="bg-bg-main-transparent glassEffectNoShadow box-border border border-white backdrop-blur-sm w-full p-5 rounded-xl shadow-md">
       <button
         className="py-2 w-full px-0 text-left flex gap-2 justify-between items-center bg-transparent"
         onClick={() => setIsOpen(!isOpen)}
