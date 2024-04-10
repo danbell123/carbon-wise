@@ -101,7 +101,7 @@ const AccountSettings = () => {
       <div>
         <p className="text-sm font-medium text-text-colour-secondary my-0">Email: {userDetails.email}</p>
       </div>
-      <form onSubmit={handlePasswordChange} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-secondary">
+      <form onSubmit={handlePasswordChange} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-tertiary rounded-xl">
         <h2 className='text-lg text-text-colour-primary m-0'>Change Password</h2>
         <div className="flex items-center gap-2">
           <label htmlFor="oldPassword" className="text-sm font-medium text-text-colour-secondary">
@@ -122,7 +122,7 @@ const AccountSettings = () => {
         <Button type="submit" size="medium" width="1/3">Change Password</Button>
       </form>
 
-      <form onSubmit={handleAccountDeletion} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-secondary">
+      <form onSubmit={handleAccountDeletion} className="flex flex-col space-y-4 p-5 border border-solid border-text-colour-tertiary rounded-xl">
         <h2 className='text-lg text-text-colour-primary m-0'>Delete Your Account</h2>
         <div className="flex items-center gap-2">
           <label htmlFor="oldPasswordDelete" className="text-sm font-medium text-text-colour-secondary">
