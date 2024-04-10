@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Button = ({ children, onClick, size = 'medium', width = 'auto', colour='primary-colour'}) => {
+const Button = ({ children, onClick, size = 'medium', width = 'auto', colour='primaryGradient1'}) => {
   // Define size classes for the button
   const sizeClasses = {
     small: 'text-xs py-1 px-2',
-    medium: 'text-sm py-2 px-4',
-    large: 'text-lg py-3 px-6',
+    medium: 'text-sm py-2 px-3',
+    large: 'text-base py-3 px-6',
   };
 
   // Choose appropriate size class based on the size prop
@@ -17,8 +17,7 @@ const Button = ({ children, onClick, size = 'medium', width = 'auto', colour='pr
   return (
     <button
       onClick={onClick}
-      className={`bg-${colour} hover:bg-secondary-colour text-white font-bold rounded-full shadow-lg flex items-center justify-center ${sizeClass} ${widthClass}`}
-      style={{ transition: 'background-color 0.3s' }}
+      className={`glassEffectNoShadow overflow-hidden cursor-pointer text-text-colour-primary text-lg rounded px-4 py-2 bg-${colour} ${sizeClass} ${widthClass}`}
     >
       {children}
     </button>

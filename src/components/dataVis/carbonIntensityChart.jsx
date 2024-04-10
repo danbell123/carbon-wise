@@ -74,7 +74,7 @@ const CarbonIntensityChart = ({ data }) => {
                 margin={{
                     top: 10,
                     right: 0,
-                    left: 0,
+                    left: -22,
                     bottom: 0,
                 }}
                 >

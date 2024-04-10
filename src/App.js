@@ -32,6 +32,7 @@ function ConditionalRoutes() {
   const { pairedTo } = useDevice();
 
   return (
+    <ToastProvider>
     <Routes>
       <Route path="/" element={<LoginRegister />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
@@ -43,7 +44,7 @@ function ConditionalRoutes() {
       <Route path="/your-scores" element={<PrivateRoute><ScoresPage /></PrivateRoute>} />
       <Route path="/your-usage" element={<PrivateRoute><UsagePage /></PrivateRoute>} />
     </Routes>
-    
+    </ToastProvider>
   );
 }
 
@@ -64,23 +65,18 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <DeviceProvider>
-        <ToastProvider>
+        <DeviceProvider>
           <ThemeProvider>
             <Router>
               <div className="App font-rubik flex min-h-screen bg-bg-outer">
-                {/* Use ConditionalMenus here to control the visibility of menus */}
                 <ConditionalMenus />
-                <div 
-                  className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl first-letter:sm:m-0 sm:m-3 bg-mainBackground bg-cover bg-center overflow-hidden'
-                >
+                <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl first-letter:sm:m-0 sm:m-3 bg-mainBackground bg-cover bg-center overflow-y-auto'>
                   <ConditionalRoutes />
                 </div>
               </div>
             </Router>
           </ThemeProvider>
-        </ToastProvider>
-      </DeviceProvider>
+        </DeviceProvider>
     </AuthProvider>
 );
 };

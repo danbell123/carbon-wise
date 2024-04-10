@@ -68,6 +68,7 @@ function MonthlyScoreTab() {
         month={selectedDate.getMonth() + 1}
         scores={scores}
       />
+      
     </div>
   );
 }

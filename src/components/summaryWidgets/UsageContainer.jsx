@@ -15,7 +15,7 @@ const UsageContainer = () => {
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center text-xl'>No Device Paired</p>
         <p className='text-text-colour-primary text-center text-sm'>Pair with a device to monitor your usage.</p>
-        <Button className="bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
+        <Button colour="transparent">
           Pair Device
         </Button>
       </div>
@@ -27,7 +27,7 @@ const UsageContainer = () => {
       <div className="h-full glassEffect p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center'>Your device is disconnected. Please check your device.</p>
-        <Button className="mt-4 bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded">
+        <Button colour="transparent">
           More Details
         </Button>
         <div className='flex flex-col gap-0'>
@@ -57,9 +57,14 @@ const UsageContainer = () => {
       {/* Another spacer div to ensure visualization stays centered */}
       <div className="flex-grow"></div>
   
-      <Button className="bg-secondary-colour hover:bg-secondary-colour-hover text-white font-bold py-2 px-4 rounded self-start w-full">
-        More Details
-      </Button>
+      <div className='flex flex-row gap-4 w-full justify-center items-center'>
+        <Button colour="primaryGradient1">
+          View Usage
+        </Button>
+        <Button colour="transparent">
+          View Device
+        </Button>
+      </div>
     </div>
   );
   

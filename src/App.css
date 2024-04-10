@@ -62,7 +62,7 @@ a:hover {
 [data-theme='light'] {
   --bg-outer: #ECF2F4;
   --bg-main: #FAFCFC;
-  --bg-main-transparent: #ffffff6e;
+  --bg-main-transparent: #ffffff7b;
   --text-colour-secondary: #666666;
   --text-colour-primary: #2a3a40;
   --text-colour-tertiary: #828282;
@@ -119,6 +119,13 @@ a:hover {
 
 .glassEffect {
   box-shadow: 0 8px 32px 0 #046f8f4f;
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.glassEffectNoShadow {
   backdrop-filter: blur( 6px );
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
