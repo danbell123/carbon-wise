@@ -49,7 +49,14 @@ a:hover {
   --secondary-colour-hover: #053746;
   --green: #49AA49;
   --red: #D55959;
-  --shadow-inner-menu: 0 0px 6px 1px rgba(63, 63, 63, 1)
+  --shadow-inner-menu: 0 0px 6px 1px rgba(63, 63, 63, 1);
+
+  --veryLowColour: #0dc700;
+  --lowColour: #4fb600;
+  --midColour: #bbc800 ;
+  --highColour: #c66300;
+  --veryHighColour: #c60000;
+
 }
 
 [data-theme='light'] {

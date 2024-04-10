@@ -2,30 +2,48 @@ import React from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, Area } from 'recharts';
 import { isBefore, parseISO, format } from 'date-fns';
 import { useViewportWidth } from '../../hooks/useViewportWidth';
+import carbonIntensityDescription from '../../utils/carbonIntensityDescription'; 
 
 const CarbonIntensityChart = ({ data }) => {
     const now = new Date();
 
-    // Assuming your data uses UTC for 'from', format 'now' in a similar style
-    // This example formats 'now' to an ISO string without milliseconds and with a 'Z' timezone indicator
-    const nowForReferenceLine = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+    const minutes = now.getMinutes();
+
+    // Round down to the nearest half-hour by adjusting minutes and seconds
+    if (minutes < 30) {
+    now.setMinutes(0, 0); // Set to XX:00:00
+    } else {
+    now.setMinutes(30, 0); // Set to XX:30:00
+    }
+
+    // Format the adjusted date
+    const nowForReferenceLine = format(now, "yyyy-MM-dd'T'HH:mm'Z'");
 
     // Function to format the XAxis ticks
     const formatXAxis = (tickItem) => {
         return format(parseISO(tickItem), 'HH:mm');
     };
 
-    // Function to determine if a data point is in the past
-    const isPast = (date) => isBefore(parseISO(date), now);
-
     // Customized dot component to differentiate past from future data points
     const CustomizedDot = (props) => {
         const { cx, cy, payload } = props;
         
-        if (isPast(payload.from)) {
-            return <circle cx={cx} cy={cy} r={3} fill="var(--primary-colour)" />;
+        if (carbonIntensityDescription(payload.forecast).level === 'Very Low') {
+            console.log(payload.forecast , "= Very Low")
+            return <circle cx={cx} cy={cy} r={4} fill="var(--veryLowColour)" />;
+        } else if (carbonIntensityDescription(payload.forecast).level === 'Low') {
+            console.log(payload.forecast , "= Low")
+            return <circle cx={cx} cy={cy} r={4} fill="var(--lowColour)" />;
+        } else if (carbonIntensityDescription(payload.forecast).level === 'Moderate') {
+            console.log(payload.forecast , "= Moderate")
+            return <circle cx={cx} cy={cy} r={4} fill="var(--midColour)" />;
+        } else if (carbonIntensityDescription(payload.forecast).level === 'High') {
+            console.log(payload.forecast , "= High")
+            return <circle cx={cx} cy={cy} r={4} fill="var(--highColour)" />;
+        } else {
+            console.log(payload.forecast , "= Very High")
+            return <circle cx={cx} cy={cy} r={4} fill="var(--veryHighColour)" />;
         }
-        return <circle cx={cx} cy={cy} r={3} fill="var(--forecast-colour)" />;
     };
 
     // Decide interval based on viewport width
@@ -81,7 +99,8 @@ const CarbonIntensityChart = ({ data }) => {
                 <ReferenceLine
                     x={nowForReferenceLine} // Reference line at the current time
                     stroke="var(--text-colour-secondary)" // Color for the current time reference line
-                    label={{ value: 'Now', position: 'insideTop', fill: 'var(--primary-colour)' }}
+                    label={{ value: 'Now', position: 'insideTop', fill: 'var(--text-colour-primary)' }}
+                    strokeDasharray="5, 5"
                 />
                 </LineChart>
             </ResponsiveContainer>
