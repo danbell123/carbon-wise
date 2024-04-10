@@ -3,15 +3,23 @@ import GeneralSettings from '../../components/settings/General';
 import NotificationSettings from '../../components/settings/Notifications';
 import AccountSettings from '../../components/settings/Account';
 import Button from '../../components/buttons/btn';
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('General');
+  const navigate = useNavigate();
 
-  // Handle logout logic here
   const handleLogout = () => {
-    console.log('Logging out...');
-    // Implement your logout functionality, e.g., clearing auth tokens and redirecting
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      console.log('Logged out successfully');
+      navigate('/'); 
+    }).catch((error) => {
+      console.error('Failed to log out:', error);
+    });
   };
+  
 
   return (
     <div className="p-5 pt-28 sm:pt-10 ">
