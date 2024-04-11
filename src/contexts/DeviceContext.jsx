@@ -52,11 +52,9 @@ export const DeviceProvider = ({ children }) => {
     };
 
     const unpairDevice = async (macAddress) => {
-        console.log(`Attempt to remove user ${currentUser.uid} from device with MAC address: ${macAddress}`);
         try {
             const userDocRef = doc(firestore, 'user-device-pairings', macAddress, 'usersPaired', currentUser.uid);
             await deleteDoc(userDocRef);
-            console.log(`Successfully removed user ${currentUser.uid} from device with MAC address: ${macAddress}`);
             // After successful pairing, update the device context
             setDeviceState((prevState) => ({
                 ...prevState,
@@ -80,7 +78,6 @@ export const DeviceProvider = ({ children }) => {
         let unsubscribeFromRealtimeListener = null;
 
         const checkUserDevicePairing = async (uid) => {
-            console.log('Checking user-device pairing for:', uid);
             const firestore = getFirestore();
             const devicesCollectionRef = collection(firestore, 'user-device-pairings');
             const devicesQuery = query(devicesCollectionRef);
@@ -92,11 +89,9 @@ export const DeviceProvider = ({ children }) => {
         
               const userIsPaired = usersPairedSnapshot.docs.some(userDoc => userDoc.id === uid);
               if (userIsPaired) {
-                console.log(`User ${uid} is paired with device ${deviceDoc.id}`);
                 return deviceDoc.id;
               }
             }
-            console.log(`User ${uid} is not paired with any device`);
             return null;
           };
 
@@ -128,11 +123,11 @@ export const DeviceProvider = ({ children }) => {
                         }
                     });
 
+                    {/* Disconnecteded after 70sec. Should be sending data every 60sec */}
                     clearTimeout(disconnectTimer);
                     disconnectTimer = setTimeout(() => {
-                        console.log("Device disconnected. MAC:", pairedDeviceMAC);
                         setDeviceState(prevState => ({...prevState, isDisconnected: true}));
-                    }, 3000);
+                    }, 70000);
                 }
             });
         };
@@ -140,14 +135,11 @@ export const DeviceProvider = ({ children }) => {
         unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (user) => {
             if (user) {
                 checkUserDevicePairing(user.uid).then(macAddress => {
-                    console.log("User-device pairing checked");
-                    console.log("Setting up realtime listener for:", macAddress);
                     unsubscribeFromRealtimeListener = setupRealtimeListener(macAddress);
                 }).catch(error => {
                     console.error("Error checking user-device pairing:", error);
                 });
             } else {
-                console.log("No user signed in.");
                 setDeviceState(prevState => ({
                     ...prevState,
                     pairedTo: null,
