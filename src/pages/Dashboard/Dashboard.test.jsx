@@ -1,27 +1,57 @@
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import Dashboard from '../Dashboard/Dashboard'; 
+import '@testing-library/jest-dom';
+import Dashboard from './Dashboard';
+import fetchUserData from '../../services/getUserDetails';
+import { getAuth } from 'firebase/auth';
 
-test('loads and displays the dashboard with all components', async () => {
-  render(<Dashboard />);
+// Mocking modules
+jest.mock('../../services/getUserDetails');
+jest.mock('firebase/auth');
 
-  // Wait for the current usage summary component to be loaded and check for presence
-  await waitFor(() => {
-    expect(screen.getByTestId('current-usage-component')).toBeInTheDocument();
+describe('Dashboard Component', () => {
+  const mockUser = {
+    uid: '123',
+    firstName: 'John'
+  };
+
+  beforeEach(() => {
+    // Mock the currentUser and fetchUserData behavior
+    const auth = { currentUser: mockUser };
+    getAuth.mockReturnValue(auth);
+    fetchUserData.mockResolvedValue(mockUser);
   });
 
-  // Wait for the carbon intensity summary component to be loaded and check for presence
-  await waitFor(() => {
-    expect(screen.getByTestId('carbon-intensity-component')).toBeInTheDocument();
+  test('renders greeting with user first name after fetching data', async () => {
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText(`Good Morning ${mockUser.firstName}!`)).toBeInTheDocument();
+    });
   });
 
-  // Wait for the carbon forecast summary component to be loaded and check for presence
-  await waitFor(() => {
-    expect(screen.getByTestId('carbon-intensity-forecast-component')).toBeInTheDocument();
+  test('renders appropriate greeting based on time of day', () => {
+    // Overriding Date object to control time within the test
+    jest.useFakeTimers().setSystemTime(new Date('2023-04-14T19:00:00Z'));
+    render(<Dashboard />);
+    expect(screen.getByText(`Good Evening ${mockUser.firstName}!`)).toBeInTheDocument();
+    jest.useRealTimers();
   });
 
-  // Wait for the carbon scores component to be loaded and check for presence
-  await waitFor(() => {
-    expect(screen.getByTestId('carbon-scores-component')).toBeInTheDocument();
+  test('handles case where user is not authenticated', () => {
+    // Adjusting the mock to simulate no logged-in user
+    getAuth.mockReturnValue({ currentUser: null });
+    render(<Dashboard />);
+    expect(screen.getByText('Good Morning !')).toBeInTheDocument(); // Fallback or empty greeting
   });
-  
+
+  // Additional tests to cover errors during data fetching
+  test('handles errors during user data fetching gracefully', async () => {
+    fetchUserData.mockRejectedValue(new Error('Failed to fetch user data'));
+    render(<Dashboard />);
+    await waitFor(() => {
+      expect(screen.getByText('Good Morning !')).toBeInTheDocument();
+      expect(console.error).toHaveBeenCalledWith('Failed to fetch user data:', expect.any(Error));
+    });
+  });
 });
