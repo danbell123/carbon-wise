@@ -13,6 +13,7 @@ import { getAuth } from 'firebase/auth';
 import fetchUserData from '../services/getUserDetails'; 
 import DailyScoreTab from '../components/scoresTabs/DailyScoresTab';
 import MonthlyScoreTab from '../components/scoresTabs/MonthlyScoresTab';
+import ScoresKeyData from '../components/scoresTabs/ScoresSummary';
 
 function ScoresPage() {
     const [activeTab, setActiveTab] = useState('Monthly');
@@ -22,36 +23,18 @@ function ScoresPage() {
     }, []); 
 
   return (
-    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-10">
-        <div className='mb-10'>
+    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-5">
+        <div className='mb-0'>
             <h1 className="text-4xl w-full m-0 text-text-colour-primary">Your Daily Carbon Scores</h1>
-            <p className="text-base pt-2 text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
+            <p className="text-base pt-2 text-text-colour-secondary">
+                Your carbon scores are calculated based on your daily carbon emissions rated along side the carbon intensity in your region. If you used your eneergy during low carbon intensity periods, you will score higher. Using energy during high carbon intensity periods will result in a lower score.
+            </p>
+            <p className="text-base pt-2 text-text-colour-secondary">
+                Carbon Scores are calulcated just after midnight each day and are based on the previous days energy usage. Come back tommorow to see how you scored today.
+            </p>
         </div>
-        <div className='rounded-lg p-8 bg-bg-main-transparent glassEffect'>
-            <h1 className="text-xl w-full m-0 text-text-colour-primary">Summary</h1>
-            <p className="text-base text-text-colour-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id ullamcorper urna, nec ornare quam.</p>
-            <div className="flex flex-row gap-4 pt-4">
-                <div className="w-1/3 h-min bg-bg-main-transparent glassEffect p-4 justify-center items-center text-center flex flex-col gap-2 rounded-lg">
-                    <h1 className="text-lg w-full m-0 text-text-colour-primary ">Daily Average</h1>
-                    <h2 className='veryhigh-score-text m-0 text-5xl '>56</h2>
-                    <p className='text-text-colour-tertiary m-0 text-sm'>/100</p>
-                    <p className='text-text-colour-secondary m-0 text-base'>Last 30 Days</p>
-                </div>
-                <div className="w-1/3 h-min bg-bg-main-transparent glassEffect p-4 justify-center items-center text-center flex flex-col gap-2 rounded-lg">
-                    <h1 className="text-lg w-full m-0 text-text-colour-primary ">Highest Score</h1>
-                    <h2 className='veryhigh-score-text m-0 text-5xl '>56</h2>
-                    <p className='text-text-colour-tertiary m-0 text-sm'>/100</p>
-                    <p className='text-text-colour-secondary m-0 text-base'>23/09/2020</p>
-                </div>
-                <div className="w-1/3 h-min bg-bg-main-transparent glassEffect p-4 justify-center items-center text-center flex flex-col gap-2 rounded-lg">
-                    <h1 className="text-lg w-full m-0 text-text-colour-primary ">Lowest Score</h1>
-                    <h2 className='veryhigh-score-text m-0 text-5xl '>56</h2>
-                    <p className='text-text-colour-tertiary m-0 text-sm'>/100</p>
-                    <p className='text-text-colour-secondary m-0 text-base'>23/09/2020</p>
-                </div>
-            </div>
-        </div>
-        <div className="pt-6 pb-2">
+        <ScoresKeyData />
+        <div className="pt-4">
             <nav className="flex space-x-4" aria-label="Tabs">
                 {['Daily', 'Weekly', 'Monthly'].map((tab) => (
                 <a
@@ -65,7 +48,7 @@ function ScoresPage() {
                 ))}
             </nav>
         </div>
-        <div className='bg-bg-main-transparent glassEffect rounded-b-lg p-5 border-t-8 border-solid border-primary-colour'>
+        <div className='bg-bg-main-transparent glassEffect rounded-b-lg border-t-8 border-solid border-primary-colour'>
             {activeTab === 'Daily' && 
                 <DailyScoreTab />
             }
