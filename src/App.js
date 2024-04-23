@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import LoginRegister from './pages/LoginRegister';
 import { AuthProvider, useAuth } from './contexts/authContext';
 import { ToastProvider } from './contexts/ToastContext';
-import Toast from './components/toast/Toast';
 import 'material-symbols';
 import PairDevice from './pages/Device/PairDevice';
 import YourDevice from './pages/Device/YourDevice';
@@ -17,10 +16,9 @@ import AccountPage from './pages/Settings/Settings';
 import CarbonIntensityPage from './pages/CarbonIntensity';
 import DeviceStatus from './components/DeviceStatus';
 import { useDevice, DeviceProvider } from './contexts/DeviceContext';
-import { set } from 'date-fns';
-import { getAuth } from 'firebase/auth'
 import UsagePage from './pages/Usage';
 import FAQPage from './pages/FAQ';
+import Toast from './components/toast/Toast';
 
 // A component to protect routes
 function PrivateRoute({ children }) {
@@ -33,7 +31,6 @@ function ConditionalRoutes() {
   const { pairedTo } = useDevice();
 
   return (
-    <ToastProvider>
     <Routes>
       <Route path="/" element={<LoginRegister />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
@@ -46,7 +43,7 @@ function ConditionalRoutes() {
       <Route path="/your-usage" element={<PrivateRoute><UsagePage /></PrivateRoute>} />
       <Route path="/faqs" element={<PrivateRoute><FAQPage /></PrivateRoute>} />
     </Routes>
-    </ToastProvider>
+    
   );
 }
 
@@ -67,9 +64,11 @@ const App = () => {
 
   return (
     <AuthProvider>
+      <ToastProvider>
         <DeviceProvider>
           <ThemeProvider>
             <Router>
+              <Toast />
               <div className="App font-rubik flex min-h-screen bg-bg-outer">
                 <ConditionalMenus />
                 <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl first-letter:sm:m-0 sm:m-3 bg-mainBackground bg-cover bg-center overflow-y-auto'>
@@ -79,6 +78,7 @@ const App = () => {
             </Router>
           </ThemeProvider>
         </DeviceProvider>
+      </ToastProvider>
     </AuthProvider>
 );
 };

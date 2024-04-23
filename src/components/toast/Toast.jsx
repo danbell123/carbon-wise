@@ -1,6 +1,5 @@
-// Toast.js
 import React from 'react';
-import { useToast } from '../../contexts/ToastContext'; 
+import { useToast } from '../../contexts/ToastContext';
 
 const Toast = () => {
   const { toasts, removeToast } = useToast();
@@ -10,15 +9,16 @@ const Toast = () => {
       {toasts.map((toast, index) => (
         <div
           key={toast.id}
-          className={`fixed top-${index * 4 + 1}0 right-0 mt-2 mr-4 p-6 rounded shadow-lg transition-all ${toast.type === 'success' ? 'bg-green' : 'bg-red'} z-50`}
-          style={{ top: `${index * 4 + 1}rem` }}
+          className={`fixed top-${10 + index * 4}0 right-0 m-4 p-4 rounded shadow-lg transition-all 
+                     ${toast.type === 'success' ? 'bg-green text-white' : 'bg-red text-white'}`}
+          style={{ zIndex: 9999 }}
         >
-          <div className='flex flex-auto'>
-            <div className="text-text-colour-primary text-md font-rubik justify-center">
+          <div className='flex justify-between items-center'>
+            <div className="text-md text-colour-primary font-rubik">
               {toast.content}
             </div>
-            <button onClick={() => removeToast(toast.id)} className="pl-4 bg-transparent">
-              <span className="material-symbols-outlined text-text-colour-secondary">close</span>
+            <button onClick={() => removeToast(toast.id)} className="ml-4 bg-transparent">
+              <span className="material-symbols-outlined text-text-colour-secondary bg-transparent">close</span>
             </button>
           </div>
         </div>

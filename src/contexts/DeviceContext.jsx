@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { rtdb, databaseRef, onValue, query, limitToLast } from '../firebase';
-import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, getDoc, doc, setDoc, deleteDoc, FirestoreError } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useToast } from '../contexts/ToastContext';  
 
 // Define the context
 const DeviceContext = createContext();
@@ -14,6 +15,8 @@ export const DeviceProvider = ({ children }) => {
     const firestore = getFirestore();
     const currentUser = auth.currentUser;
 
+    const { addToast } = useToast();
+
     const [deviceState, setDeviceState] = useState({
         pairedTo: null,
         isDisconnected: true,
@@ -25,16 +28,24 @@ export const DeviceProvider = ({ children }) => {
 
     const pairDevice = async (macAddress) => {
         try {
+            const firestore = getFirestore();
             const deviceRef = doc(firestore, 'user-device-pairings', macAddress);
+            
+            // Check if the device document exists
+            const docSnap = await getDoc(deviceRef);
+            if (!docSnap.exists()) {
+                throw new Error("Device with this MAC address does not exist.");
+            }
+    
             const usersPairedRef = collection(deviceRef, 'usersPaired');
-
+    
             // Add user to the device's 'usersPaired' subcollection
             const userDocRef = doc(usersPairedRef, currentUser.uid);
             await setDoc(userDocRef, {
                 pairedOn: new Date(), 
                 userID: currentUser.uid
             });
-
+    
             // After successful pairing, update the device context
             setDeviceState((prevState) => ({
                 ...prevState,
@@ -46,8 +57,16 @@ export const DeviceProvider = ({ children }) => {
                 },
             }));
 
+            addToast('Device paired successfully', 'success');
+    
         } catch (error) {
-            console.error("Error pairing device:", error);
+            // Handle specific Firestore errors or generic errors
+            if (error instanceof FirestoreError) {
+                console.error("Firestore error during device pairing:", error.message);
+            } else {
+                console.error("Error pairing device:", error.message);
+            }
+            addToast(`Failed to pair device: ${error.message}`, 'error');
         }
     };
 

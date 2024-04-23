@@ -15,7 +15,6 @@ const PairDevice = () => {
     e.preventDefault();
     try {
         await pairDevice(macAddress);
-        addToast('Device paired successfully', 'success');
         navigate('/your-device');
     } catch (error) {
         addToast(`Failed to pair device: ${error.message}`, 'error');
@@ -40,7 +39,7 @@ const PairDevice = () => {
                 onChange={(e) => setMacAddress(e.target.value)}
                 className="input text-lg w-full px-4 py-2 border-gray-300 rounded shadow-sm focus:ring focus:ring-opacity-50"
               />
-              <Button type="submit" className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <Button type="submit">
                 Pair Device
               </Button>
             </form>
