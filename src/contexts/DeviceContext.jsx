@@ -146,6 +146,7 @@ export const DeviceProvider = ({ children }) => {
                     clearTimeout(disconnectTimer);
                     disconnectTimer = setTimeout(() => {
                         setDeviceState(prevState => ({...prevState, isDisconnected: true}));
+                        addToast(`Device Disconnected`, 'error');
                     }, 70000);
                 }
             });
