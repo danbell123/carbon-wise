@@ -29,19 +29,14 @@ const CarbonIntensityChart = ({ data }) => {
         const { cx, cy, payload } = props;
         
         if (carbonIntensityDescription(payload.forecast).level === 'Very Low') {
-            console.log(payload.forecast , "= Very Low")
             return <circle cx={cx} cy={cy} r={4} fill="var(--veryLowColour)" />;
         } else if (carbonIntensityDescription(payload.forecast).level === 'Low') {
-            console.log(payload.forecast , "= Low")
             return <circle cx={cx} cy={cy} r={4} fill="var(--lowColour)" />;
         } else if (carbonIntensityDescription(payload.forecast).level === 'Moderate') {
-            console.log(payload.forecast , "= Moderate")
             return <circle cx={cx} cy={cy} r={4} fill="var(--midColour)" />;
         } else if (carbonIntensityDescription(payload.forecast).level === 'High') {
-            console.log(payload.forecast , "= High")
             return <circle cx={cx} cy={cy} r={4} fill="var(--highColour)" />;
         } else {
-            console.log(payload.forecast , "= Very High")
             return <circle cx={cx} cy={cy} r={4} fill="var(--veryHighColour)" />;
         }
     };
