@@ -11,6 +11,7 @@ import CarbonIntensityLive from '../components/intensity/CarbonIntensityLive';
 import regions from '../data/regions.json';
 import { getAuth } from 'firebase/auth';
 import fetchUserData from '../services/getUserDetails'; 
+import CustomDateInput from '../components/inputs/CustomDateInput';
 
 function CarbonIntensityPage() {
     const [cleanedFutureData, setCleanedFutureData] = useState([]);
@@ -19,8 +20,8 @@ function CarbonIntensityPage() {
     const [regionID, setRegionID] = useState(null);
     const [futureStartDate, setFutureStartDate] = useState(new Date(new Date().setHours(new Date().getHours() - 12)));
     const [futureEndDate, setFutureEndDate] = useState(new Date());
-    const [pastStartDate, setPastStartDate] = useState(null);
-    const [pastEndDate, setPastEndDate] = useState(null);
+    const [pastStartDate, setPastStartDate] = useState(new Date(new Date().getTime() - 24 * 60 * 60 * 1000)); // 24 hours ago
+    const [pastEndDate, setPastEndDate] = useState(new Date()); // Current time
     const [activeTab, setActiveTab] = useState('Live Data');
     const [regionName, setRegionName] = useState(''); 
 
@@ -75,11 +76,11 @@ function CarbonIntensityPage() {
     }, [regionID, futureStartDate, futureEndDate, pastStartDate, pastEndDate]); 
 
   return (
-    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-10">
+    <div className="p-5 pt-20 sm:p-10 flex flex-col gap-5">
         <h1 className="text-4xl w-full m-0 text-text-colour-primary">Carbon Intensity</h1>
-        <p className="text-base pt-2 text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
+        <p className="text-base text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
 
-        <div className="pt-6 pb-2">
+        <div className="pt-6">
             <nav className="flex space-x-4" aria-label="Tabs">
                 {['Live Data', 'Past Data', 'Future Data'].map((tab) => (
                 <a
@@ -99,35 +100,32 @@ function CarbonIntensityPage() {
             }
             {activeTab === 'Past Data' && 
                 <div>
-                    <div className='flex flex-col gap-1 justify-start mb-4'>
-                        <h1 className="text-xl m-0 text-text-colour-primary font-semibold">Past Carbon Intensity Data</h1>
-                        <p className="text-base pt-2 text-text-colour-secondary">View past carbon intensity data for {regionName}</p>
-                    </div>
-                    <div className="date-picker-container mb-4">
-                        <InputGroup style={{ width: "50%", border: "0px" }}>
-                            <DatePicker 
-                                format="dd-MM-yyyy - HH:mm"
-                                block appearance="subtle"
-                                style={{ width: "50%", marginRight: "10px" }} 
-                                selected={pastStartDate}
-                                onChange={date => setPastStartDate(date)} 
-                                showTimeSelect
-                                dateFormat="Pp"
-                            />
-                            <InputGroup.Addon style={{ margin: "0 10px" }}>to</InputGroup.Addon>
-                            <DatePicker
-                                format="dd-MM-yyyy - HH:mm"
-                                block appearance="subtle"
-                                style={{ width: "50%", marginLeft: "10px" }}
-                                selected={pastEndDate}
-                                onChange={date => setPastEndDate(date)} 
-                                showTimeSelect
-                                dateFormat="Pp"
-                            />
-                        </InputGroup>
-                    </div>
-                    <CarbonIntensityChart data={cleanedPastData} />       
+                <div className='flex flex-col gap-1 justify-start mb-4'>
+                  <h1 className="text-xl m-0 text-text-colour-primary font-semibold">Past Carbon Intensity Data</h1>
+                  <p className="text-base pt-2 text-text-colour-secondary">View past carbon intensity data for {regionName}</p>
                 </div>
+                <div className="date-picker-container mb-4">
+                  <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <CustomDateInput
+                      selected={pastStartDate}
+                      onChange={date => setPastStartDate(date)}
+                      showTimeSelect={true}
+                      dateFormat="Pp"
+                      value={pastStartDate}
+                    />
+                    <span className='text-text-colour-secondary text-lg'>-</span>
+                    <CustomDateInput
+                      selected={pastEndDate}
+                      onChange={date => setPastEndDate(date)}
+                      showTimeSelect={true}
+                      dateFormat="Pp"
+                      value={pastEndDate}
+                    />
+                  </div>
+                </div>
+                <CarbonIntensityChart data={cleanedPastData} />
+              </div>
+              
             }
             {activeTab === 'Future Data' && 
             <div>

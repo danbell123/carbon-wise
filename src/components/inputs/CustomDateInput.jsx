@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { motion } from 'framer-motion';
 
-function CustomDateInput({ value, onChange }) {
+function CustomDateInput({ value, onChange, showTimeSelect, dateFormat }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -11,7 +11,6 @@ function CustomDateInput({ value, onChange }) {
     setOpen(!open);
   };
 
-  // Enhanced motion handling with explicit initial and animate controls
   const iconVariants = {
     opened: { rotate: 180 },
     closed: { rotate: 0 }
@@ -35,11 +34,13 @@ function CustomDateInput({ value, onChange }) {
     <DatePicker
       selected={value}
       onChange={onChange}
-      onChangeRaw={(event) => event.preventDefault()} // Prevent typing in input
+      onChangeRaw={(event) => event.preventDefault()}
       customInput={<CustomInput ref={ref} onClick={handleOpenCalendar} />}
       open={open}
       onCalendarClose={() => setOpen(false)}
       onCalendarOpen={() => setOpen(true)}
+      showTimeSelect={showTimeSelect}
+      dateFormat={dateFormat || "Pp"}
     />
   );
 }

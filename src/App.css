@@ -157,6 +157,14 @@ html, body, #root {
   @apply bg-bg-outer rounded-t-lg p-3 text-text-colour-primary;
 }
 
+.react-datepicker-time__header{
+  @apply bg-bg-outer rounded-t-lg p-1 text-text-colour-primary;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+  @apply bg-bg-outer text-text-colour-secondary overflow-x-hidden;
+}
+
 .react-datepicker__current-month,
 .react-datepicker__day-name {
   @apply text-text-colour-primary text-lg;
