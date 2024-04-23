@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ScoresCalendar from './scoresCalendar';
 import getUserScore from '../../services/getUserScores';
 import { getAuth } from 'firebase/auth';
+import CustomMonthInput from '../../components/inputs/CustomMonthInput';
 
 function MonthlyScoreTab() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -54,11 +54,11 @@ function MonthlyScoreTab() {
   return (
     <div className="p-5 pt-28 sm:pt-10">
       <div className="mb-5">
-        <DatePicker
-          selected={selectedDate}
+        <CustomMonthInput
+          value={selectedDate}
           onChange={handleChange}
           dateFormat="MM/yyyy"
-          showMonthYearPicker
+          showMonthYearPicker={true}
           dropdownMode="select"
           onCalendarOpen={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))}
         />

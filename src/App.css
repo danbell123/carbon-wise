@@ -139,3 +139,59 @@ a, a:visited, a:focus {
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
+
+/* Tailwind with @apply directive for react-datepicker */
+.react-datepicker {
+  @apply bg-white rounded-xl shadow-lg font-rubik text-base overflow-hidden border-0 bg-bg-outer;
+}
+
+.react-datepicker__header {
+  @apply bg-bg-outer rounded-t-lg p-3 text-text-colour-primary;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  @apply text-text-colour-primary text-lg;
+}
+
+.react-datepicker__day {
+  @apply text-text-colour-secondary;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range {
+  @apply bg-primary-colour text-white;
+}
+
+.react-datepicker__day:hover {
+  @apply bg-primary-colour text-white;
+}
+
+.react-datepicker__month-select,
+.react-datepicker__year-select {
+  @apply text-base bg-bg-outer text-text-colour-primary rounded-lg p-2 mx-1 my-2 border border-gray-300 focus:outline-none focus:border-primary-colour;
+}
+
+.react-datepicker__month-select:hover,
+.react-datepicker__year-select:hover {
+  @apply bg-primary-colour text-white;
+}
+
+.react-datepicker__month {
+  @apply text-text-colour-secondary;
+}
+
+.react-datepicker__month-read-view:hover,
+.react-datepicker__year-read-view:hover {
+  @apply cursor-pointer bg-bg-outer text-primary-colour;
+}
+
+.react-datepicker__month-read-view,
+.react-datepicker__year-read-view {
+  @apply bg-bg-outer text-text-colour-primary rounded-lg p-2 my-1 mx-auto text-center;
+}
+
+.react-datepicker__navigation {
+  @apply text-lg text-text-colour-primary;
+}
