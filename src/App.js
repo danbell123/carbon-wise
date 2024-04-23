@@ -71,7 +71,7 @@ const App = () => {
               <Toast />
               <div className="App font-rubik flex min-h-screen bg-bg-outer">
                 <ConditionalMenus />
-                <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl first-letter:sm:m-0 sm:m-3 bg-mainBackground bg-cover bg-center overflow-y-auto'>
+                <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl sm:m-3 bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen'>
                   <ConditionalRoutes />
                 </div>
               </div>
