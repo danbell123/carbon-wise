@@ -76,14 +76,12 @@ const CarbonIntensityPeakTimes = () => {
         }
         const userRegionID = userData.regionID; // This variable holds the region ID
 
-        console.log('User region ID:', userRegionID);
 
         const userRegion = regions.find(region => region.id === Number(userRegionID));
         if (!userRegion) {
           throw new Error('Region not found');
         }
         setRegionName(userRegion.name); // Set the dynamically determined region name
-        console.log('User region name:', userRegion.name);
 
         // Now fetch the carbon intensity data using the region ID
         await fetchData(userRegionID); // Correctly passing userRegionID to fetchData
