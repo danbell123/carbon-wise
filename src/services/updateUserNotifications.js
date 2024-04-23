@@ -27,7 +27,6 @@ const updateUserNotifications = async (uid, notificationSettings) => {
   
     try {
       await updateDoc(notificationRef, notificationSettings);
-      console.log("Notification settings updated successfully");
       return { success: true };
     } catch (error) {
       console.error("Error updating notification settings:", error);

@@ -10,7 +10,6 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    console.log(theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 

@@ -23,11 +23,9 @@ const userObject = {
 
 const updateUser = async (uid, userObj) => {
   const userRef = doc(db, "users", uid);
-  console.log("Updating user with ID:", uid);
 
   try {
     await updateDoc(userRef, userObj);
-    console.log("User updated successfully");
     return { success: true };
   } catch (error) {
     console.error("Error updating user:", error);

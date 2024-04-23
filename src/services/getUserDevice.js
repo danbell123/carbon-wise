@@ -14,12 +14,10 @@ async function findUserDeviceMacAddress(userId) {
     const userIsPaired = usersPairedSnapshot.docs.some(userDoc => userDoc.id === userId);
     if (userIsPaired) {
       // Return the MAC address (document ID of the device)
-      console.log(`User ${userId} is paired with device ${deviceDoc.id}`);
       return deviceDoc.id;
     }
   }
 
-  console.log(`User ${userId} is not paired with any device`);  
   return null; // Return null if the user is not paired with any device
 }
 

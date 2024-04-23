@@ -13,7 +13,6 @@ const AccountPage = () => {
   const handleLogout = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
-      console.log('Logged out successfully');
       navigate('/'); 
     }).catch((error) => {
       console.error('Failed to log out:', error);

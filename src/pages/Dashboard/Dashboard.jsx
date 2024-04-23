@@ -16,7 +16,6 @@ const Dashboard = () => {
 
     if (currentUser) {
       fetchUserData(currentUser.uid).then((userData) => {
-        console.log("userData.firstName: ", userData.firstName);
         setFirstName(userData.firstName); // Update state with first name
       }).catch(error => console.error("Failed to fetch user data:", error));
     }
