@@ -52,7 +52,7 @@ const UsageContainer = () => {
       {/* Spacer div */}
       <div className="flex-grow"></div>
   
-      <DeviceLatestData kWh={latestData.kWh} timestamp={latestData.timestamp} />
+        <DeviceLatestData kWh={latestData.kWh} timestamp={latestData.timestamp} />
       
       {/* Another spacer div to ensure visualization stays centered */}
       <div className="flex-grow"></div>

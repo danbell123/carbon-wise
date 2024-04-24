@@ -20,7 +20,7 @@ const DynamicParts = memo(({ value, arcLength, emptyLength }) => {
         x="100"
         y="60" // Adjust the y position if necessary to center the text
         textAnchor="middle"
-        fill="white"
+        fill="var(--text-colour-primary)"
         fontSize="20"
       >
         {`${value}kWh`}
@@ -44,19 +44,26 @@ const UsageVisualization = ({ value, maxValue }) => {
 
   return (
     <div className="my-4 flex justify-center items-center">
-      <svg width="200" height="110" viewBox="0 0 200 110">
-        {/* Background arc */}
-        <path
-          d="M 10,100 A 90,90 0 0,1 190,100"
-          fill="none"
-          stroke="#333"
-          strokeWidth="20"
-          strokeLinecap="round"
-        />
-        {/* Dynamic parts: foreground arc and text */}
-        <DynamicParts value={value} arcLength={arcLength} emptyLength={emptyLength} />
-      </svg>
-    </div>
+  <svg width="100%" height="100%" viewBox="-10 -10 220 130" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="var(--text-colour-secondary)" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+    <path
+      d="M 10,100 A 90,90 0 0,1 190,100"
+      fill="none"
+      stroke="var(--bg-outer)"
+      strokeWidth="20"
+      strokeLinecap="round"
+      filter="url(#shadow)"
+    />
+    {/* Dynamic parts: foreground arc and text */}
+    <DynamicParts value={value} arcLength={arcLength} emptyLength={emptyLength} />
+  </svg>
+</div>
+
+
   );
 };
 

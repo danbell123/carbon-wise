@@ -7,7 +7,7 @@ a:hover {
 }
 
 a, a:visited, a:focus {
-  color: inherit;  
+  color: var(--text-colour-primary) !important;  
   text-decoration: none; 
   outline: none;
 }

@@ -38,7 +38,7 @@ const YourDevice = () => {
         </Button>
         </section>
       </main>
-      <section className="p-5 sm:p-10 flex flex-col items-start justify- z-[1] text-text-colour-primary gap-8">
+      <section className="p-5 sm:p-10 flex flex-col items-start justify- z-[1] text-text-colour-primary gap-8 overflow-hidden">
         <div className='w-full h-min'>
           <div className='w-full h-min flex flex-row items-start items-center justify-between gap-3 relative'>
 
@@ -48,10 +48,10 @@ const YourDevice = () => {
             </div>
 
             <div className='w-1/2 h-min flex flex-row items-center justify-center gap-1'>
-              <p className={`m-0 text-xl font-normal ${!isDisconnected ? 'text-green' : 'text-red'}`}>
+              <p className={`m-0 text-2xl font-normal ${!isDisconnected ? 'text-green' : 'text-red'}`}>
                 {!isDisconnected ? 'CONNECTED' : 'DISCONNECTED'}
               </p>
-              {!isDisconnected && <span className="material-symbols-outlined text-green ">check</span>}
+              {!isDisconnected && <span className="material-symbols-outlined text-green text-2xl">check</span>}
             </div>
 
 
@@ -63,12 +63,9 @@ const YourDevice = () => {
           </div>
         </div>
         <div className='w-full h-min pt-5'>
-          <h1 className="text-lg w-full m-0">
+          <p className="text-base w-full m-0">
             Paired to: CARBON-WATCHER-v1.0{pairedTo}
-          </h1>
-          <h3 className="mt-2 text-base font-normal text-text-colour-secondary">
-            Last Sync: 12:00 12/12/2021
-          </h3>
+          </p>
         </div>
       </section>
     </>
