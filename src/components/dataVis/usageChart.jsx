@@ -1,7 +1,7 @@
 import React from 'react';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine } from 'recharts';
 import { useViewportWidth } from '../../hooks/useViewportWidth';
-import { parseISO, format, isValid, eachMinuteOfInterval, differenceInMinutes, startOfMinute } from 'date-fns';
+import { parseISO, format, isValid, eachDayOfInterval, startOfDay } from 'date-fns';
 
 const UsageChart = ({ data }) => {
     const width = useViewportWidth();
@@ -13,38 +13,16 @@ const UsageChart = ({ data }) => {
     // Sort data by timestamp to ensure correct order in the chart
     data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-    // Find the full range from start to end
-    const startDate = new Date(data[0].timestamp);
-    const endDate = new Date(data[data.length - 1].timestamp);
+    const startDate = startOfDay(new Date(data[0].timestamp));
+    const endDate = startOfDay(new Date(data[data.length - 1].timestamp));
 
-    // Create a full range of dates from start to end with the same granularity as your dataset
-    const fullDateRange = eachMinuteOfInterval({
-      start: startDate,
-      end: endDate
-    }, { step: 1 }); // Change `step` to match the expected interval of your data points
-
-    // Reduce the existing data into a map for quick lookup
-    const dataMap = data.reduce((map, item) => {
-        const dateKey = startOfMinute(new Date(item.timestamp)).toISOString(); // Normalize date to minute start
-        map[dateKey] = item.kWh;
-        return map;
-    }, {});
-
-    // Map full date range to objects, using data from the map or null if not present
-    const completeData = fullDateRange.map(date => {
-        const dateKey = date.toISOString();
-        return {
-            timestamp: dateKey,
-            kWh: dataMap[dateKey] ?? null  // Use null for missing kWh values
-        };
+    // Generate a list of all days between the start and end date
+    const days = eachDayOfInterval({
+        start: startDate,
+        end: endDate
     });
 
     const formatXAxis = (tickItem) => {
-        if (!tickItem) {
-            console.error("Invalid tick item received:", tickItem);
-            return "";
-        }
-
         try {
             const date = parseISO(tickItem);
             if (!isValid(date)) {
@@ -64,7 +42,7 @@ const UsageChart = ({ data }) => {
             const data = payload[0].payload;
             return (
                 <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
-                    <p className="label">{`Time: ${format(parseISO(data.timestamp), 'HH:mm:ss')}`}</p>
+                    <p className="label">{`Time: ${format(parseISO(data.timestamp), 'ddMM HH:mm:ss')}`}</p>
                     <p className="intro">{`Energy Used: ${data.kWh} kWh`}</p>
                 </div>
             );
@@ -78,10 +56,10 @@ const UsageChart = ({ data }) => {
     };
 
     return (
-        <div className="w-full h-72">
+        <div className="w-full h-96">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart
-                    data={completeData}
+                    data={data}
                     margin={{ top: 10, right: 0, left: -20, bottom: 0 }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
@@ -93,13 +71,16 @@ const UsageChart = ({ data }) => {
                     />
                     <YAxis stroke="var(--text-colour-secondary)" tick={axisTickStyle} />
                     <Tooltip content={renderTooltipContent} />
+                    {days.map(day => (
+                        <ReferenceLine key={day} x={day.toISOString()} stroke="red" label={format(day, 'MMM dd')} />
+                    ))}
                     <Line
-                        type="monotone"
+                        type="bump"
                         dataKey="kWh"
                         stroke="var(--primary-colour)"
                         dot={false}
                         activeDot={{ r: 4 }}
-                        connectNulls={false}
+                        connectNulls={true}
                         strokeWidth={3}
                     />
                 </LineChart>

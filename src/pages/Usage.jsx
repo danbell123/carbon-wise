@@ -8,6 +8,8 @@ import CustomDateInput from '../components/inputs/CustomDateInput';
 import fetchDeviceReadings from '../services/getDeviceReadings';
 import findUserDeviceMacAddress from '../services/getUserDevice';
 import UsageChart from '../components/dataVis/usageChart';
+import GenerateReadings from '../components/GenerateReadings';
+import TimeSeriesChart from '../components/dataVis/usageChartNew';
 
 function UsagePage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +29,6 @@ function UsagePage() {
                     pastEndDate.toISOString()
                 );
                 setDeviceReadings(readings);
-                console.log("readings:: ",readings);
                 setIsLoading(false);
             }
         };
@@ -72,26 +73,27 @@ function UsagePage() {
                         <div className='flex flex-col gap-1 justify-start mb-4'>
                             <h1 className="text-xl m-0 text-text-colour-primary font-semibold">Past Home Usage Data</h1>
                         </div>
+                        <GenerateReadings />
                         <div className="date-picker-container mb-4">
                             <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                                 <CustomDateInput
-                                  selected={pastStartDate}
-                                  onChange={date => setPastStartDate(date)}
-                                  showTimeSelect={true}
-                                  dateFormat="Pp"
-                                  value={pastStartDate}
+                                selected={pastStartDate}
+                                onChange={date => setPastStartDate(date)}
+                                showTimeSelect={false}
+                                dateFormat="MMMM d, yyyy"  
+                                value={pastStartDate}
                                 />
                                 <span className='text-text-colour-secondary text-lg'>-</span>
                                 <CustomDateInput
-                                  selected={pastEndDate}
-                                  onChange={date => setPastEndDate(date)}
-                                  showTimeSelect={true}
-                                  dateFormat="Pp"
-                                  value={pastEndDate}
+                                selected={pastEndDate}
+                                onChange={date => setPastEndDate(date)}
+                                showTimeSelect={false}  
+                                dateFormat="MMMM d, yyyy" 
+                                value={pastEndDate}
                                 />
                             </div>
                         </div>
-                        {isLoading ? <BarLoader /> : <UsageChart data={deviceReadings} pastStartDate={pastStartDate.toISOString()} pastEndDate={pastEndDate.toISOString()} />}       
+                        {isLoading ? <BarLoader /> : <><UsageChart data={deviceReadings} pastStartDate={pastStartDate.toISOString()} pastEndDate={pastEndDate.toISOString()} /></>  } 
                     </div>
                 }
             </div>
