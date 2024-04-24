@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import UsageVisualization from '../dataVis/UsageVisualization';
-import formatDateToNow from '../../services/readableDateTime';
+import { useNavigate } from 'react-router-dom';
 import Button from '../buttons/btn';
 import BarLoader from '../loader/barLoader';
 import { useDevice } from '../../contexts/DeviceContext';
@@ -8,6 +8,7 @@ import { useDevice } from '../../contexts/DeviceContext';
 const UsageContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { pairedTo, isDisconnected, latestData } = useDevice();
+  let navigate = useNavigate();
 
   if (pairedTo == null) {
     return (
@@ -15,7 +16,7 @@ const UsageContainer = () => {
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center text-xl'>No Device Paired</p>
         <p className='text-text-colour-primary text-center text-sm'>Pair with a device to monitor your usage.</p>
-        <Button colour="transparent">
+        <Button colour="transparent" onClick={() => navigate('/pair-device')}>
           Pair Device
         </Button>
       </div>
@@ -27,7 +28,7 @@ const UsageContainer = () => {
       <div className="h-full glassEffect p-8 px-14 bg-error-bg box-border backdrop-blur-sm w-full rounded-xl shadow-md flex flex-col items-center justify-center gap-4">
         <span className="!text-7xl material-symbols-outlined text-text-colour-primary">warning</span>
         <p className='text-text-colour-primary text-center'>Your device is disconnected. Please check your device.</p>
-        <Button colour="transparent">
+        <Button colour="transparent" onClick={() => navigate('/your-device')}>
           More Details
         </Button>
         <div className='flex flex-col gap-0'>
@@ -58,17 +59,15 @@ const UsageContainer = () => {
       <div className="flex-grow"></div>
   
       <div className='flex flex-row gap-4 w-full justify-center items-center'>
-        <Button colour="primaryGradient1">
+        <Button colour="primaryGradient1" onClick={() => navigate('/your-usage')}>
           View Usage
         </Button>
-        <Button colour="transparent">
+        <Button colour="transparent" onClick={() => navigate('/your-device')}>
           View Device
         </Button>
       </div>
     </div>
   );
-  
-  
 };
 
 const DeviceLatestData = memo(({ kWh, timestamp }) => {
