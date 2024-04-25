@@ -61,7 +61,6 @@ const ScoresSummary = () => {
     <div className='w-full'>
         <div className='flex flex-col w-full justify-start gap-0 pb-4'>
             <h2 className='text-2xl font-semibold m-0 text-text-colour-primary'>Your Daily Carbon Scores</h2>
-            <p className='text-base font-normal  m-0 text-text-colour-tertiary'>North East England</p>
         </div>
 
       {loading && <p className='mt-0 text-base text-text-colour-secondary animate-pulse'>Loading...</p>}

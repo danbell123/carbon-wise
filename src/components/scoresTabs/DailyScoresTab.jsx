@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import getUserScore from '../../services/getUserScores';
 import { format } from 'date-fns';
 import CustomDateInput from '../../components/inputs/CustomDateInput';
+import getScoreColor from '../../utils/scoreColour'; // Ensure the path is correct
 
 function DailyScoreTab() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -13,7 +14,6 @@ function DailyScoreTab() {
   useEffect(() => {
     const fetchScoreForDate = async () => {
       const dateString = format(selectedDate, 'yyyy-MM-dd');
-
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) throw new Error('No authenticated user found.');
@@ -30,15 +30,13 @@ function DailyScoreTab() {
   };
 
   const renderDayScore = () => {
-    if (score) {
+    if (score !== null) {
+      const scoreClass = getScoreColor(score);  // Get the appropriate class based on the score
       return (
         <div className="flex flex-row gap-4 py-8 glassEffectNoShadow">
           <div className="w-full h-min px-4 justify-center items-start text-center flex flex-col gap-2 rounded-lg">
             <h1 className="text-xl text-text-colour-primary">{formatDate(selectedDate)}</h1>
-            <h1 className="text-base m-0 text-text-colour-primary">Very Good Score</h1>
-          </div>
-          <div className="w-min h-min p-6 justify-center items-center text-center flex flex-col gap-2 rounded-lg">
-            <h2 className='veryhigh-score-text m-0 text-5xl'>{score}</h2>
+            <h2 className={`${scoreClass} m-0 text-5xl`}>{score}</h2>
             <p className='text-text-colour-tertiary m-0 text-sm'>/100</p>
           </div>
         </div>

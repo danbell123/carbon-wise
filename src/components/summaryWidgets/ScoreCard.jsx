@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import getScoreColor from '../../utils/scoreColour'; // Import the utility function
 
 const ScoreCard = ({ score, date }) => {
+    const scoreClass = getScoreColor(score); // Get the appropriate class for the score
 
     return (
         <div className='flex flex-col gap-0 bg-bg-main-transparent glassEffect'>
@@ -9,13 +11,8 @@ const ScoreCard = ({ score, date }) => {
                     <h2 className='text-text-colour-primary m-0 font-normal text-sm text-center'>{date}</h2>
                 </div>
                 <div className='flex flex-col gap-0 items-center w-24'>
-                    {     score > 90 ? <><h2 className='veryhigh-score-text m-0 text-5xl '>{score}</h2><p className='text-text-colour-tertiary m-0 text-sm'>/100</p></>
-                        : score > 70 ? <><h2 className='high-score-text m-0 text-5xl'>{score}</h2><p className='text-text-colour-tertiary m-0 text-sm'>/100</p></>
-                        : score > 50 ? <><h2 className='mid-score-text m-0 text-5xl'>{score}</h2><p className='text-text-colour-tertiary m-0 text-sm'>/100</p></>
-                        : score > 30 ? <><h2 className='low-score-text m-0 text-5xl'>{score}</h2><p className='text-text-colour-tertiary m-0 text-sm'>/100</p></>
-                        : score == "-" ? <h2 className='text-text-colour-tertiary font-normal m-0 text-base text-center'>No Score Recorded</h2>
-                        : <><h2 className='verylow-score-text m-0 text-5xl'>{score}</h2><p className='text-text-colour-tertiary m-0 text-sm'>/100</p></>
-                    }
+                    <h2 className={`${scoreClass} m-0 text-5xl`}>{score}</h2>
+                    <p className='text-text-colour-tertiary m-0 text-sm'>/100</p>
                 </div>
             </div>
             <div className='flex flex-col gap-0 justify-center items-center bg-bg-main-transparent rounded-b-xl p-1'>

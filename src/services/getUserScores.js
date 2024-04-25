@@ -11,6 +11,7 @@ async function getUserScore(userId, date) {
     return null; // Early return if no device is paired
   }
 
+    console.log(`Scores: Device MAC address: ${deviceMacAddress}`);
     // Access the dailyReadings collection for the specified date, then navigate to the device subcollection/document
     const deviceReadingsRef = doc(firestore, `dailyReadings/${date}/deviceID/${deviceMacAddress}`);
     const deviceReadingsDoc = await getDoc(deviceReadingsRef);
