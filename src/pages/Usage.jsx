@@ -9,7 +9,6 @@ import fetchDeviceReadings from '../services/getDeviceReadings';
 import findUserDeviceMacAddress from '../services/getUserDevice';
 import UsageChart from '../components/dataVis/usageChart';
 import GenerateReadings from '../components/GenerateReadings';
-import TimeSeriesChart from '../components/dataVis/usageChartNew';
 
 function UsagePage() {
     const [isLoading, setIsLoading] = useState(true);
