@@ -46,7 +46,7 @@ const LoginForm = ({ onToggle }) => {
         </div>
         <div className="flex items-center my-2">
           <div className="flex-grow border-t "></div>
-          <span className="flex-shrink mx-4 text-text-colour-tertiary">or continue with email</span>
+          <span className="flex-shrink mx-4 text-text-colour-secondary text-base">or continue with email</span>
           <div className="flex-grow border-t"></div>
         </div>
         <div className="flex flex-col items-center my-4 gap-4">
@@ -60,12 +60,12 @@ const LoginForm = ({ onToggle }) => {
             <PasswordInput value={password} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="flex items-center justify-between">
-          <p>Forgot Password?</p>
+          <p className='text-text-colour-tertiary text-sm'>Forgot Password?</p>
         </div>
         <Button size="large" width="full" >LOG IN</Button>
       </form>
       <div className="mt-6 text-center">
-        <p className="text-sm">Don't have account? <button onClick={onToggle} className="text-sm text-blue-500 hover:underline">Register</button></p>
+        <p className="text-sm text-text-colour-secondary">Don't have account? <button onClick={onToggle} className="text-sm text-blue-500 hover:underline">Register</button></p>
       </div>
     </div>
   );

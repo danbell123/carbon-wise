@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
+import zxcvbn from 'zxcvbn';  // Import zxcvbn for password strength evaluation
 
-const PasswordInput = ({ value, onChange }) => {
+const PasswordInput = ({ value, onChange, isNewPassword, placeholder="Password"}) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+
+  const handlePasswordChange = (e) => {
+    onChange(e); // Call the onChange passed from parent to update the value
+    if (isNewPassword) {
+      const result = zxcvbn(e.target.value);
+      setPasswordStrength(result.score); // Update password strength based on evaluation
+    }
+  };
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -11,9 +21,9 @@ const PasswordInput = ({ value, onChange }) => {
         <input
           type={showPassword ? 'text' : 'password'}
           id="password"
-          value={value} // Use value passed from parent
-          onChange={onChange} // Use onChange passed from parent
-          placeholder="Password"
+          value={value}
+          onChange={handlePasswordChange}
+          placeholder={placeholder}
           className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
         />
         <button
@@ -24,6 +34,17 @@ const PasswordInput = ({ value, onChange }) => {
           {showPassword ? <span className="material-symbols-outlined">visibility_off</span> : <span className="material-symbols-outlined">visibility</span>}
         </button>
       </div>
+      {/* Conditional rendering of the password strength bar */}
+      {isNewPassword && (
+        <div className="w-full bg-gray-300 rounded h-2">
+          <div className={`h-2 rounded transition-width duration-300 ease-in-out ${
+            passwordStrength === 0 ? 'bg-veryHighColour w-2' : 
+            passwordStrength === 1 ? 'bg-orange-500 w-1/4' : 
+            passwordStrength === 2 ? 'bg-yellow-500 w-1/2' : 
+            passwordStrength === 3 ? 'bg-lowColour w-3/4' : 
+            'bg-veryLowColour w-full'}`}></div>
+        </div>
+      )}
     </div>
   );
 };

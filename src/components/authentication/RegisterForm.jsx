@@ -6,6 +6,7 @@ import { useToast } from '../../contexts/ToastContext';
 import { registerUser } from '../../services/registerUser';
 import { useNavigate } from 'react-router-dom';
 import regions from '../../data/regions';
+import PasswordInput from './PasswordInput';
 
 
 const RegisterForm = ({ onToggle }) => {
@@ -31,34 +32,39 @@ const RegisterForm = ({ onToggle }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    if (passwordStrength < 3) {
-        addToast("Password is too weak!", "error");
-        return;
+  
+    const evaluation = zxcvbn(password); // Evaluate password strength immediately
+    setPasswordStrength(evaluation.score); // Update the state for future use
+  
+    console.log("passwordStrength", evaluation.score);
+  
+    if (evaluation.score < 3) {
+      addToast("Password is too weak!", "error");
+      return;
     }
-
+  
     if (password !== confirmPassword) {
-        addToast("Passwords do not match!", "error");
-        return;
+      addToast("Passwords do not match!", "error");
+      return;
     }
-
+  
     if (!regionID) { // Check if the regionID is selected
-        addToast("Please select your region", "error");
-        return;
+      addToast("Please select your region", "error");
+      return;
     }
-
+  
     try {
-        // Now include the regionID in the additionalData object
-        let additionalData = {
-            regionID // Assuming registerUser can handle this additional piece of information
-        };
-
-        await registerUser(email, password, additionalData);
-        addToast('Registration successful!', 'success');
-        navigate('/dashboard'); // Redirect to the dashboard
+      let additionalData = {
+        regionID // Assuming registerUser can handle this additional piece of information
+      };
+  
+      await registerUser(email, password, additionalData);
+      addToast('Registration successful!', 'success');
+      navigate('/dashboard'); // Redirect to the dashboard
     } catch (error) {
-        addToast(error.message, 'error'); // Display the error message from Firebase
+      addToast(error.message, 'error'); // Display the error message from Firebase
     }
+
 };
 
 
@@ -105,24 +111,8 @@ const RegisterForm = ({ onToggle }) => {
                 onChange={e => setEmail(e.target.value)}
                 className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
-            />
-            {/* Password strength bar */}
-            <div className="w-full bg-gray-300 rounded h-2">
-                <div className={`h-2 rounded transition-width duration-300 ease-in-out ${passwordStrength === 0 ? 'bg-red-500 w-2' : passwordStrength === 1 ? 'bg-orange-500 w-1/4' : passwordStrength === 2 ? 'bg-yellow-500 w-1/2' : passwordStrength === 3 ? 'bg-green-300 w-3/4' : 'bg-green-500 w-full'}`}></div>
-            </div>
-            <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
-            />
+            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} isNewPassword={true}/>
+            <PasswordInput value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
             <div className="w-full bg-gray-300 rounded">
               <select
                 id="region"

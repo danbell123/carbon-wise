@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/btn';
-import { format } from 'date-fns';
 import PasswordInput from '../authentication/PasswordInput';
 import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword, deleteUser } from "firebase/auth";
 import { useToast } from '../../contexts/ToastContext';
 import fetchUserData from '../../services/getUserDetails';
 import { redirect } from 'react-router-dom';
+import zxcvbn from 'zxcvbn';
+
 
 const AccountSettings = () => {
   const auth = getAuth();
@@ -17,8 +18,14 @@ const AccountSettings = () => {
   const [newPassword, setNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [oldPasswordDelete, setOldPasswordDelete] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const { addToast } = useToast();
+
+  const evaluatePassword = (password) => {
+    const evaluation = zxcvbn(password);
+    setPasswordStrength(evaluation.score);
+  };
 
   useEffect(() => {
     const fetchAndSetUserData = async () => {
@@ -47,6 +54,13 @@ const AccountSettings = () => {
   
     if (!user || oldPassword.length === 0 || newPassword.length === 0) {
       addToast(`Please provide old and new password`, 'error');
+      return;
+    }
+
+    evaluatePassword(newPassword);
+
+    if (passwordStrength < 3) {
+      addToast(`Password is too weak!`, 'error');
       return;
     }
   
@@ -117,7 +131,7 @@ const AccountSettings = () => {
           <label htmlFor="newPassword" className="text-sm font-medium text-text-colour-secondary">
             New Password:
           </label>
-          <PasswordInput id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+          <PasswordInput id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} isNewPassword={true}/>
         </div>
         <Button type="submit" size="medium" width="1/3">Change Password</Button>
       </form>
