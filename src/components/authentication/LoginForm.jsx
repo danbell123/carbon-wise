@@ -46,7 +46,7 @@ const LoginForm = ({ onToggle }) => {
         </div>
         <div className="flex items-center my-2">
           <div className="flex-grow border-t "></div>
-          <span className="flex-shrink mx-4 text-text-colour-secondary text-base">or continue with email</span>
+          <span className="flex-shrink mx-4 text-gray-400">or continue with email</span>
           <div className="flex-grow border-t"></div>
         </div>
         <div className="flex flex-col items-center my-4 gap-4">

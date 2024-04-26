@@ -49,18 +49,18 @@ const Dashboard = () => {
         </section>
       </main>
       <section className=" self-stretch flex flex-col lg:flex-row items-stretch justify-start gap-10">
-        <div className='w-full lg:w-1/3 xl:w-1/3 flex flex-col z-20'>
+        <div className='w-full lg:w-1/3 xl:w-1/3 flex flex-col '>
           <UsageContainer />
         </div>
-        <div className='w-full lg:w-2/3 xl:w-2/3 flex flex-col z-20'>
+        <div className='w-full lg:w-2/3 xl:w-2/3 flex flex-col '>
           <CarbonIntensityWidget />
         </div>
       </section>
       <section className="self-stretch h-min flex flex-col lg:flex-row items-start justify-start gap-10">
-        <div className='w-full lg:w-1/3 xl:w-1/3 flex z-20'>
+        <div className='w-full lg:w-1/3 xl:w-1/3 flex '>
           <CarbonIntensityPeakTimes />
         </div>
-        <div className='w-full lg:w-2/3 xl:w-2/3 flex z-20'>
+        <div className='w-full lg:w-2/3 xl:w-2/3 flex '>
         <ScoresSummary />
         </div>
       </section>

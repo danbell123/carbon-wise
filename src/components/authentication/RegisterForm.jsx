@@ -94,9 +94,6 @@ const RegisterForm = ({ onToggle }) => {
             <Button onClick={handleGoogleSignIn} width='full' >
                 Register With Google
             </Button>
-            <Button width='full'>
-                Register With Facebook
-            </Button>
         </div>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
@@ -127,9 +124,7 @@ const RegisterForm = ({ onToggle }) => {
               </select>
             </div>
         </div>
-        <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600">
-          REGISTER
-        </button>
+        <Button size="large" width="full" >Register</Button>
       </form>
       <div className="mt-6 text-center">
         <p className="text-sm">Already have an account? <button onClick={onToggle} className="text-sm text-blue-500 hover:underline">Login</button></p>

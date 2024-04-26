@@ -16,7 +16,7 @@ const LoginRegister = () => {
     <> 
       <div className="min-h-screen bg-secondary-colour ">
         <div className="flex flex-col pt-8 items-center font-rubik justify-start min-h-screen ">
-        <img src={Logo} alt="Carbon Wise Logo" className="w-1/6 mb-8"/>
+        <img src={Logo} alt="Carbon Wise Logo" className="w-2/3 sm:w-1/6 mb-8"/>
           <div className="z-20 mb-8 relative w-2/3 sm:w-1/3 bg-bg-outer rounded-full h-10 flex items-center cursor-pointer" onClick={() => setIsLogin(!isLogin)}>
             {/* Sliding element */}
             <div className={`absolute left-0 w-1/2 bg-primary-colour rounded-full shadow-md h-full ${toggleClass} transition-transform duration-300 ease-in-out flex items-center justify-center`}>
@@ -34,7 +34,7 @@ const LoginRegister = () => {
             <div className="md:flex">
               <div className="md:w-1/2 p-5 sm:p-10">
                 <div className="text-left">
-                  <p className=" font-bold text-4xl mb-0 text-text-colour-primary">
+                  <p className=" font-bold text-2xl mb-0 text-text-colour-primary">
                     {isLogin ? 'Log In' : 'Register'}
                   </p>
                   <p className="text-base mb-8 text-text-colour-secondary">
