@@ -13,7 +13,7 @@ const RegisterForm = ({ onToggle }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [regionID, setRegionID] = useState('');
+  const [regionID, setRegionID] = useState('15');
   const { addToast } = useToast(); 
   const navigate = useNavigate();
 
@@ -66,9 +66,16 @@ const RegisterForm = ({ onToggle }) => {
     e.preventDefault(); // Prevent default form submission which could refresh the page
     const provider = new GoogleAuthProvider();
     try {
+      // Now include the regionID in the additionalData object
+      let additionalData = {
+        regionID: 15 //Set to default region ID
+      };
+
       await signInWithPopup(auth, provider);
-      addToast('Signed in with Google!', 'success');
-      // Redirect or update UI after successful sign-in
+      await registerUser(additionalData);
+      addToast('Registered with Google!', 'success');
+      navigate('/dashboard'); // Redirect to the dashboard
+
     } catch (error) {
       addToast(error.message, 'error'); // Display the error message from Firebase
     }

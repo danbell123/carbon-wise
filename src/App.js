@@ -29,12 +29,16 @@ function PrivateRoute({ children }) {
 // Define a component inside App.js for conditional routing
 function ConditionalRoutes() {
   const { pairedTo } = useDevice();
+  const { currentUser } = useAuth();
 
   return (
     <Routes>
-      <Route path="/" element={<LoginRegister />} />
+      {/* Redirect signed-in users to the dashboard */}
+      <Route path="/" element={currentUser ? <Navigate to="/dashboard" replace /> : <LoginRegister />} />
+      
+      {/* Protect other routes */}
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-      <Route path="/pair-device" element={pairedTo !=null ? <Navigate to="/your-device" /> : <PrivateRoute><PairDevice /></PrivateRoute>} />
+      <Route path="/pair-device" element={pairedTo != null ? <Navigate to="/your-device" /> : <PrivateRoute><PairDevice /></PrivateRoute>} />
       <Route path="/your-device" element={pairedTo == null ? <Navigate to="/pair-device" /> : <PrivateRoute><YourDevice /></PrivateRoute>} />
       <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>} />
       <Route path="/carbon-intensity" element={<PrivateRoute><CarbonIntensityPage /></PrivateRoute>} />
@@ -43,13 +47,13 @@ function ConditionalRoutes() {
       <Route path="/your-usage" element={<PrivateRoute><UsagePage /></PrivateRoute>} />
       <Route path="/faqs" element={<PrivateRoute><FAQPage /></PrivateRoute>} />
     </Routes>
-    
   );
 }
 
 const App = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
+  const { currentUser } = useAuth() ?? {};
+
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
@@ -57,7 +61,6 @@ const App = () => {
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-
   }, []);
 
   const isMobile = windowWidth < 768;
@@ -71,7 +74,8 @@ const App = () => {
               <Toast />
               <div className="App font-rubik flex min-h-screen bg-bg-outer">
                 <ConditionalMenus />
-                <div className='flex-grow lg:ml-64 md:ml-64 sm:rounded-3xl sm:m-3 bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen'>
+                {/* Use template literals to conditionally apply classes */}
+                <div className={`${currentUser ? 'lg:ml-64 md:ml-64' : ''} flex-grow sm:rounded-3xl sm:m-3 bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
                   <ConditionalRoutes />
                 </div>
               </div>
@@ -80,8 +84,9 @@ const App = () => {
         </DeviceProvider>
       </ToastProvider>
     </AuthProvider>
-);
+  );
 };
+
 
 // A child component for handling conditional menu rendering based on user authentication and screen size
 const ConditionalMenus = () => {

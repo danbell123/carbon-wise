@@ -3,6 +3,7 @@ import LoginForm from '../components/authentication/LoginForm';
 import RegisterForm from '../components/authentication/RegisterForm';
 import WaveBackground from '../components/waveBackground';
 import FloatingPhone from '../components/FloatingPhone';
+import Logo from '../assets/Logo.png';
 
 const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,17 +15,18 @@ const LoginRegister = () => {
   return (
     <> 
       <div className="min-h-screen bg-secondary-colour ">
-        <div className="flex flex-col items-center font-rubik justify-center min-h-screen">
+        <div className="flex flex-col pt-8 items-center font-rubik justify-start min-h-screen ">
+        <img src={Logo} alt="Carbon Wise Logo" className="w-1/6 mb-8"/>
           <div className="z-20 mb-8 relative w-2/3 sm:w-1/3 bg-bg-outer rounded-full h-10 flex items-center cursor-pointer" onClick={() => setIsLogin(!isLogin)}>
             {/* Sliding element */}
-            <div className={`absolute left-0 w-1/2 bg-bg-main rounded-full shadow-md h-full ${toggleClass} transition-transform duration-300 ease-in-out flex items-center justify-center`}>
+            <div className={`absolute left-0 w-1/2 bg-primary-colour rounded-full shadow-md h-full ${toggleClass} transition-transform duration-300 ease-in-out flex items-center justify-center`}>
 
             </div>
             {/* Non-sliding elements */}
-            <span className={`absolute left-0 w-1/2 text-center text-lg ${isLogin ? 'font-bold text-text-colour-primary' : 'text-text-colour-secondary'}`}>
+            <span className={`absolute left-0 w-1/2 text-center text-lg ${isLogin ? 'font-bold text-bg-main' : 'text-text-colour-secondary'}`}>
               Login
             </span>
-            <span className={`absolute right-0 w-1/2 text-center text-lg ${!isLogin ? 'font-bold text-text-colour-primary' : 'text-text-colour-secondary'}`}>
+            <span className={`absolute right-0 w-1/2 text-center text-lg ${!isLogin ? 'font-bold text-bg-main' : 'text-text-colour-secondary'}`}>
               Register
             </span>
           </div>
