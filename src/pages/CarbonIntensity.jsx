@@ -17,7 +17,7 @@ function CarbonIntensityPage() {
     const [cleanedFutureData, setCleanedFutureData] = useState([]);
     const [cleanedPastData, setPastCleanedData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [regionID, setRegionID] = useState(null);
+    const [regionID, setRegionID] = useState("15");
     const [futureStartDate, setFutureStartDate] = useState(new Date(new Date().setHours(new Date().getHours() - 12)));
     const [futureEndDate, setFutureEndDate] = useState(new Date());
     const [pastStartDate, setPastStartDate] = useState(new Date(new Date().getTime() - 24 * 60 * 60 * 1000)); // 24 hours ago

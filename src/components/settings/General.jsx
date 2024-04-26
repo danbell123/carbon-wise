@@ -11,7 +11,7 @@ const GeneralSettings = () => {
   
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [regionID, setRegionID] = useState('');
+  const [regionID, setRegionID] = useState('15');
 
   const { addToast } = useToast();
 
