@@ -30,14 +30,14 @@ const PairDevice = () => {
           <h3 className="m-0 text-lg font-normal text-text-colour-secondary">
             Connect your device to start tracking energy usage
           </h3>
-          <div className="container mx-auto pt-4">
+          <div className="container mx-auto pt-4 w-full">
             <form onSubmit={handleManualEntry} className="space-y-4">
               <input
                 type="text"
                 placeholder="Enter MAC Address"
                 value={macAddress}
                 onChange={(e) => setMacAddress(e.target.value)}
-                className="input text-lg w-full px-4 py-2 border-gray-300 rounded shadow-sm focus:ring focus:ring-opacity-50"
+                className="input text-lg w-4/5 px-4 py-2 text-bg-main rounded shadow-sm"
               />
               <Button type="submit">
                 Pair Device
