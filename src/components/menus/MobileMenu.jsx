@@ -36,7 +36,7 @@ const MobileMenu = () => {
   return (
     <>
       <header className="fixed top-0 left-0 w-full bg-transparent z-20">
-        <div className="flex items-center justify-between p-5">
+        <div className="flex items-center justify-between p-6">
           {/* Hamburger Icon */}
           <button
             className="text-text-colour-primary focus:outline-none bg-transparent p-0"
@@ -44,22 +44,6 @@ const MobileMenu = () => {
           >
             <span className="material-symbols-outlined p-0">menu</span>
           </button>
-
-          {/* TODO: Account and notifications. */}
-          <div className='flex gap-8'>
-            <button
-              className="text-white focus:outline-none bg-transparent p-0"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
-            <button
-              className="text-white focus:outline-none bg-transparent p-0"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <span className="material-symbols-outlined">account_circle</span>
-            </button>
-          </div>
         </div>
       </header>
 
