@@ -52,7 +52,7 @@ function ConditionalRoutes() {
 
 const App = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const { currentUser } = useAuth() ?? {};
+  const { currentUser } = useAuth();  // Make sure this destructuring is correct and useAuth() provides a value.
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -74,10 +74,18 @@ const App = () => {
               <Toast />
               <div className="App font-rubik flex min-h-screen bg-bg-outer">
                 <ConditionalMenus />
-                {/* Use template literals to conditionally apply classes */}
-                <div className={`${currentUser ? 'lg:ml-64 md:ml-64' : ''} flex-grow sm:rounded-3xl sm:m-3 bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
-                  <ConditionalRoutes />
-                </div>
+                {/* Render this div only if the user is logged in */}
+                {currentUser && (
+                  <div className={`lg:ml-64 md:ml-64 m-3 flex-grow sm:rounded-3xl bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
+                    <ConditionalRoutes />
+                  </div>
+                )}
+                {/* Render this div only if the user is not logged in */}
+                {!currentUser && (
+                  <div className={`m-3 flex-grow sm:rounded-3xl bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
+                    <ConditionalRoutes />
+                  </div>
+                )}
               </div>
             </Router>
           </ThemeProvider>
@@ -86,6 +94,7 @@ const App = () => {
     </AuthProvider>
   );
 };
+
 
 
 // A child component for handling conditional menu rendering based on user authentication and screen size

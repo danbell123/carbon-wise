@@ -3,6 +3,7 @@ import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvide
 import Button from '../buttons/btn';
 import { useToast } from '../../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
+import PasswordInput from './PasswordInput';
 
 
 const LoginForm = ({ onToggle }) => {
@@ -42,9 +43,6 @@ const LoginForm = ({ onToggle }) => {
           <Button onClick={handleGoogleSignIn} width='full' >
             Log In With Google
           </Button>
-          <Button width='full'>
-            Log In With Facebook
-          </Button>
         </div>
         <div className="flex items-center my-2">
           <div className="flex-grow border-t "></div>
@@ -59,19 +57,9 @@ const LoginForm = ({ onToggle }) => {
                 onChange={e => setEmail(e.target.value)}
                 className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
             />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
-            />
+            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <input type="checkbox" className="form-checkbox" />
-            <span className="ml-2 text-sm text-gray-600">Remember me</span>
-          </label>
           <p>Forgot Password?</p>
         </div>
         <Button size="large" width="full" >LOG IN</Button>

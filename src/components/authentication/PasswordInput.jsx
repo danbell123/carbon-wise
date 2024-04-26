@@ -14,7 +14,7 @@ const PasswordInput = ({ value, onChange }) => {
           value={value} // Use value passed from parent
           onChange={onChange} // Use onChange passed from parent
           placeholder="Password"
-          className="text-lg w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:outline-none"
+          className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
         />
         <button
           type="button"
