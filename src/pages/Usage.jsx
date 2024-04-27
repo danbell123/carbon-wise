@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import CarbonIntensityChart from '../components/dataVis/carbonIntensityChart';
 import BarLoader from '../components/loader/barLoader';
 import { getAuth } from 'firebase/auth';
-import fetchUserData from '../services/getUserDetails'; 
 import UsageContainer from '../components/summaryWidgets/UsageContainer';
 import CustomDateInput from '../components/inputs/CustomDateInput';
 import fetchDeviceReadings from '../services/getDeviceReadings';
 import findUserDeviceMacAddress from '../services/getUserDevice';
 import UsageChart from '../components/dataVis/usageChart';
-import GenerateReadings from '../components/GenerateReadings';
 
 function UsagePage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -72,7 +69,6 @@ function UsagePage() {
                         <div className='flex flex-col gap-1 justify-start mb-4'>
                             <h1 className="text-xl m-0 text-text-colour-primary font-semibold">Past Home Usage Data</h1>
                         </div>
-                        <GenerateReadings />
                         <div className="date-picker-container mb-4">
                             <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                                 <CustomDateInput
