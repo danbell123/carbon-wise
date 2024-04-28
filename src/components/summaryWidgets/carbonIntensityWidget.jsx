@@ -95,7 +95,7 @@ const CarbonIntensityWidget = () => {
             <span className="material-symbols-outlined text-text-colour-secondary mt-0.5">location_on</span>
             <h1 className="text-lg m-0 text-text-colour-secondary font-normal text-right">Regional Data for {regionName}</h1>
           </div>
-          <h1 className="text-3xl font-semibold m-0 text-text-colour-primary text-right">NOW: <span className={intensityColour}>{intensityInfo.level}</span> Carbon Intensity</h1>
+          <h1 className="text-2xl sm:text-3xl  m-0 text-text-colour-primary text-right">NOW: <span className={`${intensityColour} text-2xl sm:text-3xl font-semibold`}>{intensityInfo.level}</span> Carbon Intensity</h1>
           <p className="text-base mt-2 mb-0 text-text-colour-secondary text-right">{latestIntensityValue} gCO2/kWh</p>
           <p className="text-sm font-light m-0 text-text-colour-tertiary text-right">{intensityInfo.description}</p>
           <div className='h-1/2 w-full'>
