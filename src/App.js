@@ -76,7 +76,7 @@ const App = () => {
                 <ConditionalMenus />
                 {/* Render this div only if the user is logged in */}
                 {currentUser && (
-                  <div className={`lg:ml-64 md:ml-64 m-3 flex-grow rounded-xl sm:rounded-3xl bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
+                  <div className={`lg:ml-64 md:ml-64 m-0 sm:m-3 flex-grow sm:rounded-3xl bg-mainBackground bg-cover bg-center bg-fixed overflow-y-auto h-screen`}>
                     <ConditionalRoutes />
                   </div>
                 )}
