@@ -46,6 +46,26 @@ const CarbonIntensityChart = ({ data }) => {
         }
     };
 
+    const CustomTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+            const { forecast, from } = payload[0].payload;    
+            return (
+                <div className="custom-tooltip bg-bg-outer rounded-lg p-2 flex flex-col gap-2">
+                    <div className='flex flex-row justify-start gap-5'>
+                        <span className="material-symbols-outlined text-text-colour-primary">schedule</span>
+                        <p className="text-text-colour-primary">{format(parseISO(from), 'dd/MM HH:mm')}</p>
+                    </div>
+                    <div className='flex flex-row justify-start gap-5'>
+                        <span className="material-symbols-outlined text-text-colour-primary">scatter_plot</span>
+                        <p className="text-text-colour-primary">{`${forecast} gCO2/kWh`}</p>
+                    </div>
+                </div>
+            );
+        }
+    
+        return null;
+    };
+
     const CustomizedDot = (props) => {
         const { cx, cy, payload } = props;
         try {
@@ -79,7 +99,7 @@ const CarbonIntensityChart = ({ data }) => {
                         tick={axisTickStyle}
                     />
                     <YAxis stroke="var(--text-colour-secondary)" tick={axisTickStyle} />
-                    <Tooltip />
+                    <Tooltip content={<CustomTooltip />} />
                     <Line
                         type="linear"
                         dataKey="forecast"
