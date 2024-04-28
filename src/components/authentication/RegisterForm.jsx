@@ -15,6 +15,8 @@ const RegisterForm = ({ onToggle }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [regionID, setRegionID] = useState('15');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const { addToast } = useToast(); 
   const navigate = useNavigate();
 
@@ -55,7 +57,9 @@ const RegisterForm = ({ onToggle }) => {
   
     try {
       let additionalData = {
-        regionID // Assuming registerUser can handle this additional piece of information
+        regionID,
+        firstName,
+        lastName
       };
   
       await registerUser(email, password, additionalData);
@@ -64,7 +68,6 @@ const RegisterForm = ({ onToggle }) => {
     } catch (error) {
       addToast(error.message, 'error'); // Display the error message from Firebase
     }
-
 };
 
 
@@ -78,14 +81,15 @@ const RegisterForm = ({ onToggle }) => {
       };
 
       await signInWithPopup(auth, provider);
-      await registerUser(additionalData);
+      console.log("My reg process now...")
+      await registerUser(null, null, additionalData);
       addToast('Registered with Google!', 'success');
       navigate('/dashboard'); // Redirect to the dashboard
 
     } catch (error) {
       addToast(error.message, 'error'); // Display the error message from Firebase
     }
-};
+  };
 
   return (
     <div className="w-full">
@@ -101,6 +105,22 @@ const RegisterForm = ({ onToggle }) => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <div className="flex flex-col items-center my-4 gap-4">
+          <div className="flex flex-row items-center gap-4 w-full">
+            <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
+            />
+            <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+                className="text-lg w-full px-4 py-2 border-transparent bg-gray-200 rounded shadow-sm focus:outline-none box-border"
+            />
+          </div>
             <input
                 type="email"
                 placeholder="Email"

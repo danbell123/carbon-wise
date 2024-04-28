@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import ToggleThemeButton from '../buttons/ToggleThemeButton';
 import { motion } from 'framer-motion'; 
 import {useDevice} from '../../contexts/DeviceContext';
+import { useAuth } from '../../contexts/authContext';
+import getUserDetails from '../../services/getUserDetails';
+import regions from '../../data/regions.json';
 
 const DesktopMenu = () => {
   const {isDisconnected, pairedTo} = useDevice();
+  const {currentUser} = useAuth();
+  const [userData, setUserData] = useState(null);  // State to store the user data
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (currentUser?.uid) { // Ensure there is a current user ID before fetching
+        try {
+          const fetchedUserData = await getUserDetails(currentUser.uid);
+          setUserData(fetchedUserData); // Update state with the fetched user data
+        } catch (error) {
+          console.error("Failed to fetch user details:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [currentUser , userData]);
 
   const buttonVariants = {
     initial: {
@@ -30,6 +50,19 @@ const DesktopMenu = () => {
       },
     },
   };
+
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+
+  const getInitials = (firstName, lastName) => {
+    return `${firstName[0]}${lastName[0]}`;
+  };
+
+  const getRegionName = (regionId) => {
+    const numericRegionId = Number(regionId);
+    const region = regions.find(r => r.id === numericRegionId);
+    return region ? region.name : 'Region not found';
+  };
+  
 
   return (
     <aside className="h-screen fixed top-0 bg-bg-outer text-white w-64">
@@ -212,12 +245,19 @@ const DesktopMenu = () => {
         <div className="mb-5">
           <ToggleThemeButton />
           </div>
-          <div className="p-5 mb-10 bg-bg-main flex flex-col rounded-lg">
+          <div className="p-3 mb-10 bg-bg-main flex flex-col rounded-lg">
             <NavLink to="/account" className="flex items-center space-x-3 text-base">
-              <span className="material-symbols-outlined">
-                account_circle
-              </span>
-              <span>Dan Bell</span>
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primaryGradient1 text-bg-outer font-semibold">
+                <span>
+                  {userData && getInitials(capitalize(userData.firstName), capitalize(userData.lastName))}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className='text-base text-text-colour-primary'>{userData && `${capitalize(userData.firstName)} ${capitalize(userData.lastName)}`}</span>
+                <span className='text-sm text-text-colour-tertiary'>
+                  {userData && getRegionName(userData.regionID)}
+                </span>
+              </div>
             </NavLink>
           </div>
         </div>
