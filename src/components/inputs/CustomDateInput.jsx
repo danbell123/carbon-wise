@@ -11,22 +11,24 @@ function CustomDateInput({ value, onChange, showTimeSelect, dateFormat }) {
     setOpen(!open);
   };
 
-  const iconVariants = {
-    opened: { rotate: 180 },
-    closed: { rotate: 0 }
+  // Chevron rotation animation
+  const chevronVariants = {
+    rotated: { rotate: 180 },
+    normal: { rotate: 0 },
   };
 
   const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
-    <button onClick={onClick} ref={ref} className="flex flex-row p-0 items-center text-lg justify-between bg-transparent text-text-colour-primary rounded-xl">
+    <button onClick={onClick} ref={ref} className="flex flex-row p-0 items-center text-base lg:text-lg justify-between bg-transparent text-text-colour-primary rounded-xl">
       {value}
       <motion.span
-        className="material-symbols-outlined"
-        animate={{ rotate: open ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
-        variants={iconVariants}
-      >
-        expand_more
-      </motion.span>
+          className="material-symbols-outlined text-text-colour-secondary"
+          initial={false}
+          animate={open ? "rotated" : "normal"}
+          variants={chevronVariants}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+        >
+          expand_more
+        </motion.span>
     </button>
   ));
 
