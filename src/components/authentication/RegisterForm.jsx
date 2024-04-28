@@ -105,7 +105,7 @@ const RegisterForm = ({ onToggle }) => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <div className="flex flex-col items-center my-4 gap-4">
-          <div className="flex flex-row items-center gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
             <input
                 type="text"
                 placeholder="First Name"
