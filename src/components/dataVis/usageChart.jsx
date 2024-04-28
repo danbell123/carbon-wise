@@ -41,9 +41,15 @@ const UsageChart = ({ data }) => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
             return (
-                <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
-                    <p className="label">{`Time: ${format(parseISO(data.timestamp), 'ddMM HH:mm:ss')}`}</p>
-                    <p className="intro">{`Energy Used: ${data.kWh} kWh`}</p>
+                <div className="custom-tooltip bg-bg-outer rounded-lg p-2 flex flex-col gap-2" >
+                    <div className='flex flex-row justify-start gap-5'>
+                        <span className="material-symbols-outlined text-text-colour-primary size-2">schedule</span>
+                        <p className="label text-text-colour-primary">{`${format(parseISO(data.timestamp), 'dd/MM HH:mm')}`}</p>
+                    </div>
+                    <div className='flex flex-row justify-start gap-5'>
+                        <span className="material-symbols-outlined text-text-colour-primary size-2">bolt</span>
+                        <p className="intro text-text-colour-primary">{`${data.kWh} kWh`}</p>
+                    </div>
                 </div>
             );
         }
@@ -56,13 +62,13 @@ const UsageChart = ({ data }) => {
     };
 
     return (
-        <div className="w-full h-96">
+        <div className="w-full h-[40vh] xl:h-[65vh]">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                     data={data}
                     margin={{ top: 10, right: 0, left: -20, bottom: 0 }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="2 2" stroke="var(--text-colour-tertiary)"/>
                     <XAxis
                         dataKey="timestamp"
                         tickFormatter={formatXAxis}
