@@ -78,7 +78,7 @@ function CarbonIntensityPage() {
   return (
     <div className="p-5 pt-20 sm:p-10 flex flex-col gap-5">
         <h1 className="text-4xl w-full m-0 text-text-colour-primary">Carbon Intensity</h1>
-        <p className="text-base text-text-colour-secondary">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
+        <p className="text-base text-text-colour-secondary sm:w-full lg:w-2/3">Carbon intensity is a measure of the amount of carbon (CO2) emissions produced per unit of electricity consumed. The lower the carbon intensity, the cleaner the electricity. Aim to use your electricity during times of lower carbon intensity.</p>
 
         <div className="pt-6">
             <nav className="flex space-x-4" aria-label="Tabs">
