@@ -8,10 +8,10 @@ import regions from '../../data/regions.json';
 import { getAuth } from 'firebase/auth';
 
 const CarbonIntensityPeakTimes = () => {
-  const initialVisibleItems = 3; // Define the initial number of visible items
+  const initialVisibleItems = 3;
   const [data, setData] = useState([]);
   const [visibleItems, setVisibleItems] = useState(initialVisibleItems);
-  const [loading, setLoading] = useState(true); // Set to true initially since we're loading data on start
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [regionName, setRegionName] = useState('');
 
@@ -53,7 +53,7 @@ const CarbonIntensityPeakTimes = () => {
       const rawData = await fetchFutureCIData(48, regionID);
       const groupedData = groupPeriodsByIntensity(rawData);
       const topPeriods = rankPeriodsBySignificance(groupedData);
-      setData(topPeriods);
+      setData(topPeriods); // Set ranked data without sorting it here
     } catch (error) {
       console.error('Failed to fetch data:', error);
       setError('Failed to fetch data');
@@ -105,28 +105,29 @@ const CarbonIntensityPeakTimes = () => {
 
   return (
     <div className='w-full'>
-        <div className='flex flex-col w-full justify-start gap-0 pb-4'>
-            <h2 className='text-2xl font-semibold m-0 text-text-colour-primary'>Carbon Intensity Forecast</h2>
-            <p className='text-base font-normal  m-0 text-text-colour-tertiary'>{regionName}</p>
-        </div>
+      <div className='flex flex-col w-full justify-start gap-0 pb-4'>
+        <h2 className='text-2xl font-semibold m-0 text-text-colour-primary'>Carbon Intensity Forecast</h2>
+        <p className='text-base font-normal  m-0 text-text-colour-tertiary'>{regionName}</p>
+      </div>
 
       {loading && <p className='mt-0 text-base text-text-colour-secondary animate-pulse'>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && !error && data.slice(0, visibleItems).map((item, index) => (
-        <PeakTimeCard
-          key={index}
-          period={item.period}
-          forecast={item.averageForecast}
-          date={item.date}
-          level={item.level}
-        />
-      ))}
+      {!loading && !error && sortByDate(data.slice(0, visibleItems))
+        .map((item, index) => (
+          <PeakTimeCard
+            key={index}
+            period={item.period}
+            forecast={item.averageForecast}
+            date={item.date}
+            level={item.level}
+          />
+        ))}
       {!loading && data.length > visibleItems && (
         <Button onClick={loadMore} className="mt-4">
           Show More
         </Button>
       )}
-      {!loading && visibleItems >= data.length && visibleItems > initialVisibleItems && ( // Show "Show Less" button when all items are displayed and more than initial are shown
+      {!loading && visibleItems >= data.length && visibleItems > initialVisibleItems && (
         <Button onClick={showLess} className="mt-4">
           Show Less
         </Button>
@@ -139,24 +140,29 @@ export default CarbonIntensityPeakTimes;
 
 
 function rankPeriodsBySignificance(groupedData) {
+  const significanceMap = {
+    'Very Low': 3,
+    'Low': 1,
+    'Moderate': 0,
+    'High': 1,
+    'Very High': 3
+  };
 
-    const significanceMap = {
-      'Very Low': 3,
-      'Low': 1,
-      'Moderate': 0,
-      'High': 1,
-      'Very High': 3
-    };
-  
-    // Rank periods by significance
-    let rankedPeriods = groupedData.map(period => ({
-      ...period,
-      significance: significanceMap[period.level]
-    })).sort((a, b) => b.significance - a.significance || new Date(a.from) - new Date(b.from));
-  
-    // Return the top 4 periods in chronological order
-    return rankedPeriods.slice(0, 4).sort((a, b) => new Date(a.from) - new Date(b.from));
-  }
+  // Rank periods by significance and then by chronological order to break ties
+  return groupedData.map(period => ({
+    ...period,
+    significance: significanceMap[period.level]
+  })).sort((a, b) => b.significance - a.significance || new Date(a.from) - new Date(b.from))
+    .slice(0, 3); // Take only the top 5 most significant periods
+}
+
+
+  function sortByDate(data) {
+    const sortedData = data.sort((a, b) => new Date(a.fullDate) - new Date(b.fullDate));
+    console.log("sortedData: ",sortedData);
+    return sortedData;
+  }  
+
   
   function groupPeriodsByIntensity(rawData) {
     let groupedData = rawData.reduce((acc, curr) => {
@@ -176,6 +182,7 @@ function rankPeriodsBySignificance(groupedData) {
         date: formatDate(from),
         averageForecast,
         level,
+        fullDate: new Date(from)
       }));      
   }
   
@@ -184,15 +191,15 @@ function rankPeriodsBySignificance(groupedData) {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
-  
-    // Format date as DD/MM if neither today nor tomorrow
-    const formattedDate = `${date.getDate() + 1}/${date.getMonth()}`;
-  
+
+    // Format date as DD/MM/YYYY, adjusting month correctly
+    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
     if (date.toDateString() === today.toDateString()) {
       return "Today";
     } else if (date.toDateString() === tomorrow.toDateString()) {
       return "Tomorrow";
     } else {
-      return formattedDate; // Or any other format you prefer
+      return formattedDate; // Display formatted date as DD/MM/YYYY
     }
-  }
+}
