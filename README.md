@@ -4,7 +4,7 @@
 *(Based on the dissertation by Dan Bell — “A Web App Solution for Carbon-Intelligent Energy Consumption in UK Households”)*
 
 [Live Demo](https://carbonwise-c60a4.web.app)  
-[Dissertation Document](./Dissertation.pdf) <!-- Update link if hosting the PDF in the repo -->
+[Dissertation Document](https://docs.google.com/document/d/1teqLAsV8lUGfCb85XWZpV2zNoaaCLxbXbNctbhDNmVs/edit?usp=sharing) <!-- Update link if hosting the PDF in the repo -->
 
 ---
 
