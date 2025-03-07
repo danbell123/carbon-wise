@@ -152,7 +152,7 @@ flowchart TD
 
 This project follows a **user-centred, iterative design process** based on user interviews, persona creation, and continuous feedback.
 
-For a detailed overview, including literature review, technical architecture, user evaluations, and full references, please refer to the [Dissertation Document](./Dissertation.pdf).
+For a detailed overview, including literature review, technical architecture, user evaluations, and full references, please refer to the [Dissertation Document](https://docs.google.com/document/d/1teqLAsV8lUGfCb85XWZpV2zNoaaCLxbXbNctbhDNmVs/edit?usp=sharing).
 
 ---
 
@@ -174,7 +174,7 @@ Distributed under the [MIT License](LICENSE). See `LICENSE` for more information
 
 ### Questions or Feedback?
 
-Open an [issue](https://github.com/YourUsername/CarbonWise/issues) or reach out via [email](mailto:you@example.com).
+Open an [issue](https://github.com/danbell123/CarbonWise/issues) or reach out via [email](mailto:daniel@western93.co.uk).
 
 > _“Empowering households to make greener choices, one kilowatt-hour at a time.”_
 
